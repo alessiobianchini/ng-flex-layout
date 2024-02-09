@@ -88,8 +88,9 @@ Check out [all of the available options](https://github.com/alessiobianchini/fle
 
 ### Browser Support
 &nbsp;
+
 <a href="https://caniuse.com/?search=ng-flex-layout" target="_blank">
-![caniuseflexbox](https://cloud.githubusercontent.com/assets/210413/21288118/917e3faa-c440-11e6-9b08-28aff590c7ae.png)
+![caniuseflexbox](https://github.com/alessiobianchini/ng-flex-layout/assets/33493281/a699c7a9-cf8f-4bb0-967e-ef2b65a64d9f)
 </a>
 
 <br/>
