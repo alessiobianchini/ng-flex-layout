@@ -9,7 +9,7 @@ ng-flex-layout
 
 *** 
 
-  - Updated to Angular 17.*
+  - Updated to Angular 17.1.3
   - Migrated from tslint to eslint
 ***
 
