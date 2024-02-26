@@ -51,6 +51,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-      
+
+      - name: Build lib
+        run: pnpm run build
+        
       - name: Test lib
         run: pnpm run test
