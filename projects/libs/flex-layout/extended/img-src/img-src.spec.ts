@@ -51,7 +51,7 @@ const SRC_URLS = {
 const DEFAULT_SRC = 'https://dummyimage.com/300x300/c72538/ffffff.png';
 
 describe('img-src directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let platformId: Object;
     let styler: StyleUtils;

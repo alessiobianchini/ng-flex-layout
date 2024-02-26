@@ -32,7 +32,7 @@ import {ShowHideDirective} from 'ng-flex-layout/extended';
 
 
 describe('show directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let platformId: Object;

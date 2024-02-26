@@ -22,7 +22,7 @@ import { FlexModule, LayoutStyleBuilder } from 'ng-flex-layout/flex';
 
 
 describe('layout directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let createTestComponent = (template: string) => {

@@ -27,7 +27,7 @@ import {FlexModule, FlexOffsetStyleBuilder} from 'ng-flex-layout/flex';
 
 
 describe('flex-offset directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let fakeDocument: {body: {dir?: string}; documentElement: {dir?: string}};
     let styler: StyleUtils;
     let platformId: Object;

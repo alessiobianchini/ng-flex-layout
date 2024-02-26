@@ -20,7 +20,7 @@ export function makeCreateTestComponent(getClass: ComponentClazzFn) {
     let componentAny: Type<any>;
 
     // Return actual `createTestComponent()` function
-    return function createTestComponent(template: string, styles?: any): ComponentFixture<Type<any>> {
+    return function createTestComponent(template: string, styles?: any): ComponentFixture<any> {
         if (!componentAny) {
             // Defer access to Component class to enable metadata to be configured properly...
             componentAny = getClass();

@@ -23,7 +23,7 @@ import { makeCreateTestComponent, expectNativeEl } from 'ng-flex-layout/_private
 import { GridModule } from '../module';
 
 describe('align columns directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let shouldRun = true;

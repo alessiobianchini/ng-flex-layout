@@ -24,7 +24,7 @@ import {
 } from 'ng-flex-layout/_private-utils/testing';
 
 describe('style directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let createTestComponent = (template: string) => {

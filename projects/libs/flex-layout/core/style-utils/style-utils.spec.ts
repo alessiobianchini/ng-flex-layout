@@ -15,7 +15,7 @@ import {StyleUtils} from './style-utils';
 
 describe('styler', () => {
     let styler: StyleUtils;
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let platformId: Object;
 
     let componentWithTemplate = (template: string, styles?: any) => {

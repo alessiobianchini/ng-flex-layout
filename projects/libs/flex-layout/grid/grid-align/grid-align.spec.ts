@@ -23,7 +23,7 @@ import { customMatchers } from 'ng-flex-layout/_private-utils/testing';
 import { makeCreateTestComponent, expectNativeEl } from 'ng-flex-layout/_private-utils/testing';
 
 describe('align directive', () => {
-  let fixture: ComponentFixture<any>;
+  let fixture: any;
   let mediaController: MockMatchMedia;
   let styler: StyleUtils;
   let shouldRun = true;

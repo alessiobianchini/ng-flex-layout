@@ -23,7 +23,7 @@ import { GridModule } from '../module';
 import { Platform } from '@angular/cdk/platform';
 
 describe('align rows directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let shouldRun = true;

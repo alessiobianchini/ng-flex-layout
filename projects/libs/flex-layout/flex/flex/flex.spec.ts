@@ -29,7 +29,7 @@ import {
 
 
 describe('flex directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let platform: Platform;

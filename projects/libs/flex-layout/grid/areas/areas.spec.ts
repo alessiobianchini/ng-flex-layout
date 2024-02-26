@@ -23,7 +23,7 @@ import {expectNativeEl, makeCreateTestComponent} from 'ng-flex-layout/_private-u
 import {GridModule} from '../module';
 
 describe('grid area parent directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let styler: StyleUtils;
     let mediaController: MockMatchMedia;
     let platform: Platform;

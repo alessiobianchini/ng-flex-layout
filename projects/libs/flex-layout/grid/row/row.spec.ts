@@ -27,7 +27,7 @@ import {
 import {GridModule} from '../module';
 
 describe('grid row child directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let styler: StyleUtils;
     let mediaController: MockMatchMedia;
     let platform: Platform;

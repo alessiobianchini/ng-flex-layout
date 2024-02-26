@@ -22,7 +22,7 @@ import {makeCreateTestComponent, expectNativeEl, queryFor} from 'ng-flex-layout/
 
 
 describe('class directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let platformId: Object;
     let createTestComponent = (template: string) => {
@@ -305,7 +305,7 @@ class TestClassComponent {
 
 describe('binding to CSS class list', () => {
     let createTestComponent = makeCreateTestComponent(() => TestComponent);
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
 
     function normalizeClassNames(classes: string) {
         return classes.trim().split(' ').sort().join(' ');

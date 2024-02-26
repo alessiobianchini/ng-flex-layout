@@ -30,7 +30,7 @@ import {FlexModule, LayoutGapStyleBuilder} from 'ng-flex-layout/flex';
 
 
 describe('layout-gap directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let fakeDocument: {body: {dir?: string}; documentElement: {dir?: string}};
     let styler: StyleUtils;
     let platformId: Object;

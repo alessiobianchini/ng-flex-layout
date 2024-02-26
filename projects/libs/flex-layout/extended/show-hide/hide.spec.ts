@@ -26,7 +26,7 @@ import {FlexLayoutModule} from '../../module';
 
 
 describe('hide directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
 

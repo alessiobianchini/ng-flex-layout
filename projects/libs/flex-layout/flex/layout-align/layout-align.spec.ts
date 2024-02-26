@@ -24,7 +24,7 @@ import { FlexModule, LayoutAlignStyleBuilder } from 'ng-flex-layout/flex';
 
 
 describe('layout-align directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let platform: Platform;
     let styler: StyleUtils;

@@ -21,7 +21,7 @@ import {customMatchers, expectNativeEl, makeCreateTestComponent} from 'ng-flex-l
 
 
 describe('grid auto parent directive', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let styler: StyleUtils;
     let mediaController: MockMatchMedia;
     let platform: Platform;

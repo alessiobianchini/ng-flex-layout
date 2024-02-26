@@ -21,7 +21,7 @@ import {FlexLayoutModule} from '../../module';
 import {expectNativeEl, makeCreateTestComponent} from 'ng-flex-layout/_private-utils/testing';
 
 describe('flex-order', () => {
-    let fixture: ComponentFixture<any>;
+    let fixture: any;
     let mediaController: MockMatchMedia;
     let styler: StyleUtils;
     let createTestComponent = (template: string) => {
