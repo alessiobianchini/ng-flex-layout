@@ -47,6 +47,10 @@ jobs:
         
       - name: Install dependencies
         run: pnpm install
+        working-directory: projects\libs\flex-layout
+
+      - name: Install dependencies
+        run: pnpm install
       
       - name: Test lib
         run: pnpm run test
