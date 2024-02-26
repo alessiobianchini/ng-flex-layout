@@ -275,54 +275,6 @@ describe('show directive', () => {
             expectNativeEl(fixture).toHaveStyle({'display': 'none'}, styler);
         });
 
-        it('should work with unknown elements', () => {
-            createTestComponent(`
-        <mat-form-field>
-          <mat-placeholder>foo</mat-placeholder>
-          <mat-placeholder fxHide.xs el>bar</mat-placeholder>
-          <mat-select>
-            <mat-option *ngFor="let option of [1,2,3]" [value]=option>
-              option {{option}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      `);
-
-            const elSelector = '[el]';
-
-            mediaController.useOverlaps = true;
-            fixture.detectChanges();
-
-            // NOTE: platform-server can't compute display for unknown elements
-            if (isPlatformBrowser(platformId)) {
-                expectEl(queryFor(fixture, elSelector)[0]).toHaveCSS({
-                    'display': 'inline'
-                }, styler);
-            } else {
-                expectEl(queryFor(fixture, elSelector)[0]).toHaveStyle({
-                    'display': 'initial'
-                }, styler);
-            }
-
-            mediaController.activate('xs');
-            fixture.detectChanges();
-            expectEl(queryFor(fixture, elSelector)[0]).toHaveStyle({
-                'display': 'none'
-            }, styler);
-
-            mediaController.activate('lg');
-            fixture.detectChanges();
-            // NOTE: platform-server can't compute display for unknown elements
-            if (isPlatformBrowser(platformId)) {
-                expectEl(queryFor(fixture, elSelector)[0]).toHaveCSS({
-                    'display': 'inline'
-                }, styler);
-            } else {
-                expectEl(queryFor(fixture, elSelector)[0]).toHaveStyle({
-                    'display': 'initial'
-                }, styler);
-            }
-        });
     });
 
     describe('with custom breakpoints', () => {

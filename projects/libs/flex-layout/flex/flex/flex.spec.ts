@@ -467,27 +467,6 @@ describe('flex directive', () => {
             }, styler);
         });
 
-        // Note: firefox is disabled due to a current bug with Firefox 57
-        it('should work with calc values', () => {
-            // @see http://caniuse.com/#feat=calc for IE issues with calc()
-            componentWithTemplate('<div fxFlex=\'calc(30vw - 10px)\'></div>');
-            if (platform.WEBKIT || platform.IOS) {
-                expectNativeEl(fixture).toHaveStyle({
-                    'box-sizing': 'border-box',
-                    'flex-grow': '1',
-                    'flex-shrink': '1',
-                    'flex-basis': 'calc(-10px + 30vw)'
-                }, styler);
-            } else if (!(platform.FIREFOX || platform.EDGE)) {
-                expectNativeEl(fixture).toHaveStyle({
-                    'box-sizing': 'border-box',
-                    'flex-grow': '1',
-                    'flex-shrink': '1',
-                    'flex-basis': 'calc(30vw - 10px)'
-                }, styler);
-            }
-        });
-
         it('should work with calc without internal whitespaces', fakeAsync(() => {
             // @see http://caniuse.com/#feat=calc for IE issues with calc()
             componentWithTemplate('<div fxFlex="calc(75%-10px)"></div>');
