@@ -1,3 +1,19 @@
+# [17.3.4-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.2.2-beta.1...17.3.4-beta-1) (2024-04-24)
+
+* Updated to Angular 17.3.4
+* Restored tests
+  
+# [17.2.2-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.2.1-beta.1...17.2.2-beta.1) (2024-02-26)
+
+* Updated to Angular 17.2.2
+* Restored tests
+* Created automatic test action (test-lib.yml)
+  
+# [17.1.3-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.0.1-beta.2...17.1.3-beta.1) (2024-02-09)
+
+* Updated to Angular 17.1.3
+* Aligned NgClass instance creation 
+  
 # [15.0.0-beta.42](https://github.com/alessiobianchini/flex-layout/compare/14.0.0-beta.41...15.0.0-beta.42) (2022-11-18)
 
 This release unpins the dependency on Angular and CDK to allow flexibility with future releases.
