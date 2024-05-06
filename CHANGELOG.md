@@ -1,3 +1,11 @@
+# [17.3.7-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.3.4-beta.1...17.3.7-beta-1) (2024-04-24)
+
+* Updated to Angular 17.3.7
+* Updated common packages
+* Restored wiki
+* Created [stackblitz template](https://stackblitz.com/edit/ng-flex-layout-seed)
+* Created [google group](https://groups.google.com/g/ng-flex-layout)
+  
 # [17.3.4-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.2.2-beta.1...17.3.4-beta-1) (2024-04-24)
 
 * Updated to Angular 17.3.4
