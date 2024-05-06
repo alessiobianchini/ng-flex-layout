@@ -8,7 +8,7 @@
  
 ## Workflow
 1. The code author sends a PR for review. This request should include:
-  * A mention of the intended reviewer(s) (e.g., `@ThomasBurleson`)
+  * A mention of the intended reviewer(s)
   * A high-level description of the change being made.
   * Links to any relevant issues.
   * Screenshots (for visual changes or new additions)
