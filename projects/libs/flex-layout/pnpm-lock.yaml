@@ -1,0 +1,113 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  '@angular/cdk':
+    specifier: '>=17.0.0'
+    version: 17.3.7(@angular/common@17.3.7)(@angular/core@17.3.7)(rxjs@7.8.1)
+  '@angular/common':
+    specifier: '>=17.0.0'
+    version: 17.3.7(@angular/core@17.3.7)(rxjs@7.8.1)
+  '@angular/core':
+    specifier: '>=17.0.0'
+    version: 17.3.7(rxjs@7.8.1)(zone.js@0.14.5)
+  '@angular/platform-browser':
+    specifier: '>=17.0.0'
+    version: 17.3.7(@angular/common@17.3.7)(@angular/core@17.3.7)
+  rxjs:
+    specifier: ^6.5.3 || ^7.4.0
+    version: 7.8.1
+  tslib:
+    specifier: ^2.3.0
+    version: 2.6.2
+
+packages:
+
+  /@angular/cdk@17.3.7(@angular/common@17.3.7)(@angular/core@17.3.7)(rxjs@7.8.1):
+    resolution: {integrity: sha512-aFEh8tzKFOwini6aNEp57S54Ocp9T7YIJfBVMESptu2TCPdMTlJ1HJTg5XS8NcQO+vwi9cFPGVwGF1frOx4LXA==}
+    peerDependencies:
+      '@angular/common': ^17.0.0 || ^18.0.0
+      '@angular/core': ^17.0.0 || ^18.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/common': 17.3.7(@angular/core@17.3.7)(rxjs@7.8.1)
+      '@angular/core': 17.3.7(rxjs@7.8.1)(zone.js@0.14.5)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    optionalDependencies:
+      parse5: 7.1.2
+    dev: false
+
+  /@angular/common@17.3.7(@angular/core@17.3.7)(rxjs@7.8.1):
+    resolution: {integrity: sha512-A7LRJu1vVCGGgrfZXjU+njz50SiU4weheKCar5PIUprcdIofS1IrHAJDqYh+kwXxkjXbZMOr/ijQY0+AESLEsw==}
+    engines: {node: ^18.13.0 || >=20.9.0}
+    peerDependencies:
+      '@angular/core': 17.3.7
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/core': 17.3.7(rxjs@7.8.1)(zone.js@0.14.5)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@angular/core@17.3.7(rxjs@7.8.1)(zone.js@0.14.5):
+    resolution: {integrity: sha512-HWcrbxqnvIMSxFuQdN0KPt08bc87hqr0LKm89yuRTUwx/2sNJlNQUobk6aJj4trswGBttcRDT+GOS4DQP2Nr4g==}
+    engines: {node: ^18.13.0 || >=20.9.0}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+      zone.js: ~0.14.0
+    dependencies:
+      rxjs: 7.8.1
+      tslib: 2.6.2
+      zone.js: 0.14.5
+    dev: false
+
+  /@angular/platform-browser@17.3.7(@angular/common@17.3.7)(@angular/core@17.3.7):
+    resolution: {integrity: sha512-Nn8ZMaftAvO9dEwribWdNv+QBHhYIBrRkv85G6et80AXfXoYAr/xcfnQECRFtZgPmANqHC5auv/xrmExQG+Yeg==}
+    engines: {node: ^18.13.0 || >=20.9.0}
+    peerDependencies:
+      '@angular/animations': 17.3.7
+      '@angular/common': 17.3.7
+      '@angular/core': 17.3.7
+    peerDependenciesMeta:
+      '@angular/animations':
+        optional: true
+    dependencies:
+      '@angular/common': 17.3.7(@angular/core@17.3.7)(rxjs@7.8.1)
+      '@angular/core': 17.3.7(rxjs@7.8.1)(zone.js@0.14.5)
+      tslib: 2.6.2
+    dev: false
+
+  /entities@4.5.0:
+    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+    engines: {node: '>=0.12'}
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /parse5@7.1.2:
+    resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
+    requiresBuild: true
+    dependencies:
+      entities: 4.5.0
+    dev: false
+    optional: true
+
+  /rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
+
+  /zone.js@0.14.5:
+    resolution: {integrity: sha512-9XYWZzY6PhHOSdkYryNcMm7L8EK7a4q+GbTvxbIA2a9lMdRUpGuyaYvLDcg8D6bdn+JomSsbPcilVKg6SmUx6w==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
