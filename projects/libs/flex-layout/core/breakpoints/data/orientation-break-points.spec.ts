@@ -74,9 +74,9 @@ describe('break-point-provider', () => {
             { alias: 'cd', priority: 2000, mediaQuery: '(min-width: 298px) and (max-width:414px)' }
         ];
         let bpList: BreakPoint[];
-        let accumulator: BreakPoint | null = null;
-        let byAlias = (alias: string): BreakPoint | null => bpList.reduce((pos, it) => {
-            return pos || ((it.alias === alias) ? it : null);
+        let accumulator: BreakPoint;
+        let byAlias = (alias: string): BreakPoint | null => bpList.reduce((previous, current) => {
+            return previous || ((current.alias === alias) ? current : null);
         }, accumulator);
 
         beforeEach(async(() => {
