@@ -75,8 +75,7 @@ Check out [all of the available options](https://github.com/alessiobianchini/fle
 
 ### StackBlitz Templates
 
-  *  [Flex-Layout Template](https://stackblitz.com/edit/flex-layout-seed)
-  *  [Flex-Layout + Material](https://stackblitz.com/edit/flex-layout-material-seed)
+  *  [Flex-Layout Template](https://stackblitz.com/edit/ng-flex-layout-seed)
 
 ### Developers
 

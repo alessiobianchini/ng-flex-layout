@@ -2,7 +2,7 @@
 
 * Quick Links
   * [Gitter Chat](https://gitter.im/angular/flex-layout)
-  * [Discussion Forum](https://groups.google.com/forum/#!forum/angular-flex-layout)
+  * [Discussion Forum](https://groups.google.com/g/ng-flex-layout)
 
 * Documentation 
   * [Static API](https://github.com/alessiobianchini/flex-layout/wiki/Declarative-API-Overview)
@@ -15,8 +15,7 @@
   * [Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/src/apps/demo-app/src/app/app.module.ts#L28)
 
 * StackBlitz Templates
-  * [Flex-Layout Template](https://stackblitz.com/edit/angular-flex-layout-seed)
-  * [Flex-Layout + Material](https://stackblitz.com/edit/angular-material-flex-layout-seed?file=app%2Fapp.module.ts)
+  * [Flex-Layout Template](https://stackblitz.com/edit/ng-flex-layout-seed)
 
 * Learning FlexBox
   * [CSS Flexbox Reference](http://cssreference.io/flexbox/)
