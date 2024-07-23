@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import { TestBed, inject, async } from '@angular/core/testing';
+import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { BreakPoint, BREAKPOINTS, DEFAULT_BREAKPOINTS, ORIENTATION_BREAKPOINTS } from 'ng-flex-layout/core';
 
@@ -79,7 +79,7 @@ describe('break-point-provider', () => {
             return previous || ((current.alias === alias) ? current : null);
         }, accumulator);
 
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
             // Configure testbed to prepare services
             TestBed.configureTestingModule({
                 imports: [
