@@ -23,7 +23,7 @@
           class="demo_controls">
       <div>
         <div>Layout Direction</div>
-        <mat-radio-group [(ngModel)]="options.direction" name="direction" fxLayout="column">
+        <mat-radio-group [ngModel]="!!options.direction" (ngModelChange)="options.direction = $event" name="direction" fxLayout="column">
           <mat-radio-button value="row">row</mat-radio-button>
           <mat-radio-button value="column">column</mat-radio-button>
         </mat-radio-group>
@@ -32,7 +32,7 @@
         <div>Alignment in Layout Direction
           ({{options.direction == 'row' ? 'horizontal' : 'vertical'}})
         </div>
-        <mat-radio-group [(ngModel)]="options.mainAxis" name="mainAxis" fxLayout="column">
+        <mat-radio-group [ngModel]="!!options.mainAxis" (ngModelChange)="options.mainAxis = $event" name="mainAxis" fxLayout="column">
           <mat-radio-button value="">none</mat-radio-button>
           <mat-radio-button value="start">start (default)</mat-radio-button>
           <mat-radio-button value="center">center</mat-radio-button>
@@ -46,7 +46,7 @@
         <div>Alignment in Perpendicular Direction
           ({{options.direction == 'column' ? 'horizontal' : 'vertical'}})
         </div>
-        <mat-radio-group [(ngModel)]="options.crossAxis" name="crossAxis" fxLayout="column">
+        <mat-radio-group [ngModel]="!!options.crossAxis" (ngModelChange)="options.crossAxis = $event" name="crossAxis" fxLayout="column">
           <mat-radio-button value="none"><em>none</em></mat-radio-button>
           <mat-radio-button value="start">start</mat-radio-button>
           <mat-radio-button value="center">center</mat-radio-button>

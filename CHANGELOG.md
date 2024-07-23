@@ -1,3 +1,8 @@
+# [18.1.1-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.3.7-beta.1...18.1.1-beta.1) (2024-07-23)
+
+* Updated to Angular 18.1.1
+* Updated common packages
+
 # [17.3.7-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.3.4-beta.1...17.3.7-beta.1) (2024-04-24)
 
 * Updated to Angular 17.3.7

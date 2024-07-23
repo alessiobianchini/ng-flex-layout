@@ -17,7 +17,8 @@
           Sample Text #1
           <br/>
           <mat-checkbox
-            [(ngModel)]="hasStyle"
+            [ngModel]="!!hasStyle"
+            (ngModelChange)="hasStyle = $event"
             fxShow="false"
             [fxShow.sm]="true"
             [fxShow.md]="true">
