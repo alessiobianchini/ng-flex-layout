@@ -84,8 +84,8 @@ devDependencies:
     specifier: ~18.1.1
     version: 18.1.1(@angular/compiler@18.1.1)(typescript@5.5.4)
   '@ngtools/webpack':
-    specifier: ~17.3.8
-    version: 17.3.8(@angular/compiler-cli@18.1.1)(typescript@5.5.4)(webpack@5.93.0)
+    specifier: ~18.1.1
+    version: 18.1.1(@angular/compiler-cli@18.1.1)(typescript@5.5.4)(webpack@5.93.0)
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -3681,19 +3681,6 @@ packages:
       '@tybys/wasm-util': 0.9.0
     dev: true
 
-  /@ngtools/webpack@17.3.8(@angular/compiler-cli@18.1.1)(typescript@5.5.4)(webpack@5.93.0):
-    resolution: {integrity: sha512-CjSVVa/9fzMpEDQP01SC4colKCbZwj7vUq0H2bivp8jVsmd21x9Fu0gDBH0Y9NdfAIm4eGZvmiZKMII3vIOaYQ==}
-    engines: {node: ^18.13.0 || >=20.9.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    peerDependencies:
-      '@angular/compiler-cli': ^17.0.0
-      typescript: '>=5.2 <5.5'
-      webpack: ^5.54.0
-    dependencies:
-      '@angular/compiler-cli': 18.1.1(@angular/compiler@18.1.1)(typescript@5.5.4)
-      typescript: 5.5.4
-      webpack: 5.93.0(webpack-cli@5.1.4)
-    dev: true
-
   /@ngtools/webpack@18.1.1(@angular/compiler-cli@18.1.1)(typescript@5.5.4)(webpack@5.92.1):
     resolution: {integrity: sha512-mjlfnWcHtBZJUJaVyffJZZL8U1o1XUQwrFIKeiFUeatLDsjtv8EbLW9Ed1v3eAJyVuaTNKpsdZma1XdxzeLONw==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -3705,6 +3692,19 @@ packages:
       '@angular/compiler-cli': 18.1.1(@angular/compiler@18.1.1)(typescript@5.5.4)
       typescript: 5.5.4
       webpack: 5.92.1(esbuild@0.21.5)(webpack-cli@5.1.4)
+    dev: true
+
+  /@ngtools/webpack@18.1.1(@angular/compiler-cli@18.1.1)(typescript@5.5.4)(webpack@5.93.0):
+    resolution: {integrity: sha512-mjlfnWcHtBZJUJaVyffJZZL8U1o1XUQwrFIKeiFUeatLDsjtv8EbLW9Ed1v3eAJyVuaTNKpsdZma1XdxzeLONw==}
+    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
+    peerDependencies:
+      '@angular/compiler-cli': ^18.0.0
+      typescript: '>=5.4 <5.6'
+      webpack: ^5.54.0
+    dependencies:
+      '@angular/compiler-cli': 18.1.1(@angular/compiler@18.1.1)(typescript@5.5.4)
+      typescript: 5.5.4
+      webpack: 5.93.0(webpack-cli@5.1.4)
     dev: true
 
   /@nodelib/fs.scandir@2.1.5:
