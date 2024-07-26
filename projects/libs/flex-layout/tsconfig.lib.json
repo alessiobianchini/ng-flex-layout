@@ -6,7 +6,11 @@
     "declaration": true,
     "declarationMap": false,
     "inlineSources": true,
-    "types": ["jasmine"]
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "jasmine"
+    ]
   },
   "angularCompilerOptions": {
     "compilationMode": "partial"

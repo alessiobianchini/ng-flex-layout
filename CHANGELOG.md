@@ -1,3 +1,9 @@
+# [18.1.1-beta.2](https://github.com/alessiobianchini/ng-flex-layout/compare/18.1.1-beta.1...18.1.1-beta.2) (2024-07-26)
+
+* Updated version.ts to expose correct version
+* Updated demo-app for latest hight resolution screen
+* Removed unused files
+  
 # [18.1.1-beta.1](https://github.com/alessiobianchini/ng-flex-layout/compare/17.3.7-beta.1...18.1.1-beta.1) (2024-07-23)
 
 * Updated to Angular 18.1.1

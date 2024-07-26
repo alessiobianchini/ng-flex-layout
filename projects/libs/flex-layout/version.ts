@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Version} from '@angular/core';
+import { Version } from '@angular/core';
+import packageJson from './package.json';
 
 /** Current version of Angular Flex-Layout. */
-export const VERSION = new Version('0.0.0-PLACEHOLDER');
+export const VERSION = new Version(packageJson.version);
