@@ -47,8 +47,11 @@ jobs:
         
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Build lib
+        run: pnpm run build
+
+      - name: Build demo-app
         run: pnpm run build-demo-app
 
       - name: Upload artifact for deployment job
