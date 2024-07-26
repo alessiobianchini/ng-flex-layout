@@ -37,7 +37,7 @@ describe('media-observer', () => {
         });
 
         beforeEach(inject([MediaObserver, MatchMedia, BREAKPOINTS],
-            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => { 
+            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => {
                 knownBreakPoints = breakpoints;
                 mediaObserver = _mediaObserver;
                 mediaController = _mediaController;
@@ -217,7 +217,7 @@ describe('media-observer', () => {
         });
 
         beforeEach(inject([MediaObserver, MatchMedia, BREAKPOINTS],
-            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => { 
+            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => {
                 knownBreakPoints = breakpoints;
                 mediaObserver = _mediaObserver;
                 mediaController = _mediaController;
@@ -273,7 +273,7 @@ describe('media-observer', () => {
         });
 
         beforeEach(inject([MediaObserver, MatchMedia, BREAKPOINTS],
-            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => { 
+            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => {
                 knownBreakPoints = breakpoints;
                 mediaObserver = _mediaObserver;
                 mediaController = _mediaController;
@@ -318,7 +318,7 @@ describe('media-observer', () => {
         });
 
         beforeEach(inject([MediaObserver, MatchMedia, BREAKPOINTS],
-            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => { 
+            (_mediaObserver: MediaObserver, _mediaController: MockMatchMedia, breakpoints: BreakPoint[]) => {
                 knownBreakPoints = breakpoints;
                 mediaObserver = _mediaObserver;
                 mediaController = _mediaController;

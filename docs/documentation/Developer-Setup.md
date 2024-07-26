@@ -10,7 +10,7 @@
 
 ## Building the library
 
-* To build the library, run `npm run lib:build`
+* To build the library, run `npm run build`
 * To build and serve the demo-app, run `npm run demo:serve`
 * To build and serve the Universal app, run `npm run universal:serve`
 
@@ -21,5 +21,5 @@ integration instructions
 
 ### Running tests
 
-* To run unit tests, run `npm run lib:test`
-* To run lint, run `npm run lib:lint`
+* To run unit tests, run `npm run test`
+* To run lint, run `npm run lint`

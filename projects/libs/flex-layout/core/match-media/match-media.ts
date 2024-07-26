@@ -77,7 +77,7 @@ export class MatchMedia implements OnDestroy {
                 filter((change: MediaChange) =>
                     !filterOthers ? true : (mqList.indexOf(change.mediaQuery) > -1))
             );
-            const registration$: Observable<MediaChange> = new Observable((observer: Observer<MediaChange>) => {  
+            const registration$: Observable<MediaChange> = new Observable((observer: Observer<MediaChange>) => {
                 const matches: Array<MediaChange> = this.registerQuery(mqList);
                 if (matches.length) {
                     const lastChange = matches.pop()!;
