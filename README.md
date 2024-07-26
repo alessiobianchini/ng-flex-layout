@@ -70,7 +70,7 @@ Check out [all of the available options](https://github.com/alessiobianchini/fle
 
 ### Demos
 
-*  [Explore Examples Online](https://tburleson-layouts-demos.firebaseapp.com/)
+*  [Explore Examples Online](https://ng-flex-layout.azurewebsites.net/)
 *  [Demo Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/src/apps/demo-app/src/app/app.module.ts)
 
 ### StackBlitz Templates
