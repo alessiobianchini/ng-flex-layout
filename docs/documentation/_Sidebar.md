@@ -11,7 +11,7 @@
   * [Custom Breakpoints](https://github.com/alessiobianchini/flex-layout/wiki/Breakpoints)
   * [Best Performance](https://github.com/alessiobianchini/flex-layout/wiki/Best-Performance)
 * Demos 
-  * [Live Online](https://tburleson-layouts-demos.firebaseapp.com/)
+  * [Live Online](https://ng-flex-layout.azurewebsites.net/)
   * [Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/src/apps/demo-app/src/app/app.module.ts#L28)
 
 * StackBlitz Templates

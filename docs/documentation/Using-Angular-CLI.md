@@ -70,5 +70,5 @@ System.config({
 
 Developers are encouraged to review the live demos and source for the Flex-Layout Demos:
 
-* [Live Demos](https://tburleson-layouts-demos.firebaseapp.com/)
+* [Live Demos](https://ng-flex-layout.azurewebsites.net/)
 * [Demo Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/src/apps/demo-app/)

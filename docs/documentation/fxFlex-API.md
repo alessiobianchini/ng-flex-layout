@@ -20,7 +20,7 @@ Note that the resizing occurs along the main-axis of the layout and maybe affect
 
 > Developer's seeking details on FlexBox should 
 * Review [CSS-Tricks - A Guide to FlexBox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), or 
-* Play with the online [Flex-Layout Demos](https://tburleson-layouts-demos.firebaseapp.com/#/docs).
+* Play with the online [Flex-Layout Demos](https://ng-flex-layout.azurewebsites.net/#/docs).
 
 ### fxFlex Attribute Usages
 
@@ -86,7 +86,7 @@ Shown below is an example of a non-trivial layout using various **fxFlex** optio
 
 #### Live Demo:
 
-[![screen shot 2016-12-16 at 1 00 51 pm](https://cloud.githubusercontent.com/assets/210413/21274826/bc8553f2-c38f-11e6-8188-bc7fd36026c2.png)](https://tburleson-layouts-demos.firebaseapp.com/#/stackoverflow)
+[![screen shot 2016-12-16 at 1 00 51 pm](https://cloud.githubusercontent.com/assets/210413/21274826/bc8553f2-c38f-11e6-8188-bc7fd36026c2.png)](https://ng-flex-layout.azurewebsites.net/#/stackoverflow)
 
 
 ### Additional fxFlex Stylings
@@ -181,7 +181,7 @@ Developers should consult the **[Known Issues](http://caniuse.com/#feat=flexbox)
 
 Developer's seeking details on FlexBox should 
 * Review [CSS-Tricks - A Guide to FlexBox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/), or 
-* Play with the online [Flex-Layout Demos](https://tburleson-layouts-demos.firebaseapp.com/#/docs)
+* Play with the online [Flex-Layout Demos](https://ng-flex-layout.azurewebsites.net/#/docs)
 
 [fxFlex]: https://github.com/alessiobianchini/flex-layout/blob/master/src/lib/flex/flex/flex.ts
 [FlexDirective]: https://github.com/alessiobianchini/flex-layout/blob/master/src/lib/flex/flex/flex.ts#L65-L67

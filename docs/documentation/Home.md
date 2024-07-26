@@ -23,7 +23,7 @@ this is!
 
 Live Demo:
 
-[![Featured](https://cloud.githubusercontent.com/assets/210413/24045163/216dae9c-0aec-11e7-8b22-616a4328eca3.jpg)](https://tburleson-layouts-demos.firebaseapp.com/#/stackoverflow)
+[![Featured](https://cloud.githubusercontent.com/assets/210413/24045163/216dae9c-0aec-11e7-8b22-616a4328eca3.jpg)](https://ng-flex-layout.azurewebsites.net/#/stackoverflow)
 
 Source Code:
 

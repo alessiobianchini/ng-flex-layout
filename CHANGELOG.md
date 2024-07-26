@@ -920,7 +920,7 @@ export class MyComponent {
 * **demo:** correctly use template instead of templateUrl ([#100](https://github.com/alessiobianchini/flex-layout/issues/100)) ([c436824](https://github.com/alessiobianchini/flex-layout/commit/c436824))
 * **demo:** fix bindings for fxLayout with AoT ([#101](https://github.com/alessiobianchini/flex-layout/issues/101)) ([51ea29e](https://github.com/alessiobianchini/flex-layout/commit/51ea29e))
 * **demo:** improve use of ObservableMedia service ([#214](https://github.com/alessiobianchini/flex-layout/issues/214)) ([64b122a](https://github.com/alessiobianchini/flex-layout/commit/64b122a))
-* **demo:** add ngxSplitter demo showing how splitters can be used with Flex-Layout ([ngxSplitter Demo](https://tburleson-layouts-demos.firebaseapp.com/#/issues))
+* **demo:** add ngxSplitter demo showing how splitters can be used with Flex-Layout ([ngxSplitter Demo](https://ng-flex-layout.azurewebsites.net/#/issues))
 
 
 <a name="2.0.0-beta.8"></a>

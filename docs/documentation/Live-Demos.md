@@ -1,7 +1,7 @@
 ### Live Layout Demos
 
 Real-world usages of Layouts (both static and responsive) are available on the 
-[Flex-Layout Demos](https://tburleson-layouts-demos.firebaseapp.com/#/responsive) site. The samples available are 
+[Flex-Layout Demos](https://ng-flex-layout.azurewebsites.net/#/responsive) site. The samples available are 
 curated from the following sources:
 
 * Layout Documentation (AngularJS Material)
