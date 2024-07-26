@@ -13,7 +13,8 @@
           ngClass.xs="fxClass-xs"
           [ngClass.sm]="{'fxClass-sm': hasStyle}"
           [ngClass.md]="{'fxClass-md': hasStyle, 'fxClass-md2': hasStyle}"
-          [ngClass.lg]="['fxClass-lg', 'fxClass-lg2']">
+          [ngClass.lg]="['fxClass-lg', 'fxClass-lg2']"
+          [ngClass.xl]="['fxClass-xl', 'fxClass-xl2']">
           Sample Text #1
           <br/>
           <mat-checkbox
@@ -37,6 +38,7 @@
           [ngClass.sm]="&#123;'fxClass-sm': hasStyle&#125;"
           [ngClass.md]="&#123;'fxClass-md': hasStyle, 'fxClass-md2': hasStyle&#125;"
           [ngClass.lg]="['fxClass-lg', 'fxClass-lg2']"&gt;
+          [ngClass.xl]="['fxClass-xl', 'fxClass-xl2']"&gt;
         &lt;/div&gt;
         </pre>
   </mat-card-content>
@@ -51,7 +53,8 @@
              [ngStyle.xs]="{'font-size.px': 10, 'background-color': '#ddd', color: 'blue'}"
              [ngStyle.sm]="{'font-size.px': 20, 'background-color': 'grey', color: '#482b00'}"
              [ngStyle.md]="{'font-size.px': 30, 'background-color': 'black', color: 'orange'}"
-             [ngStyle.lg]="styleLgExp">
+             [ngStyle.lg]="styleLgExp"
+             [ngStyle.xl]="styleXlExp">
           Sample Text #2
         </div>
       </div>
@@ -65,6 +68,7 @@
           [ngStyle.sm]="&#123;'font-size.px': 20, color: 'lightblue'&#125;"
           [ngStyle.md]="&#123;'font-size.px': 30, color: 'orange'&#125;"
           [ngStyle.lg]="styleLgExp"&gt;
+          [ngStyle.xl]="styleXlExp"&gt;
         &lt;/div&gt;
         </pre>
   </mat-card-content>

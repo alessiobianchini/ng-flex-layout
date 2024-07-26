@@ -272,6 +272,15 @@ mat-card-content pre {
   text-shadow: #5c5c5c;
 }
 
+.fxClass-xl {
+  font-size: 60px;
+  color: lightsalmon !important;
+}
+
+.fxClass-xl2 {
+  text-shadow: #5c5c5c;
+}
+
 .fixed {
   height: 275px;
 }
@@ -342,4 +351,8 @@ mat-card-content pre {
 .card-demo .mat-card-content > :last-child,
 .card-demo > :last-child {
   margin-bottom: 6px;
+}
+
+.mat-mdc-card-title, .mat-mdc-card-subtitle {
+  padding: 0 16px;
 }

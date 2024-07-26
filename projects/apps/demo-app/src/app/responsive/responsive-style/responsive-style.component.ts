@@ -10,4 +10,8 @@ export class ResponsiveStyleComponent {
     'font-size': '40px',
     color: 'lightgreen'
   };
+  styleXlExp = {
+    'font-size': '40px',
+    color: 'lightsalmon'
+  };
 }
