@@ -12,7 +12,7 @@
   * [Best Performance](https://github.com/alessiobianchini/flex-layout/wiki/Best-Performance)
 * Demos 
   * [Live Online](https://ng-flex-layout.azurewebsites.net/)
-  * [Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/src/apps/demo-app/src/app/app.module.ts#L28)
+  * [Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/projects/apps/demo-app/src/app/app.module.ts#L28)
 
 * StackBlitz Templates
   * [Flex-Layout Template](https://stackblitz.com/edit/ng-flex-layout-seed)
