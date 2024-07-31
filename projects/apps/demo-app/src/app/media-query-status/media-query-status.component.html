@@ -1,0 +1,10 @@
+<div class="mqInfo">
+  Active MediaQuery(s):
+  <ul>
+    @for (change of (media$ | async); track change.mqAlias) {
+      <li>
+        {{change.mqAlias}} = {{change.mediaQuery}}
+      </li>
+    }
+  </ul>
+</div>

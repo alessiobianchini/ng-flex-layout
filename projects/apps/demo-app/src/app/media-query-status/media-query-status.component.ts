@@ -4,16 +4,7 @@ import {Observable} from 'rxjs';
 
 @Component({
   selector: 'media-query-status',
-  template: `
-    <div class="mqInfo">
-      Active MediaQuery(s):
-      <ul>
-        <li *ngFor="let change of (media$ | async) as changes">
-          {{change.mqAlias}} = {{change.mediaQuery}}
-        </li>
-      </ul>
-    </div>
-  `,
+  templateUrl: './media-query-status.component.html',
   styleUrls: ['./media-query-status.component.scss'],
 })
 export class MediaQueryStatusComponent {
