@@ -11,7 +11,6 @@ module.exports = function (config) {
       require("karma-jasmine"),
       require("karma-browserstack-launcher"),
       require('karma-firefox-launcher'),
-      require("karma-sauce-launcher"),
       require("karma-chrome-launcher"),
       require("karma-jasmine-html-reporter"),
       require("@angular-devkit/build-angular/plugins/karma"),
@@ -26,15 +25,6 @@ module.exports = function (config) {
     customLaunchers,
     jasmineHtmlReporter: {
       suppressAll: true, // removes the duplicated traces
-    },
-    sauceLabs: {
-      testName: "Angular Layout Unit Tests",
-      startConnect: false,
-      recordVideo: false,
-      recordScreenshots: false,
-      idleTimeout: 600,
-      commandTimeout: 600,
-      maxDuration: 5400,
     },
 
     browserStack: {
@@ -89,9 +79,6 @@ module.exports = function (config) {
     if (testPlatform === "browserstack") {
       config.browserStack.build = buildIdentifier;
       config.browserStack.tunnelIdentifier = tunnelIdentifier;
-    } else if (testPlatform === "saucelabs") {
-      config.sauceLabs.build = buildIdentifier;
-      config.sauceLabs.tunnelIdentifier = tunnelIdentifier;
     }
 
     const platformBrowsers = platformMap[testPlatform];

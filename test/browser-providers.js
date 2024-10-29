@@ -5,12 +5,10 @@
  *
  *   - local: Launches the browser locally on the current operating system.
  *   - BS: Launches the browser within BrowserStack
- *   - SL: Launches the browser within Saucelabs
  */
 const browserConfig = {
   'ChromeHeadlessCI':  { unitTest: {target: 'local', }},
   'FirefoxHeadless':   { unitTest: {target: 'local', }},
-  'iOS15': {unitTest: {target: 'saucelabs'}},
   'Safari15': {unitTest: {target: 'browserstack'}}
 };
 
@@ -19,7 +17,6 @@ exports.customLaunchers = require('./karma-browsers.json');
 
 /** Exports a map of configured browsers, which should run in the given platform. */
 exports.platformMap = {
-  'saucelabs': buildConfiguration('unitTest', 'saucelabs'),
   'browserstack': buildConfiguration('unitTest', 'browserstack'),
   'local': buildConfiguration('unitTest', 'local'),
 };
