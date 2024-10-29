@@ -1,6 +1,6 @@
 {
   "name": "ng-flex-layout",
-  "version": "18.2.1",
+  "version": "18.2.9",
   "exports": {
     "./mq": {
       "sass": "./core/sass/_layout-bp.scss"

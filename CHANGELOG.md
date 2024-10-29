@@ -1,3 +1,7 @@
+## [18.2.9](https://github.com/alessiobianchini/flex-layout/compare/18.2.1-beta.2...18.2.9) (2024-10-29)
+* Updated ng and ng material to 18.2.9
+* Updated common packages
+
 # [18.2.1](https://github.com/alessiobianchini/ng-flex-layout/compare/18.1.1-beta.2...18.2.1) (2024-08-27)
 
 * Updated ng and ng material to 18.2.1
