@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: demo-app
-          path: dist/apps/demo-app
+          path: dist/apps/demo-app/browser
 
   deploy:
     runs-on: windows-latest

@@ -696,7 +696,8 @@ export class MockLayoutGapStyleBuilder extends StyleBuilder {
 // *****************************************************************
 @Component({
     selector: 'test-layout',
-    template: '<span>PlaceHolder Template HTML</span>'
+    template: '<span>PlaceHolder Template HTML</span>',
+    standalone: false
 })
 class TestLayoutGapComponent implements OnInit {
     direction = 'column';

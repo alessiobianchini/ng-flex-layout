@@ -325,7 +325,8 @@ describe('align directive', () => {
 
 @Component({
     selector: 'test-layout',
-    template: '<span>PlaceHolder Template HTML</span>'
+    template: '<span>PlaceHolder Template HTML</span>',
+    standalone: false
 })
 class TestAlignComponent implements OnInit {
     mainAxis = 'start';

@@ -1,4 +1,10 @@
+# [19.0.0](https://github.com/alessiobianchini/flex-layout/compare/18.2.9...19.0.0) (2024-11-22)
+
+* Updated ng and ng material to 19.0.0
+* Migrated ddirective as default standalone
+
 ## [18.2.9](https://github.com/alessiobianchini/flex-layout/compare/18.2.1...18.2.9) (2024-10-29)
+
 * Updated ng and ng material to 18.2.9
 * Updated common packages
 

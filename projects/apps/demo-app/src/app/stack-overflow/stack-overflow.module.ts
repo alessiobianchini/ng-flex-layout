@@ -14,7 +14,6 @@ import {
 } from './complex-column-ordering/complex-column-ordering.component';
 import {
   HideWithCustomBPComponent,
-  CustomHideDirective
 } from './hide-custom-bp/hide-with-custom-bp.component';
 
 @NgModule({
@@ -31,7 +30,6 @@ import {
     GridAreaRowSpanComponent,
     GridColumnSpanComponent,
     MozHolyGrailComponent,
-    CustomHideDirective,
     HideWithCustomBPComponent
   ]
 })

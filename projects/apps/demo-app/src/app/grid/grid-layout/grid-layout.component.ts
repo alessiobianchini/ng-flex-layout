@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 
 // Example taken from https://gridbyexample.com/examples/example13/
 @Component({
-  selector: 'demo-grid-layout',
-  template: `
+    selector: 'demo-grid-layout',
+    template: `
     <mat-card class="card-demo">
       <mat-card-title>Basic Responsive Grid App</mat-card-title>
       <mat-card-content class="containerX">
@@ -25,6 +25,7 @@ import {Component} from '@angular/core';
         </div>
       </mat-card-content>
     </mat-card>
-  `
+  `,
+    standalone: false
 })
 export class GridLayoutComponent {}

@@ -3,9 +3,10 @@ import {MediaChange, MediaObserver} from 'ng-flex-layout';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'media-query-status',
-  templateUrl: './media-query-status.component.html',
-  styleUrls: ['./media-query-status.component.scss'],
+    selector: 'media-query-status',
+    templateUrl: './media-query-status.component.html',
+    styleUrls: ['./media-query-status.component.scss'],
+    standalone: false
 })
 export class MediaQueryStatusComponent {
   media$: Observable<MediaChange[]>;
