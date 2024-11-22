@@ -41,8 +41,8 @@ describe('style directive', () => {
 
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
-            imports: [CommonModule, CoreModule],
-            declarations: [TestStyleComponent, DefaultLayoutDirective, DefaultStyleDirective],
+            imports: [CommonModule, CoreModule, DefaultLayoutDirective, DefaultStyleDirective],
+            declarations: [TestStyleComponent],
             providers: [MockMatchMediaProvider]
         });
     });
