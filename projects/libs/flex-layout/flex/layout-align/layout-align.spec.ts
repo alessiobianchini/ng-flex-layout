@@ -526,7 +526,8 @@ export class MockLayoutAlignStyleBuilder extends StyleBuilder {
 
 @Component({
     selector: 'test-layout',
-    template: '<span>PlaceHolder Template HTML</span>'
+    template: '<span>PlaceHolder Template HTML</span>',
+    standalone: false
 })
 class TestLayoutAlignComponent implements OnInit {
     direction = 'column';

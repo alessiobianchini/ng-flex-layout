@@ -5,18 +5,18 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {NgModule} from '@angular/core';
-import {BidiModule} from '@angular/cdk/bidi';
-import {CoreModule} from 'ng-flex-layout/core';
+import { NgModule } from '@angular/core';
+import { BidiModule } from '@angular/cdk/bidi';
+import { CoreModule } from 'ng-flex-layout/core';
 
-import {DefaultLayoutDirective} from './layout/layout';
-import {DefaultLayoutGapDirective} from './layout-gap/layout-gap';
-import {DefaultFlexDirective} from './flex/flex';
-import {DefaultFlexOrderDirective} from './flex-order/flex-order';
-import {DefaultFlexOffsetDirective} from './flex-offset/flex-offset';
-import {DefaultFlexAlignDirective} from './flex-align/flex-align';
-import {FlexFillDirective} from './flex-fill/flex-fill';
-import {DefaultLayoutAlignDirective} from './layout-align/layout-align';
+import { DefaultLayoutDirective } from './layout/layout';
+import { DefaultLayoutGapDirective } from './layout-gap/layout-gap';
+import { DefaultFlexDirective } from './flex/flex';
+import { DefaultFlexOrderDirective } from './flex-order/flex-order';
+import { DefaultFlexOffsetDirective } from './flex-offset/flex-offset';
+import { DefaultFlexAlignDirective } from './flex-align/flex-align';
+import { FlexFillDirective } from './flex-fill/flex-fill';
+import { DefaultLayoutAlignDirective } from './layout-align/layout-align';
 
 
 const ALL_DIRECTIVES = [
@@ -25,7 +25,6 @@ const ALL_DIRECTIVES = [
     DefaultLayoutAlignDirective,
     DefaultFlexOrderDirective,
     DefaultFlexOffsetDirective,
-    FlexFillDirective,
     DefaultFlexAlignDirective,
     DefaultFlexDirective,
 ];
@@ -37,9 +36,9 @@ const ALL_DIRECTIVES = [
  */
 
 @NgModule({
-    imports: [CoreModule, BidiModule],
-    declarations: [...ALL_DIRECTIVES],
-    exports: [...ALL_DIRECTIVES]
+    imports: [CoreModule, BidiModule, ...ALL_DIRECTIVES],
+    declarations: [FlexFillDirective],
+    exports: [...ALL_DIRECTIVES, FlexFillDirective]
 })
 export class FlexModule {
 }

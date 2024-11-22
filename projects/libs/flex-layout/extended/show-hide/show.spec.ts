@@ -348,7 +348,8 @@ class FxShowHideDirective extends ShowHideDirective {
 
 @Component({
     selector: 'test-show-api',
-    template: '<span>PlaceHolder Template HTML</span>'
+    template: '<span>PlaceHolder Template HTML</span>',
+    standalone: false
 })
 class TestShowComponent implements OnInit {
     isVisible = 0;
