@@ -285,6 +285,7 @@ describe('show directive', () => {
             TestBed.configureTestingModule({
                 imports: [
                     CommonModule,
+                    FxShowHideDirective,
                     FlexLayoutModule.withConfig({
                         serverLoaded: true,
                     }, [
@@ -302,7 +303,7 @@ describe('show directive', () => {
                         }
                     ]),
                 ],
-                declarations: [FxShowHideDirective],
+                declarations: [],
                 providers: [
                     MockMatchMediaProvider,
                 ]

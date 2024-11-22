@@ -42,9 +42,10 @@ describe('class directive', () => {
             imports: [
                 MatButtonModule,
                 CommonModule,
-                CoreModule
+                CoreModule,
+                DefaultClassDirective
             ],
-            declarations: [TestClassComponent, DefaultClassDirective],
+            declarations: [TestClassComponent],
             providers: [MockMatchMediaProvider]
         });
     });
