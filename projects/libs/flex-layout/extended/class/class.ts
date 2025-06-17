@@ -5,19 +5,17 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import { NgClass } from '@angular/common';
 import {
     Directive,
     DoCheck,
     ElementRef,
     Input,
-    IterableDiffers,
-    KeyValueDiffers,
     Optional,
     Renderer2,
-    Self,
+    Self
 } from '@angular/core';
-import {NgClass} from '@angular/common';
-import {BaseDirective2, StyleUtils, MediaMarshaller} from 'ng-flex-layout/core';
+import { BaseDirective2, MediaMarshaller, StyleUtils } from 'ng-flex-layout/core';
 
 @Directive()
 export class ClassDirective extends BaseDirective2 implements DoCheck {

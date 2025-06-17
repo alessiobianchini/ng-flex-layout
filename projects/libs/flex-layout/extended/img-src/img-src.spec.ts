@@ -5,9 +5,9 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, PLATFORM_ID} from '@angular/core';
-import {CommonModule, isPlatformServer} from '@angular/common';
-import {ComponentFixture, TestBed, inject} from '@angular/core/testing';
+import { CommonModule, isPlatformServer } from '@angular/common';
+import { Component, PLATFORM_ID } from '@angular/core';
+import { TestBed, inject } from '@angular/core/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -16,11 +16,8 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import {FlexLayoutModule} from '../../module';
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
-import {expectEl, makeCreateTestComponent, queryFor} from 'ng-flex-layout/_private-utils/testing';
-import {expect} from 'ng-flex-layout/_private-utils/testing';
-import {_dom as _} from 'ng-flex-layout/_private-utils/testing';
+import { _dom as _, customMatchers, expect, expectEl, makeCreateTestComponent, queryFor } from 'ng-flex-layout/_private-utils/testing';
+import { FlexLayoutModule } from '../../module';
 
 const SRC_URLS = {
     'xs': [

@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Directive, ElementRef, Inject, PLATFORM_ID, Injectable, Input} from '@angular/core';
-import {isPlatformServer} from '@angular/common';
+import { isPlatformServer } from '@angular/common';
+import { Directive, ElementRef, Inject, Injectable, Input, PLATFORM_ID } from '@angular/core';
 import {
-    MediaMarshaller,
     BaseDirective2,
+    MediaMarshaller,
     SERVER_TOKEN,
     StyleBuilder,
     StyleDefinition,

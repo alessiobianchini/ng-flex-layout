@@ -5,20 +5,19 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, PLATFORM_ID} from '@angular/core';
-import {CommonModule, isPlatformServer} from '@angular/common';
-import {ComponentFixture, TestBed, fakeAsync, flush, inject} from '@angular/core/testing';
-import {MatButtonModule} from '@angular/material/button';
+import { CommonModule, isPlatformServer } from '@angular/common';
+import { Component, PLATFORM_ID } from '@angular/core';
+import { TestBed, fakeAsync, flush, inject } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import {
-    ɵMatchMedia as MatchMedia,
     CoreModule,
+    ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
     ɵMockMatchMediaProvider as MockMatchMediaProvider,
 } from 'ng-flex-layout/core';
-import {DefaultClassDirective} from 'ng-flex-layout/extended';
+import { DefaultClassDirective } from 'ng-flex-layout/extended';
 
-import {customMatchers, expect} from 'ng-flex-layout/_private-utils/testing';
-import {makeCreateTestComponent, expectNativeEl, queryFor} from 'ng-flex-layout/_private-utils/testing';
+import { customMatchers, expect, expectNativeEl, makeCreateTestComponent, queryFor } from 'ng-flex-layout/_private-utils/testing';
 
 
 describe('class directive', () => {
