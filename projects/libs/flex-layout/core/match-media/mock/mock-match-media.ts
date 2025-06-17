@@ -5,11 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Inject, Injectable, NgZone, PLATFORM_ID, DOCUMENT} from '@angular/core';
+import {Inject, Injectable, NgZone, PLATFORM_ID} from '@angular/core';
 
 
 import {MatchMedia} from '../match-media';
 import {BreakPointRegistry} from '../../breakpoints/break-point-registry';
+import { DOCUMENT } from '@angular/common';
 
 /**
  * MockMatchMedia mocks calls to the Window API matchMedia with a build of a simulated
