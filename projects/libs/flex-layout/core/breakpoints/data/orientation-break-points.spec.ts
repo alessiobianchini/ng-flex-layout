@@ -74,10 +74,10 @@ describe('break-point-provider', () => {
             { alias: 'cd', priority: 2000, mediaQuery: '(min-width: 298px) and (max-width:414px)' }
         ];
         let bpList: BreakPoint[];
-        let accumulator: BreakPoint;
-        let byAlias = (alias: string): BreakPoint | null => bpList.reduce((previous, current) => {
-            return previous || ((current.alias === alias) ? current : null);
-        }, accumulator);
+        let byAlias = (alias: string): BreakPoint | null => {
+            const found = bpList.find(current => current.alias === alias);
+            return found ? found : null;
+        };
 
         beforeEach(waitForAsync(() => {
             // Configure testbed to prepare services
