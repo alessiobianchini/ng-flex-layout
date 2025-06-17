@@ -12,8 +12,7 @@ module.exports = function (config) {
       require("karma-browserstack-launcher"),
       require('karma-firefox-launcher'),
       require("karma-chrome-launcher"),
-      require("karma-jasmine-html-reporter"),
-      require("@angular-devkit/build-angular/plugins/karma"),
+      require("karma-jasmine-html-reporter")
     ],
     client: {
       jasmine: {
