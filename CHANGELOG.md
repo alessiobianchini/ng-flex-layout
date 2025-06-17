@@ -1,3 +1,11 @@
+# [20.0.0](https://github.com/alessiobianchini/flex-layout/compare/19.2.6...20.0.0) (2025-06-17)
+
+* Migrated to Angular 20 (`@angular/core`, `@angular/cli`, `@angular/material`, ...)
+* Updated all main and dev dependencies to support Angular 20
+* Updated build and test configuration for new Angular 20 builders
+* Fixed TypeScript and test compatibility issues
+* Updated GitHub Actions workflows to use Node.js 20
+
 # [19.2.6](https://github.com/alessiobianchini/flex-layout/compare/19.0.0...19.2.6) (2024-11-22)
 
 * Updated ng and ng material to 19.2.6
