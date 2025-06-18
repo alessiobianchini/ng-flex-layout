@@ -18,6 +18,9 @@ export default defineConfig({
         include: [
             'projects/libs/flex-layout/core/breakpoints/**/*.spec.ts',
             'projects/libs/flex-layout/core/match-media/**/*.spec.ts',
+            'projects/libs/flex-layout/core/media-observer/**/*.spec.ts',
+            'projects/libs/flex-layout/core/media-trigger/**/*.spec.ts',
+            'projects/libs/flex-layout/core/basis-validator/basis-validator.spec.ts',
             // 'projects/libs/flex-layout/core/media-marshaller/**/*.spec.ts',
             // 'projects/libs/flex-layout/core/**/*.spec.ts',
         ],

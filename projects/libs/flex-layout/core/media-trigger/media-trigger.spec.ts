@@ -1,74 +1,79 @@
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
- *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 
+import { describe, it, expect, beforeEach } from 'vitest';
 import { MediaTrigger } from './media-trigger';
 import { MediaChange } from '../media-change';
 import { MatchMedia } from '../match-media/match-media';
-import { MockMatchMedia, MockMatchMediaProvider } from '../match-media/mock/mock-match-media';
+import { MockMatchMedia } from '../match-media/mock/mock-match-media';
 import { MediaObserver } from '../media-observer/media-observer';
+import { BreakPointRegistry } from '../breakpoints/break-point-registry';
+import { DEFAULT_BREAKPOINTS } from '../breakpoints/data/break-points';
+import { DEFAULT_CONFIG } from '../tokens/library-config';
+import { PrintHook } from '../media-marshaller/print-hook';
 
-describe('media-trigger', () => {
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
+describe('MediaTrigger', () => {
     let mediaObserver: MediaObserver;
     let mediaTrigger: MediaTrigger;
     let matchMedia: MockMatchMedia;
 
-    const activateQuery = (aliases: string[]) => {
+    const activateQuery = async (aliases: string[]) => {
         mediaTrigger.activate(aliases);
-        tick(100);  // Since MediaObserver has 50ms debounceTime
+        await delay(100); // Simula debounceTime
     };
 
     beforeEach(() => {
-        // Configure testbed to prepare services
-        TestBed.configureTestingModule({
-            providers: [
-                MockMatchMediaProvider,
-                MediaTrigger
-            ]
-        });
+        const breakPoints = new BreakPointRegistry(DEFAULT_BREAKPOINTS);
+        matchMedia = new MockMatchMedia(
+            { run: (fn: any) => fn(), runOutsideAngular: (fn: any) => fn() } as any,
+            'browser',
+            globalThis.document,
+            breakPoints
+        );
+
+        const printHook = new PrintHook(breakPoints, DEFAULT_CONFIG, globalThis.document);
+
+        mediaObserver = new MediaObserver(breakPoints, matchMedia, printHook);
+        mediaTrigger = new MediaTrigger(
+            breakPoints,
+            matchMedia,
+            DEFAULT_CONFIG,
+            'browser',
+            globalThis.document
+        );
+
+        matchMedia.useOverlaps = true;
     });
 
-    beforeEach(inject([MediaObserver, MediaTrigger, MatchMedia],
-        (_mediaObserver: MediaObserver, _mediaTrigger: MediaTrigger, _matchMedia: MockMatchMedia) => {
-            mediaObserver = _mediaObserver;
-            mediaTrigger = _mediaTrigger;
-            matchMedia = _matchMedia;
-
-            _matchMedia.useOverlaps = true;
-        }));
-
-    it('can trigger activations with list of breakpoint aliases', fakeAsync(() => {
+    it('can trigger activations with list of breakpoint aliases', async () => {
         let activations: MediaChange[] = [];
-        let subscription = mediaObserver.asObservable().subscribe(
-            (changes: MediaChange[]) => {
-                activations = [...changes];
-            });
 
-        // assign default activation(s) with overlaps allowed
+        const subscription = mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
+            activations = [...changes];
+        });
+
         matchMedia.activate('xl');
         const originalActivations = matchMedia.activations.length;
 
-        // Activate mediaQuery associated with 'md' alias
-        activateQuery(['sm']);
-        expect(activations.length).toEqual(1);
-        expect(activations[0].mqAlias).toEqual('sm');
+        await activateQuery(['sm']);
+        expect(activations.length).toBe(1);
+        expect(activations[0].mqAlias).toBe('sm');
 
-        // Activations are sorted by descending priority
-        activateQuery(['lt-lg', 'md']);
-        expect(activations.length).toEqual(2);
-        expect(activations[0].mqAlias).toEqual('md');
-        expect(activations[1].mqAlias).toEqual('lt-lg');
+        await activateQuery(['lt-lg', 'md']);
+        expect(activations.length).toBe(2);
+        expect(activations[0].mqAlias).toBe('md');
+        expect(activations[1].mqAlias).toBe('lt-lg');
 
-        // Clean manual activation overrides
         mediaTrigger.restore();
-        tick(100);
-        expect(activations.length).toEqual(originalActivations);
+        await delay(100);
+        expect(activations.length).toBe(originalActivations);
 
         subscription.unsubscribe();
-    }));
+    });
 });
