@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "types": [
-      "jasmine"
+      "vitest"
     ]
   },
   "angularCompilerOptions": {

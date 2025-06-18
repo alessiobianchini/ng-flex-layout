@@ -1,73 +1,60 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-import { TestBed, inject } from '@angular/core/testing';
-import { sortDescendingPriority } from '../../utils/sort';
+import { TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { sortDescendingPriority } from '../../utils/sort';
 import { BreakPoint } from '../break-point';
 import { BREAKPOINTS } from '../break-points-token';
 import { DEFAULT_BREAKPOINTS } from './break-points';
 
-describe('break-point-provider', () => {
-    let breakPoints: BreakPoint[];
+describe('break-point-provider (mocked)', () => {
+  let breakPoints: BreakPoint[];
 
-    describe('with default configuration', () => {
-        beforeEach(() => {
-            // Configure testbed to prepare services
-            TestBed.configureTestingModule({
-                providers: [{ provide: BREAKPOINTS, useValue: DEFAULT_BREAKPOINTS }]
-            });
-        });
-        beforeEach(inject([BREAKPOINTS], (bps: BreakPoint[]) => {
-            breakPoints = [...bps].sort(sortDescendingPriority);
-        }));
+  describe('with default configuration', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: BREAKPOINTS, useValue: DEFAULT_BREAKPOINTS }]
+      });
 
-        it('has the standard breakpoints', () => {
-            expect(breakPoints.length).toEqual(DEFAULT_BREAKPOINTS.length);
-            expect(breakPoints[0].alias).toEqual('xs');
-            expect(breakPoints[breakPoints.length - 1].alias).toEqual('gt-xs');
-        });
+      breakPoints = [...TestBed.inject(BREAKPOINTS)].sort(sortDescendingPriority);
     });
 
-    describe('with custom configuration', () => {
-        let bpList: BreakPoint[];
+    it('has the standard breakpoints', () => {
+      expect(breakPoints.length).toBe(DEFAULT_BREAKPOINTS.length);
+      expect(breakPoints[0].alias).toBe('xs');
+      expect(breakPoints.at(-1)?.alias).toBe('gt-xs');
+    });
+  });
 
-        const CUSTOM_BPS: BreakPoint[] = [
-            {
-                alias: 'ab',
-                suffix: 'Ab',
-                mediaQuery: '(max-width: 297px)',
-                overlapping: false
-            },
-            {
-                alias: 'cd',
-                suffix: 'Cd',
-                mediaQuery: '(min-width: 298px) and (max-width:414px',
-                overlapping: false
-            }
-        ];
+  describe('with custom configuration', () => {
+    let bpList: BreakPoint[];
 
-        beforeEach(() => {
-            // Configure testbed to prepare services
-            TestBed.configureTestingModule({
-                providers: [{ provide: BREAKPOINTS, useValue: CUSTOM_BPS }]
-            });
-        });
-        /* eslint-disable @typescript-eslint/no-shadow */
-        beforeEach(inject([BREAKPOINTS], (breakPoints: BreakPoint[]) => {
-            bpList = breakPoints;
-        }));
+    const CUSTOM_BPS: BreakPoint[] = [
+      {
+        alias: 'ab',
+        suffix: 'Ab',
+        mediaQuery: '(max-width: 297px)',
+        overlapping: false
+      },
+      {
+        alias: 'cd',
+        suffix: 'Cd',
+        mediaQuery: '(min-width: 298px) and (max-width:414px)',
+        overlapping: false
+      }
+    ];
 
-        it('has the custom breakpoints', () => {
-            expect(bpList.length).toEqual(CUSTOM_BPS.length);
-            expect(bpList[0].alias).toEqual('ab');
-            expect(bpList[bpList.length - 1].suffix).toEqual('Cd');
-        });
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: BREAKPOINTS, useValue: CUSTOM_BPS }]
+      });
+
+      bpList = TestBed.inject(BREAKPOINTS);
     });
 
-
+    it('has the custom breakpoints', () => {
+      expect(bpList.length).toBe(CUSTOM_BPS.length);
+      expect(bpList[0].alias).toBe('ab');
+      expect(bpList.at(-1)?.suffix).toBe('Cd');
+    });
+  });
 });

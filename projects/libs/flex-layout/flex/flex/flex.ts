@@ -5,22 +5,21 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Directive, ElementRef, Inject, Injectable, Input, OnInit} from '@angular/core';
+import { Directive, ElementRef, Inject, Injectable, Input, OnInit } from '@angular/core';
 import {
     BaseDirective2,
-    LayoutConfigOptions,
+    ElementMatcher,
     LAYOUT_CONFIG,
-    StyleUtils,
-    validateBasis,
+    LayoutConfigOptions,
+    MediaMarshaller,
     StyleBuilder,
     StyleDefinition,
-    MediaMarshaller,
-    ElementMatcher,
+    StyleUtils,
+    validateBasis,
 } from 'ng-flex-layout/core';
-import {takeUntil} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {extendObject} from 'ng-flex-layout/_private-utils';
-import {isFlowHorizontal} from 'ng-flex-layout/_private-utils';
+import { extendObject, isFlowHorizontal } from 'ng-flex-layout/_private-utils';
 
 interface FlexBuilderParent {
     direction: string

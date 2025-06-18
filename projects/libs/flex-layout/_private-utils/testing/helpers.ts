@@ -5,10 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Type, DebugElement} from '@angular/core';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {extendObject} from 'ng-flex-layout/_private-utils';
+import { Type, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { extendObject } from 'ng-flex-layout/_private-utils';
+import { expect } from 'vitest';
 
 export type ComponentClazzFn = () => Type<any>;
 

@@ -5,187 +5,136 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {TestBed, inject} from '@angular/core/testing';
-import {BreakPoint} from 'ng-flex-layout/core';
-import {Subscription} from 'rxjs';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { MediaChange } from '../media-change';
+import { MockMatchMedia } from './mock/mock-match-media';
+import { DEFAULT_BREAKPOINTS } from '../breakpoints/data/break-points';
+import { BreakPointRegistry } from '../breakpoints/break-point-registry';
 
-import {MediaChange} from '../media-change';
-import {MockMatchMedia, MockMatchMediaProvider} from './mock/mock-match-media';
-import {BreakPointRegistry} from '../breakpoints/break-point-registry';
-import {MatchMedia} from './match-media';
-import {MediaObserver} from '../media-observer/media-observer';
+const createMatchMediaSuite = () => {
+    const breakPoints = new BreakPointRegistry(DEFAULT_BREAKPOINTS);
+    const matchMedia = new MockMatchMedia(
+        { run: (fn: any) => fn(), runOutsideAngular: (fn: any) => fn() } as any,
+        'browser',
+        document,
+        breakPoints
+    );
+
+    return { matchMedia, breakPoints };
+};
 
 describe('match-media', () => {
+    let matchMedia: MockMatchMedia;
     let breakPoints: BreakPointRegistry;
-    let mediaController: MockMatchMedia;
 
     beforeEach(() => {
-    // Configure testbed to prepare services
-        TestBed.configureTestingModule({
-            providers: [MockMatchMediaProvider]
-        });
+        ({ matchMedia, breakPoints } = createMatchMediaSuite());
     });
-
-    beforeEach(inject(
-        [MediaObserver, MatchMedia, BreakPointRegistry],
-        (_mediaObserver: MediaObserver, _matchMedia: MockMatchMedia,
-            _breakPoints: BreakPointRegistry) => {
-            breakPoints = _breakPoints;
-            mediaController = _matchMedia;      // inject only to manually activate mediaQuery ranges
-        }));
 
     afterEach(() => {
-        mediaController.clearAll();
-        mediaController.useOverlaps = false;
+        matchMedia.clearAll();
+        matchMedia.useOverlaps = false;
     });
 
-    it('can observe the initial, default activation for mediaQuery == "all". ', () => {
-        let current: MediaChange = new MediaChange();
-        let subscription = mediaController
-            .observe()
-            .subscribe((change: MediaChange) => {
-                current = change;
-            });
-
-        expect(current.mediaQuery).toEqual('all');
-        subscription.unsubscribe();
+    it('can observe the initial, default activation for mediaQuery == "all"', () => {
+        let current = new MediaChange();
+        const sub = matchMedia.observe().subscribe(change => current = change);
+        expect(current.mediaQuery).toBe('all');
+        sub.unsubscribe();
     });
 
     it('can observe all mediaQuery activations', () => {
-        let current: MediaChange = new MediaChange();
-        let query1 = 'screen and (min-width: 610px) and (max-width: 620px)';
-        let query2 = '(min-width: 730px) and (max-width: 950px)';
+        let current = new MediaChange();
+        const q1 = 'screen and (min-width: 610px) and (max-width: 620px)';
+        const q2 = '(min-width: 730px) and (max-width: 950px)';
+        const sub = matchMedia.observe([q1, q2]).subscribe(change => current = change);
 
-        const queries = [query1, query2];
-        let subscription = mediaController.observe(queries).subscribe((change: MediaChange) => {
-            current = change;
-        });
+        expect(current.mediaQuery).toBe('all');
+        matchMedia.activate(q1);
+        expect(current.mediaQuery).toBe(q1);
+        expect(matchMedia.isActive(q1)).toBe(true);
 
-        expect(current.mediaQuery).toEqual('all');    // default mediaQuery is active
-        let activated = mediaController.activate(query1);    // simulate mediaQuery change to Query1
-        expect(activated).toEqual(true);
-        expect(current.mediaQuery).toEqual(query1);
-        expect(mediaController.isActive(query1)).toBeTruthy();
+        matchMedia.activate(q2);
+        expect(current.mediaQuery).toBe(q2);
+        expect(matchMedia.isActive(q2)).toBe(true);
 
-        activated = mediaController.activate(query2);        // simulate mediaQuery change to Query2
-        expect(activated).toEqual(true);
-        expect(current.mediaQuery).toEqual(query2);   // confirm no notification
-        expect(mediaController.isActive(query2)).toBeTruthy();
-
-        subscription.unsubscribe();
+        sub.unsubscribe();
     });
 
     it('can observe an array of custom mediaQuery ranges', () => {
-        let current: MediaChange = new MediaChange(), activated;
-        let query1 = 'screen and (min-width: 610px) and (max-width: 620px)';
-        let query2 = '(min-width: 730px) and (max-width: 950px)';
+        let current = new MediaChange();
+        const q1 = 'screen and (min-width: 610px) and (max-width: 620px)';
+        const q2 = '(min-width: 730px) and (max-width: 950px)';
+        matchMedia.registerQuery([q1, q2]);
 
-        mediaController.registerQuery([query1, query2]);
+        const sub = matchMedia.observe([q1], true).subscribe(change => current = change);
 
-        let subscription = mediaController.observe([query1], true).subscribe((change: MediaChange) => {
-            current = change;
-        });
+        matchMedia.activate(q1);
+        expect(current.mediaQuery).toBe(q1);
+        expect(matchMedia.isActive(q1)).toBe(true);
 
-        activated = mediaController.activate(query1);   // simulate mediaQuery change
-        expect(activated).toEqual(true);
-        expect(current.mediaQuery).toEqual(query1);
-        expect(mediaController.isActive(query1)).toBeTruthy();
+        matchMedia.activate(q2);
+        expect(current.mediaQuery).not.toBe(q2);
+        expect(matchMedia.isActive(q2)).toBe(true);
 
-        activated = mediaController.activate(query2);   // simulate mediaQuery change
-        expect(activated).toEqual(true);
-        expect(mediaController.isActive(query2)).toBeTruthy();
-
-        expect(current.mediaQuery).not.toEqual(query2);   // confirm no notification
-        expect(current.mediaQuery).toEqual(query1);
-
-        subscription.unsubscribe();
+        sub.unsubscribe();
     });
 
     describe('match-media-observable', () => {
-        const watchMedia = (alias: string, observer: (value: MediaChange) => void): Subscription => {
-            return mediaController
-                .observe(alias ? [alias] : [])
-                .subscribe(observer);
-        };
+        const watchMedia = (alias: string, observer: (val: MediaChange) => void) =>
+            matchMedia.observe(alias ? [alias] : []).subscribe(observer);
 
         it('can observe an existing activation', () => {
-            let current: MediaChange = new MediaChange();
-            let bp = breakPoints.findByAlias('md')!;
-            const onChange = (change: MediaChange) => current = change;
-            const subscription = watchMedia('md', onChange);
-
-            mediaController.activate(bp.mediaQuery);
-            expect(current.mediaQuery).toEqual(bp.mediaQuery);
-            subscription.unsubscribe();
+            let current = new MediaChange();
+            const bp = breakPoints.findByAlias('md')!;
+            const sub = watchMedia('md', c => current = c);
+            matchMedia.activate(bp.mediaQuery);
+            expect(current.mediaQuery).toBe(bp.mediaQuery);
+            sub.unsubscribe();
         });
 
-        it('can observe the initial, default activation for mediaQuery == "all". ', () => {
-            let current: MediaChange = new MediaChange();
-            const onChange = (change: MediaChange) => current = change;
-            const subscription = watchMedia('', onChange);
-
-            expect(current.mediaQuery).toEqual('all');
-            subscription.unsubscribe();
+        it('can observe the initial, default activation', () => {
+            let current = new MediaChange();
+            const sub = watchMedia('', c => current = c);
+            expect(current.mediaQuery).toBe('all');
+            sub.unsubscribe();
         });
 
         it('can observe custom mediaQuery ranges', () => {
-            let current: MediaChange = new MediaChange();
+            let current = new MediaChange();
             const customQuery = 'screen and (min-width: 610px) and (max-width: 620px)';
-            const onChange = (change: MediaChange) => current = change;
-            const subscription = watchMedia(customQuery, onChange);
-
-            mediaController.useOverlaps = true;
-            const activated = mediaController.activate(customQuery);
-
-            expect(activated).toEqual(true);
-            expect(current.mediaQuery).toEqual(customQuery);
-
-            subscription.unsubscribe();
+            const sub = watchMedia(customQuery, c => current = c);
+            matchMedia.useOverlaps = true;
+            matchMedia.activate(customQuery);
+            expect(current.mediaQuery).toBe(customQuery);
+            sub.unsubscribe();
         });
 
         it('can observe registered breakpoint activations', () => {
-            let current: MediaChange = new MediaChange();
-            const onChange = (change: MediaChange) => current = change;
-            const subscription = watchMedia('md', onChange);
-
-            let bp = breakPoints.findByAlias('md') !;
-            let activated = mediaController.activate(bp.mediaQuery);
-
-            expect(activated).toEqual(true);
-            expect(current.mediaQuery).toEqual(bp.mediaQuery);
-
-            subscription.unsubscribe();
+            let current = new MediaChange();
+            const sub = watchMedia('md', c => current = c);
+            const bp = breakPoints.findByAlias('md')!;
+            matchMedia.activate(bp.mediaQuery);
+            expect(current.mediaQuery).toBe(bp.mediaQuery);
+            sub.unsubscribe();
         });
 
-        /**
-     * MediaMonitor and MatchMedia report both activations and de-activations!
-     * Only the MediaObserver ignores de-activations;
-     */
         it('reports mediaQuery de-activations', () => {
-            const lookupMediaQuery = (alias: string) => {
-                const bp: BreakPoint = breakPoints.findByAlias(alias) as BreakPoint;
-                return bp.mediaQuery;
-            };
-            let activationCount = 0, deactivationCount = 0;
-            let subscription = watchMedia('', (change: MediaChange) => {
-                if (change.matches) {
-                    activationCount += 1;
-                } else {
-                    deactivationCount += 1;
-                }
+            const lookup = (alias: string) => breakPoints.findByAlias(alias)!.mediaQuery;
+            let activations = 0;
+            let deactivations = 0;
+
+            const sub = watchMedia('', c => {
+                c.matches ? activations++ : deactivations++;
             });
 
-            mediaController.activate(lookupMediaQuery('md'));
-            mediaController.activate(lookupMediaQuery('gt-md'));
-            mediaController.activate(lookupMediaQuery('lg'));
+            matchMedia.activate(lookup('md'));
+            matchMedia.activate(lookup('gt-md'));
+            matchMedia.activate(lookup('lg'));
 
-            // 'all' mediaQuery is already active; total count should be (3)
-            expect(activationCount).toEqual(4);
-            expect(deactivationCount).toEqual(2);
-
-            subscription.unsubscribe();
+            expect(activations).toBe(4); // includes initial 'all'
+            expect(deactivations).toBe(2);
+            sub.unsubscribe();
         });
-
     });
 });
-

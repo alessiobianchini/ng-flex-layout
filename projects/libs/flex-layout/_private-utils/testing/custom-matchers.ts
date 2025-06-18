@@ -12,184 +12,63 @@ import { _dom as _ } from './dom-tools';
 
 import { applyCssPrefixes, extendObject, } from 'ng-flex-layout/_private-utils';
 import { StyleUtils } from 'ng-flex-layout/core';
+import { expect } from 'vitest';
 
-export const expect: (actual: any) => NgMatchers = <any>_global.expect;
-
-/**
- * Jasmine matchers that check Angular specific conditions.
- */
-export interface NgMatchers extends jasmine.Matchers<any> {
-    /**
-   * Expect the element to have exactly the given text.
-   *
-   * ## Example
-   *
-   * {@example testing/ts/matchers.ts region='toHaveText'}
-   */
-    toHaveText(expected: string): boolean
-
-    /**
-   * Compare key:value pairs as matching EXACTLY
-   */
-    toHaveMap(expected: { [k: string]: string }): boolean
-
-    /**
-   * Expect the element to have the given CSS class.
-   *
-   * ## Example
-   *
-   * {@example testing/ts/matchers.ts region='toHaveCssClass'}
-   */
-    toHaveCssClass(expected: string): boolean
-
-    /**
-   * Expect the element to have the given pairs of attribute name and attribute value
-   */
-    toHaveAttributes(expected: { [k: string]: string }): boolean
-
-    /**
-   * Expect the element to have the given CSS styles injected INLINE
-   *
-   * ## Example
-   *
-   * {@example testing/ts/matchers.ts region='toHaveStyle'}
-   */
-    toHaveStyle(expected: { [k: string]: string } | string): boolean
-
-    /**
-   * Expect the element to have the given CSS inline OR computed styles.
-   *
-   * ## Example
-   *
-   * {@example testing/ts/matchers.ts region='toHaveStyle'}
-   */
-    toHaveStyle(expected: { [k: string]: string } | string): boolean
-
-    /**
-   * Invert the matchers.
-   */
-    not: NgMatchers
-}
-
-/**
- * NOTE: These custom JASMINE Matchers are used only
- *       in the Karma/Jasmine testing for the Layout Directives
- *       in `src/lib/flex/api`
- */
-export const customMatchers: jasmine.CustomMatcherFactories = {
-
-    toEqual: function (util) {
+expect.extend({
+    toHaveText(received: any, expectedText: string) {
+        const actualText = elementText(received);
+        const pass = actualText === expectedText;
         return {
-            compare: function (actual: any, expected: any) {
-                return { pass: util.equals(actual, expected) };
-            }
+            pass,
+            message: () =>
+                `Expected element text ${actualText} to ${pass ? 'not ' : ''}equal ${expectedText}`,
         };
     },
 
-    toHaveText: function () {
+    toHaveCssClass(received: any, className: string) {
+        const pass = _.hasClass(received, className);
         return {
-            compare: function (actual: any, expectedText: string) {
-                const actualText = elementText(actual);
-                return {
-                    pass: actualText == expectedText,
-                    get message() {
-                        return 'Expected ' + actualText + ' to be equal to ' + expectedText;
-                    }
-                };
-            }
+            pass,
+            message: () =>
+                `Expected element ${received.outerHTML} ${pass ? 'not ' : ''}to have class "${className}"`,
         };
     },
 
-    toHaveCssClass: function () {
-        return { compare: buildError(false), negativeCompare: buildError(true) };
-
-        function buildError(isNot: boolean) {
-            return function (actual: any, className: string) {
-                return {
-                    pass: _.hasClass(actual, className) == !isNot,
-                    get message() {
-                        return `
-              Expected ${actual.outerHTML} ${isNot ? 'not ' : ''}
-              to contain the CSS class '${className}'
-            `;
-                    }
-                };
-            };
-        }
-    },
-
-    toHaveMap: function () {
+    toHaveMap(received: { [key: string]: string }, expected: { [key: string]: string }) {
+        const allPassed = Object.entries(expected).every(([k, v]) => received[k] === v);
         return {
-            compare: function (actual: { [k: string]: string }, map: { [k: string]: string }) {
-                let allPassed: boolean;
-                allPassed = Object.keys(map).length !== 0;
-                Object.keys(map).forEach(key => {
-                    allPassed = allPassed && (actual[key] === map[key]);
-                });
-
-                return {
-                    pass: allPassed,
-                    get message() {
-                        return `
-              Expected ${JSON.stringify(actual)} ${!allPassed ? ' ' : 'not '} to contain the
-              '${JSON.stringify(map)}'
-            `;
-                    }
-                };
-            }
+            pass: allPassed,
+            message: () =>
+                `Expected map ${JSON.stringify(received)} ${allPassed ? 'not ' : ''}to match ${JSON.stringify(expected)}`,
         };
     },
 
-    toHaveAttributes: function () {
+    toHaveAttributes(received: HTMLElement, expected: { [key: string]: string }) {
+        const allPassed = Object.entries(expected).every(
+            ([name, value]) => _.hasAttribute(received, name) && _.getAttribute(received, name) === value
+        );
         return {
-            compare: function (actual: any, map: { [k: string]: string }) {
-                let allPassed: boolean;
-                let attributeNames = Object.keys(map);
-                allPassed = attributeNames.length !== 0;
-                attributeNames.forEach(name => {
-                    allPassed = allPassed && _.hasAttribute(actual, name)
-                        && _.getAttribute(actual, name) === map[name];
-                });
-                return {
-                    pass: allPassed,
-                    get message() {
-                        return `
-              Expected ${actual.outerHTML} ${allPassed ? 'not ' : ''} attributes to contain
-              '${JSON.stringify(map)}'
-            `;
-                    }
-                };
-            }
+            pass: allPassed,
+            message: () =>
+                `Expected element ${received.outerHTML} ${allPassed ? 'not ' : ''}to have attributes ${JSON.stringify(expected)}`,
         };
     },
 
-    /**
-   * Check element's inline styles only
-   */
-    toHaveStyle: function () {
-        return {
-            compare: buildCompareStyleFunction(true)
-        };
+    toHaveStyle(received: HTMLElement, styles: { [k: string]: string } | string, styler: StyleUtils) {
+        return buildCompareStyleFunction(true)(received, styles, styler);
     },
 
+    toHaveCSS(received: HTMLElement, styles: { [k: string]: string } | string, styler: StyleUtils) {
+        return buildCompareStyleFunction(false)(received, styles, styler);
+    },
+});
 
-    /**
-   * Check element's css stylesheet only (if not present inline)
-   */
-    toHaveCSS: function () {
-        return {
-            compare: buildCompareStyleFunction(false)
-        };
-    }
-
-};
-
-/**
- * Curried value to function to check styles that are inline or in a stylesheet for the
- * specified DOM element.
- */
 function buildCompareStyleFunction(inlineOnly = true) {
-    return function (actual: any, styles: { [k: string]: string } | string, styler: StyleUtils) {
+    return function (
+        actual: any,
+        styles: { [k: string]: string } | string,
+        styler: StyleUtils
+    ) {
         const found = {};
         const styleMap: { [k: string]: string } = {};
 
@@ -201,8 +80,13 @@ function buildCompareStyleFunction(inlineOnly = true) {
 
         let allPassed = Object.keys(styleMap).length !== 0;
         Object.keys(styleMap).forEach(prop => {
-            let { elHasStyle, current } = hasPrefixedStyles(actual, prop, styleMap[prop], inlineOnly,
-                styler);
+            const { elHasStyle, current } = hasPrefixedStyles(
+                actual,
+                prop,
+                styleMap[prop],
+                inlineOnly,
+                styler
+            );
             allPassed = allPassed && elHasStyle;
             if (!elHasStyle) {
                 extendObject(found, current);
@@ -211,18 +95,22 @@ function buildCompareStyleFunction(inlineOnly = true) {
 
         return {
             pass: allPassed,
-            get message() {
-                const expectedValueStr = (typeof styles === 'string') ? styleMap :
-                    JSON.stringify(styleMap, null, 2);
-                const foundValueStr = inlineOnly ? actual.outerHTML : JSON.stringify(found);
-                return `
-          Expected ${foundValueStr}${!allPassed ? '' : ' not'} to contain the
-          CSS ${typeof styles === 'string' ? 'property' : 'styles'} '${expectedValueStr}'
-        `;
+            message: () => {
+                const expectedValueStr =
+                    typeof styles === 'string'
+                        ? styleMap
+                        : JSON.stringify(styleMap, null, 2);
+                const foundValueStr = inlineOnly
+                    ? actual.outerHTML
+                    : JSON.stringify(found);
+
+                return `Expected ${foundValueStr}${!allPassed ? '' : ' not'} to contain the CSS ${typeof styles === 'string' ? 'property' : 'styles'
+                    } '${expectedValueStr}'`;
             }
         };
     };
 }
+
 
 /**
  * Validate presence of requested style or use fallback
