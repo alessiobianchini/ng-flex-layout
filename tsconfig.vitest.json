@@ -12,8 +12,14 @@
       "ng-flex-layout/grid": [
         "projects/libs/flex-layout/grid/index.ts"
       ],
+      "ng-flex-layout/_private-utils/testing": [
+        "projects/libs/flex-layout/_private-utils/testing/index.ts"
+      ],
       "ng-flex-layout/_private-utils": [
         "projects/libs/flex-layout/_private-utils/index.ts"
+      ],
+      "ng-flex-layout/flex": [
+        "projects/libs/flex-layout/flex/index.ts"
       ],
       "ng-flex-layout": [
         "dist/releases/flex-layout/ng-flex-layout",
