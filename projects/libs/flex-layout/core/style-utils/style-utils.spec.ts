@@ -1,56 +1,64 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-import {Component, PLATFORM_ID} from '@angular/core';
-import {CommonModule, isPlatformServer} from '@angular/common';
-import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import { isPlatformServer } from '@angular/common';
+import { Component } from '@angular/core';
+import { describe, it, vi } from 'vitest';
 
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
-import {makeCreateTestComponent, expectNativeEl} from 'ng-flex-layout/_private-utils/testing';
-import {StyleUtils} from './style-utils';
+import { expectNativeEl, makeCreateTestComponent } from 'ng-flex-layout/_private-utils/testing';
+import { BreakPointRegistry } from '../breakpoints/break-point-registry';
+import { MockMatchMedia } from '../match-media/mock/mock-match-media';
+import { DEFAULT_CONFIG } from '../tokens/library-config';
+import { StyleUtils } from './style-utils';
+import { StylesheetMap } from 'ng-flex-layout';
 
-describe('styler', () => {
+const createStylerSuite = () => {
+    const documentRef = globalThis.document;
+    const platformId = 'browser';
+
+    const stylesheetMap = {
+        stylesheet: new Map(),
+        addStyleToElement: vi.fn(),
+        clearStyles: vi.fn(),
+        getStyleForElement: vi.fn()
+    } as unknown as StylesheetMap;
+
+    const styler = new StyleUtils(
+        stylesheetMap,
+        false,
+        platformId,
+        DEFAULT_CONFIG
+    );
+
+    return { styler, document: documentRef, platformId };
+};
+
+@Component({
+    selector: 'test-style-utils',
+    template: '<span>PlaceHolder Template HTML</span>',
+    standalone: false
+})
+class TestLayoutComponent { }
+
+describe('StyleUtils (vitest)', () => {
     let styler: StyleUtils;
     let fixture: any;
     let platformId: Object;
 
-    let componentWithTemplate = (template: string, styles?: any) => {
+    const componentWithTemplate = (template: string, styles?: any[]) => {
         fixture = makeCreateTestComponent(() => TestLayoutComponent)(template, styles);
 
-        inject([StyleUtils, PLATFORM_ID], (_styler: StyleUtils, _platformId: Object) => {
-            styler = _styler;
-            platformId = _platformId;
-        })();
+        const { styler: _styler, platformId: _platformId } = createStylerSuite();
+        styler = _styler;
+        platformId = _platformId;
     };
 
-    beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
-        // Configure testbed to prepare services
-        TestBed.configureTestingModule({
-            imports: [CommonModule],
-            declarations: [TestLayoutComponent],
-        });
-    });
-
-    describe('testing display styles', () => {
-
+    describe('display styles', () => {
         it('should not have a default for <div></div>', () => {
-            componentWithTemplate(`
-        <div></div>
-      `);
-            expectNativeEl(fixture).not.toHaveStyle({'display': 'block'}, styler);
+            componentWithTemplate('<div></div>');
+            expectNativeEl(fixture).not.toHaveStyle({ display: 'block' }, styler);
         });
 
-        it('should find to "display" for inline style <div></div>', () => {
-            componentWithTemplate(`
-        <div style="display: flex;"></div>
-      `);
-            expectNativeEl(fixture).toHaveCSS({'display': 'flex'}, styler);
+        it('should find "display" for inline style <div></div>', () => {
+            componentWithTemplate('<div style="display: flex;"></div>');
+            expectNativeEl(fixture).toHaveCSS({ display: 'flex' }, styler);
         });
 
         it('should find `display` from html style element', () => {
@@ -61,32 +69,17 @@ describe('styler', () => {
         <div class="special"></div>
       `);
 
-            // TODO(CaerusKaru): Domino is unable to detect this style
             if (!isPlatformServer(platformId)) {
-                expectNativeEl(fixture).toHaveCSS({'display': 'inline-block'}, styler);
+                expectNativeEl(fixture).toHaveCSS({ display: 'inline-block' }, styler);
             }
         });
 
         it('should find `display` from component styles', () => {
-            componentWithTemplate('<div class="extra"></div>', ['div.extra { display:table; }']);
+            componentWithTemplate('<div class="extra"></div>', ['div.extra { display: table; }']);
 
-            // TODO(CaerusKaru): Domino is unable to detect this style
             if (!isPlatformServer(platformId)) {
-                expectNativeEl(fixture).toHaveCSS({'display': 'table'}, styler);
+                expectNativeEl(fixture).toHaveCSS({ display: 'table' }, styler);
             }
         });
     });
 });
-
-
-// *****************************************************************
-// Template Component
-// *****************************************************************
-
-@Component({
-    selector: 'test-style-utils',
-    template: '<span>PlaceHolder Template HTML</span>',
-    standalone: false
-})
-class TestLayoutComponent {
-}

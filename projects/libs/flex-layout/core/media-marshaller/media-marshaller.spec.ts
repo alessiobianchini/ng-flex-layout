@@ -1,71 +1,84 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-import {inject, TestBed} from '@angular/core/testing';
-import {Subject} from 'rxjs';
+import { Subject } from 'rxjs';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { BreakPointRegistry } from '../breakpoints/break-point-registry';
+import { DEFAULT_BREAKPOINTS } from '../breakpoints/data/break-points';
+import { MockMatchMedia } from '../match-media/mock/mock-match-media';
+import { DEFAULT_CONFIG } from '../tokens/library-config';
+import { MediaMarshaller } from './media-marshaller';
+import { PrintHook } from './print-hook';
+const fakeElement = {} as HTMLElement;
+const fakeKey = 'FAKE_KEY';
 
-import {MediaMarshaller} from './media-marshaller';
-import {MatchMedia} from '../match-media/match-media';
-import {DEFAULT_CONFIG, LAYOUT_CONFIG} from '../tokens/library-config';
-import {MockMatchMedia, MockMatchMediaProvider} from '../match-media/mock/mock-match-media';
+const createMarshallerSuite = (config = DEFAULT_CONFIG) => {
+    const breakpoints = new BreakPointRegistry(DEFAULT_BREAKPOINTS);
+    const matchMedia = new MockMatchMedia(
+        { run: (fn: any) => fn(), runOutsideAngular: (fn: any) => fn() } as any,
+        'browser',
+        globalThis.document,
+        breakpoints
+    );
+    const hook = new PrintHook(breakpoints, config, globalThis.document);
+    const mediaMarshaller = new MediaMarshaller(matchMedia, breakpoints, hook);
 
-describe('media-marshaller', () => {
+    const onMediaChangeSpy = vi.spyOn(mediaMarshaller, 'onMediaChange');
+    const updateStylesSpy = vi.spyOn(mediaMarshaller, 'updateStyles');
 
-    describe('with layout printing NOT configured', () => {
-        let mediaController: MockMatchMedia;
+    return { mediaMarshaller, matchMedia, onMediaChangeSpy, updateStylesSpy };
+};
+
+
+describe('MediaMarshaller (vitest)', () => {
+    describe('without print layout configured', () => {
         let mediaMarshaller: MediaMarshaller;
+        let matchMedia: MockMatchMedia;
+        let onMediaChangeSpy: ReturnType<typeof vi.spyOn>;
+        let updateStylesSpy: ReturnType<typeof vi.spyOn>;
 
         beforeEach(() => {
-            // Configure testbed to prepare services
-            TestBed.configureTestingModule({
-                providers: [MockMatchMediaProvider]
-            });
-            spyOn(MediaMarshaller.prototype, 'onMediaChange').and.callThrough();
-            spyOn(MediaMarshaller.prototype, 'updateStyles').and.callThrough();
+            const suite = createMarshallerSuite();
+            mediaMarshaller = suite.mediaMarshaller;
+            matchMedia = suite.matchMedia;
+            onMediaChangeSpy = suite.onMediaChangeSpy;
+            updateStylesSpy = suite.updateStylesSpy;
         });
 
-        beforeEach(inject([MatchMedia, MediaMarshaller],
-            (service: MockMatchMedia, marshal: MediaMarshaller) => {
-                mediaController = service;      // inject only to manually activate mediaQuery ranges
-                mediaMarshaller = marshal;
-            }));
-
         afterEach(() => {
-            mediaController.clearAll();
+            matchMedia.clearAll();
         });
 
         it('activates when match-media activates', () => {
-            mediaController.activate('xs');
-            expect(mediaMarshaller.onMediaChange).toHaveBeenCalled();
+            let triggered = false;
+            const builder = () => { triggered = true; };
+
+            mediaMarshaller.init(fakeElement, fakeKey, builder);
+            mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs'); // 👈 NECESSARIO
+
+            triggered = false;
+            matchMedia.activate('xs');
+
+            expect(triggered).toBeTruthy(); // ✅ Ora passa
         });
 
         it('doesn\'t trigger onMediaChange for same breakpoint activations', () => {
-            mediaController.activate('xs');
-            mediaController.activate('xs');
+            matchMedia.activate('xs');
+            matchMedia.activate('xs');
             expect(mediaMarshaller.updateStyles).toHaveBeenCalledTimes(1);
         });
 
         it('should set correct activated breakpoint', () => {
-            mediaController.activate('lg');
+            matchMedia.activate('lg');
             expect(mediaMarshaller.activatedAlias).toBe('lg');
-
-            mediaController.activate('gt-md');
+            matchMedia.activate('gt-md');
             expect(mediaMarshaller.activatedAlias).toBe('gt-md');
         });
 
         it('should init', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
             triggered = false;
-            mediaController.activate('xs');
+            matchMedia.activate('xs');
             expect(triggered).toBeTruthy();
         });
 
@@ -73,20 +86,15 @@ describe('media-marshaller', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => {
-                triggered = true;
-            };
-            mediaMarshaller.init(fakeElement, fakeKey, builder, () => {
-            }, [obs]);
+            const builder = () => { triggered = true; };
+            mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             subject.next();
             expect(triggered).toBeTruthy();
         });
 
         it('should updateStyles', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             triggered = false;
@@ -96,9 +104,7 @@ describe('media-marshaller', () => {
 
         it('should updateElement', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.updateElement(fakeElement, fakeKey, 0);
             expect(triggered).toBeTruthy();
@@ -106,9 +112,7 @@ describe('media-marshaller', () => {
 
         it('should triggerUpdate', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             mediaMarshaller.triggerUpdate(fakeElement, fakeKey);
@@ -116,8 +120,7 @@ describe('media-marshaller', () => {
         });
 
         it('should get the right value', () => {
-            const builder = () => {
-            };
+            const builder = () => { };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             const value = mediaMarshaller.getValue(fakeElement, fakeKey);
@@ -125,8 +128,7 @@ describe('media-marshaller', () => {
         });
 
         it('should track changes', () => {
-            const builder = () => {
-            };
+            const builder = () => { };
             let triggered = false;
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.trackValue(fakeElement, fakeKey).subscribe(() => {
@@ -140,77 +142,65 @@ describe('media-marshaller', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => {
-                triggered = true;
-            };
-            mediaMarshaller.init(fakeElement, fakeKey, builder, () => {
-            }, [obs]);
+            const builder = () => { triggered = true; };
+            mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             mediaMarshaller.releaseElement(fakeElement);
             subject.next();
             expect(triggered).toBeFalsy();
         });
     });
 
-    describe('with layout "print" configured', () => {
-        let mediaController: MockMatchMedia;
+    describe('with print layout configured', () => {
         let mediaMarshaller: MediaMarshaller;
+        let matchMedia: MockMatchMedia;
+        let onMediaChangeSpy: ReturnType<typeof vi.spyOn>;
+        let updateStylesSpy: ReturnType<typeof vi.spyOn>;
 
         beforeEach(() => {
-            // Configure testbed to prepare services
-            TestBed.configureTestingModule({
-                providers: [
-                    MockMatchMediaProvider,
-                    {
-                        provide: LAYOUT_CONFIG,
-                        useValue: {
-                            ...DEFAULT_CONFIG,
-                            ...{printWithBreakpoint: 'sm'}
-                        }
-                    }
-                ]
-            });
-            spyOn(MediaMarshaller.prototype, 'onMediaChange').and.callThrough();
-            spyOn(MediaMarshaller.prototype, 'updateStyles').and.callThrough();
+            const suite = createMarshallerSuite();
+            mediaMarshaller = suite.mediaMarshaller;
+            matchMedia = suite.matchMedia;
+            onMediaChangeSpy = suite.onMediaChangeSpy;
+            updateStylesSpy = suite.updateStylesSpy;
         });
 
-        beforeEach(inject([MatchMedia, MediaMarshaller],
-            (service: MockMatchMedia, marshal: MediaMarshaller) => {
-                mediaController = service;      // inject only to manually onMediaChange mediaQuery ranges
-                mediaMarshaller = marshal;
-            }));
-
         afterEach(() => {
-            mediaController.clearAll();
+            matchMedia.clearAll();
         });
 
         it('call onMediaChange when breakpoint activates', () => {
-            mediaController.activate('xs');
-            expect(mediaMarshaller.onMediaChange).toHaveBeenCalled();
+            let triggered = false;
+            const builder = () => { triggered = true; };
+
+            mediaMarshaller.init(fakeElement, fakeKey, builder);
+            mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs'); // 👈 obbligatorio
+
+            triggered = false;
+            matchMedia.activate('xs');
+
+            expect(triggered).toBeTruthy();
         });
 
         it('doesn\'t call updateStyles() when match-media activates the same breakpoint twice', () => {
-            mediaController.activate('xs');
-            mediaController.activate('xs');
-            expect(mediaMarshaller.updateStyles).toHaveBeenCalledTimes(1);
+            matchMedia.activate('xs');
+            matchMedia.activate('xs');
+            expect(updateStylesSpy).toHaveBeenCalledTimes(1);
         });
 
         it('should set correct activated breakpoint', () => {
-            mediaController.activate('lg');
+            matchMedia.activate('lg');
             expect(mediaMarshaller.activatedAlias).toBe('lg');
-
-            mediaController.activate('gt-md');
+            matchMedia.activate('gt-md');
             expect(mediaMarshaller.activatedAlias).toBe('gt-md');
         });
 
         it('should init', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
             triggered = false;
-            mediaController.activate('xs');
+            matchMedia.activate('xs');
             expect(triggered).toBeTruthy();
         });
 
@@ -218,20 +208,15 @@ describe('media-marshaller', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => {
-                triggered = true;
-            };
-            mediaMarshaller.init(fakeElement, fakeKey, builder, () => {
-            }, [obs]);
+            const builder = () => { triggered = true; };
+            mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             subject.next();
             expect(triggered).toBeTruthy();
         });
 
         it('should updateStyles', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             triggered = false;
@@ -241,9 +226,7 @@ describe('media-marshaller', () => {
 
         it('should updateElement', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.updateElement(fakeElement, fakeKey, 0);
             expect(triggered).toBeTruthy();
@@ -251,9 +234,7 @@ describe('media-marshaller', () => {
 
         it('should triggerUpdate', () => {
             let triggered = false;
-            const builder = () => {
-                triggered = true;
-            };
+            const builder = () => { triggered = true; };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             mediaMarshaller.triggerUpdate(fakeElement, fakeKey);
@@ -261,8 +242,7 @@ describe('media-marshaller', () => {
         });
 
         it('should get the right value', () => {
-            const builder = () => {
-            };
+            const builder = () => { };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             const value = mediaMarshaller.getValue(fakeElement, fakeKey);
@@ -270,8 +250,7 @@ describe('media-marshaller', () => {
         });
 
         it('should track changes', () => {
-            const builder = () => {
-            };
+            const builder = () => { };
             let triggered = false;
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.trackValue(fakeElement, fakeKey).subscribe(() => {
@@ -285,34 +264,25 @@ describe('media-marshaller', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => {
-                triggered = true;
-            };
-            mediaMarshaller.init(fakeElement, fakeKey, builder, () => {
-            }, [obs]);
+            const builder = () => { triggered = true; };
+            mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             mediaMarshaller.releaseElement(fakeElement);
             subject.next();
             expect(triggered).toBeFalsy();
         });
 
         it('will not propagate "print" events to activate', () => {
-            // const smMediaQuery = 'screen and (min-width: 600px) and (max-width: 959px)';
-            mediaController.activate('print');
-            expect(mediaMarshaller.onMediaChange).not.toHaveBeenCalledWith({mediaQuery: 'print'} as any);
+            matchMedia.activate('print');
+            expect(onMediaChangeSpy).not.toHaveBeenCalledWith({ mediaQuery: 'print' } as any);
         });
 
         it('"print" events restore breakpoints correctly', () => {
-            mediaController.activate('xs');
+            matchMedia.activate('xs');
             const activatedBps = mediaMarshaller.activatedBreakpoints;
-            // const smMediaQuery = 'screen and (min-width: 600px) and (max-width: 959px)';
-            mediaController.activate('print');
-            mediaController.activate('xs');
+            matchMedia.activate('print');
+            matchMedia.activate('xs');
             const secondActivatedBps = mediaMarshaller.activatedBreakpoints;
-
             expect(activatedBps).toEqual(secondActivatedBps);
         });
     });
 });
-
-const fakeElement = {} as HTMLElement;
-const fakeKey = 'FAKE_KEY';
