@@ -7,5 +7,6 @@
  */
 
 export * from './custom-matchers';
+export * from './custom-style-map-matchers';
 export * from './dom-tools';
 export * from './helpers';

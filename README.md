@@ -11,6 +11,7 @@ ng-flex-layout
 
   - Updated to Angular 20
   - Migrated from tslint to eslint
+  - Migrated tests to **Vitest**
 ***
 
 

@@ -1,10 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 declare let global: any;
 const _global = <any>(typeof window === 'undefined' ? global : window);
 
@@ -33,6 +26,7 @@ expect.extend({
                 `Expected element ${received.outerHTML} ${pass ? 'not ' : ''}to have class "${className}"`,
         };
     },
+    
 
     toHaveMap(received: { [key: string]: string }, expected: { [key: string]: string }) {
         const allPassed = Object.entries(expected).every(([k, v]) => received[k] === v);

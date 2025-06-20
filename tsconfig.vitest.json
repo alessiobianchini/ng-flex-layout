@@ -4,13 +4,19 @@
   "compilerOptions": {
     "paths": {
       "ng-flex-layout/core": [
-        "projects/libs/flex-layout/core/index.ts"
+        "projects/libs/flex-layout/core/index.ts",
+        "dist/releases/flex-layout/core/index.d.ts",
+        "projects/libs/flex-layout/core/public-api.ts"
       ],
       "ng-flex-layout/extended": [
-        "projects/libs/flex-layout/extended/index.ts"
+        "projects/libs/flex-layout/extended/index.ts",
+        "dist/releases/flex-layout/extended/index.d.ts",
+        "projects/libs/flex-layout/extended/public-api.ts"
       ],
       "ng-flex-layout/grid": [
-        "projects/libs/flex-layout/grid/index.ts"
+        "projects/libs/flex-layout/grid/index.ts",
+        "dist/releases/flex-layout/grid/index.d.ts",
+        "projects/libs/flex-layout/grid/public-api.ts"
       ],
       "ng-flex-layout/_private-utils/testing": [
         "projects/libs/flex-layout/_private-utils/testing/index.ts"
@@ -19,7 +25,9 @@
         "projects/libs/flex-layout/_private-utils/index.ts"
       ],
       "ng-flex-layout/flex": [
-        "projects/libs/flex-layout/flex/index.ts"
+        "projects/libs/flex-layout/flex/index.ts",
+        "dist/releases/flex-layout/flex/index.d.ts",
+        "projects/libs/flex-layout/flex/public-api.ts"
       ],
       "ng-flex-layout": [
         "dist/releases/flex-layout/ng-flex-layout",
