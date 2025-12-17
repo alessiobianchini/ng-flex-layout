@@ -51,8 +51,7 @@ export class MediaTrigger {
    */
     restore() {
         if (this.hasCachedRegistryMatches) {
-            const extractQuery = (change: MediaChange) => change.mediaQuery;
-            const list = this.originalActivations.map(extractQuery);
+            const list = this.originalActivations.map(change => change.mediaQuery);
             try {
                 this.deactivateAll();
                 this.restoreRegistryMatches();
@@ -102,16 +101,14 @@ export class MediaTrigger {
    */
     private saveActivations() {
         if (!this.hasCachedRegistryMatches) {
-            const toMediaChange = (query: string) => new MediaChange(true, query);
-            const mergeMQAlias = (change: MediaChange) => {
+            const results: MediaChange[] = [];
+            for (const query of this.currentActivations) {
+                const change = new MediaChange(true, query);
                 const bp: OptionalBreakPoint = this.breakpoints.findByQuery(change.mediaQuery);
-                return mergeAlias(change, bp);
-            };
-
-            this.originalActivations = this.currentActivations
-                .map(toMediaChange)
-                .map(mergeMQAlias)
-                .sort(sortDescendingPriority);
+                results.push(mergeAlias(change, bp));
+            }
+            results.sort(sortDescendingPriority);
+            this.originalActivations = results;
 
             this.cacheRegistryMatches();
         }
@@ -121,9 +118,7 @@ export class MediaTrigger {
    * Force set manual activations for specified mediaQuery list
    */
     private setActivations(list: string[]) {
-        if (!!this.originalRegistry) {
-            this.forceRegistryMatches(list, true);
-        }
+        this.forceRegistryMatches(list, true);
         this.simulateMediaChanges(list);
     }
 
@@ -131,14 +126,12 @@ export class MediaTrigger {
    * For specified mediaQuery list manually simulate activations or deactivations
    */
     private simulateMediaChanges(queries: string[], matches = true) {
-        const toMediaQuery = (query: string) => {
+        for (const query of queries) {
             const locator = this.breakpoints;
             const bp = locator.findByAlias(query) || locator.findByQuery(query);
-            return bp ? bp.mediaQuery : query;
-        };
-        const emitChangeEvent = (query: string) => this.emitChangeEvent(matches, query);
-
-        queries.map(toMediaQuery).forEach(emitChangeEvent);
+            const mediaQuery = bp ? bp.mediaQuery : query;
+            this.emitChangeEvent(matches, mediaQuery);
+        }
     }
 
     /**

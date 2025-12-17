@@ -36,11 +36,11 @@ export class MatchMedia implements OnDestroy {
    */
     get activations(): string[] {
         const results: string[] = [];
-        this.registry.forEach((mql: MediaQueryList, key: string) => {
+        for (const [key, mql] of this.registry.entries()) {
             if (mql.matches) {
                 results.push(key);
             }
-        });
+        }
         return results;
     }
 
@@ -73,18 +73,20 @@ export class MatchMedia implements OnDestroy {
    */
     observe(mqList?: string[], filterOthers = false): Observable<MediaChange> {
         if (mqList && mqList.length) {
-            const matchMedia$: Observable<MediaChange> = this._observable$.pipe(
-                filter((change: MediaChange) =>
-                    !filterOthers ? true : (mqList.indexOf(change.mediaQuery) > -1))
-            );
+            const matchMedia$: Observable<MediaChange> = filterOthers
+                ? (() => {
+                    const allowedQueries = new Set(mqList);
+                    return this._observable$.pipe(filter(change => allowedQueries.has(change.mediaQuery)));
+                })()
+                : this._observable$;
             const registration$: Observable<MediaChange> = new Observable((observer: Observer<MediaChange>) => {
-                const matches: Array<MediaChange> = this.registerQuery(mqList);
-                if (matches.length) {
-                    const lastChange = matches.pop()!;
-                    matches.forEach((e: MediaChange) => {
-                        observer.next(e);
-                    });
-                    this.source.next(lastChange); // last match is cached
+                const matches = this.registerQuery(mqList);
+                const lastIndex = matches.length - 1;
+                for (let i = 0; i < lastIndex; i++) {
+                    observer.next(matches[i]);
+                }
+                if (lastIndex >= 0) {
+                    this.source.next(matches[lastIndex]); // last match is cached
                 }
                 observer.complete();
             });

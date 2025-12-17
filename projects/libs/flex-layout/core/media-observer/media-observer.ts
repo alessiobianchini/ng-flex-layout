@@ -159,10 +159,8 @@ export class MediaObserver implements OnDestroy {
    *       must be injected into the MediaChange
    */
     private buildObservable(mqList: string[]): Observable<MediaChange[]> {
-        const hasChanges = (changes: MediaChange[]) => {
-            const isValidQuery = (change: MediaChange) => (change.mediaQuery.length > 0);
-            return (changes.filter(isValidQuery).length > 0);
-        };
+        const hasChanges = (changes: MediaChange[]) =>
+            changes.some(change => change.mediaQuery.length > 0);
         const excludeOverlaps = (changes: MediaChange[]) => {
             return !this.filterOverlaps ? changes : changes.filter(change => {
                 const bp = this.breakpoints.findByQuery(change.mediaQuery);
@@ -175,12 +173,16 @@ export class MediaObserver implements OnDestroy {
             if (previous.length !== current.length) {
                 return false;
             }
-
-            const previousMqs = previous.map(mc => mc.mediaQuery);
-            const currentMqs = new Set(current.map(mc => mc.mediaQuery));
-            const difference = new Set(previousMqs.filter(mq => !currentMqs.has(mq)));
-
-            return difference.size === 0;
+            const currentMqs = new Set<string>();
+            for (const change of current) {
+                currentMqs.add(change.mediaQuery);
+            }
+            for (const change of previous) {
+                if (!currentMqs.has(change.mediaQuery)) {
+                    return false;
+                }
+            }
+            return true;
         };
 
         /**
@@ -203,19 +205,16 @@ export class MediaObserver implements OnDestroy {
    * sorted by descending priority.
    */
     private findAllActivations(): MediaChange[] {
-        const mergeMQAlias = (change: MediaChange) => {
+        const results: MediaChange[] = [];
+        for (const query of this.matchMedia.activations) {
+            let change = new MediaChange(true, query);
+            change = this.hook.isPrintEvent(change) ? this.hook.updateEvent(change) : change;
             const bp: OptionalBreakPoint = this.breakpoints.findByQuery(change.mediaQuery);
-            return mergeAlias(change, bp);
-        };
-        const replaceWithPrintAlias = (change: MediaChange) =>
-            this.hook.isPrintEvent(change) ? this.hook.updateEvent(change) : change;
+            results.push(mergeAlias(change, bp));
+        }
 
-        return this.matchMedia
-            .activations
-            .map(query => new MediaChange(true, query))
-            .map(replaceWithPrintAlias)
-            .map(mergeMQAlias)
-            .sort(sortDescendingPriority);
+        results.sort(sortDescendingPriority);
+        return results;
     }
 
     private readonly _media$: Observable<MediaChange[]>;
