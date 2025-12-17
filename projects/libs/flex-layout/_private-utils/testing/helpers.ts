@@ -141,7 +141,7 @@ export function makeCreateTestComponent(
         TRACKED_REFS.push({ componentRef, envInjector });
 
         const fixture = asFixtureLike(componentRef);
-        fixture.detectChanges();
+        fixture.detectChanges?.();
         return fixture;
     };
 }
