@@ -27,6 +27,7 @@ export class StyleUtils {
     applyStyleToElement(element: HTMLElement,
         style: StyleDefinition | string,
         value: string | number | null = null) {
+        if (!element) return;
         let styles: StyleDefinition = {};
         if (typeof style === 'string') {
             styles[style] = value;
@@ -40,6 +41,7 @@ export class StyleUtils {
    * Applies styles given via string pair or object map to the directive's element
    */
     applyStyleToElements(style: StyleDefinition, elements: HTMLElement[] = []) {
+        if (!elements.length) return;
         const styles = this.layoutConfig.disableVendorPrefixes ? style : applyCssPrefixes(style);
         elements.forEach(el => {
             this._applyMultiValueStyleToElement(styles, el);
@@ -77,11 +79,12 @@ export class StyleUtils {
    */
     lookupInlineStyle(element: HTMLElement, styleName: string): string {
         const normalizedName = styleName.trim();
+        const isBrowser = isPlatformBrowser(this._platformId);
 
         // JSDOM (and some environments) do not reliably support shorthand serialization/lookups.
         // Prefer reconstructing the shorthand when the longhand styles are present.
         if (normalizedName === 'margin') {
-            const direct = isPlatformBrowser(this._platformId)
+            const direct = isBrowser
                 ? element.style.getPropertyValue('margin')
                 : getServerStyle(element, 'margin');
 
@@ -99,7 +102,7 @@ export class StyleUtils {
 
         const candidates = getStyleNameCandidates(normalizedName);
 
-        if (isPlatformBrowser(this._platformId)) {
+        if (isBrowser) {
             const styleMap = readStyleAttribute(element);
             for (const name of candidates) {
                 const value = element.style.getPropertyValue(name);
@@ -126,7 +129,8 @@ export class StyleUtils {
         if (element) {
             let immediateValue = value = this.lookupInlineStyle(element, styleName);
             if (!immediateValue) {
-                if (isPlatformBrowser(this._platformId)) {
+                const isBrowser = isPlatformBrowser(this._platformId);
+                if (isBrowser) {
                     if (!inlineOnly) {
                         const candidates = getStyleNameCandidates(styleName);
                         const computed = getComputedStyle(element);
@@ -156,14 +160,22 @@ export class StyleUtils {
     /* eslint-disable @typescript-eslint/no-unused-expressions */
     private _applyMultiValueStyleToElement(styles: StyleDefinition,
         element: HTMLElement) {
-        Object.keys(styles).sort().forEach(key => {
+        const keys = Object.keys(styles);
+        if (!keys.length) return;
+
+        const isBrowser = isPlatformBrowser(this._platformId);
+        const canWriteToDom = isBrowser || !this._serverModuleLoaded;
+
+        keys.sort();
+        for (const key of keys) {
             const el = styles[key];
             const values: (string | number | null)[] = Array.isArray(el) ? el : [el];
-            values.sort();
+            if (values.length > 1) values.sort();
+
             for (let value of values) {
                 value = value ? value + '' : '';
-                if (isPlatformBrowser(this._platformId) || !this._serverModuleLoaded) {
-                    if (isPlatformBrowser(this._platformId)) {
+                if (canWriteToDom) {
+                    if (isBrowser) {
                         element.style.setProperty(key, value);
 
                         // Some environments (notably JSDOM) do not reliably parse/serialize certain
@@ -179,7 +191,7 @@ export class StyleUtils {
                     this._serverStylesheet.addStyleToElement(element, key, value);
                 }
             }
-        });
+        }
     }
 }
 

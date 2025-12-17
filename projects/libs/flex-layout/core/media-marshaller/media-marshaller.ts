@@ -220,27 +220,31 @@ export class MediaMarshaller {
 
     /** update all styles for all elements on the current breakpoint */
     updateStyles(): void {
-        this.elementMap.forEach((bpMap, el) => {
-            const keyMap = new Set(this.elementKeyMap.get(el)!);
+        for (const [element, bpMap] of this.elementMap.entries()) {
+            const keys = this.elementKeyMap.get(element);
+            if (!keys) {
+                continue;
+            }
+
+            const remainingKeys = new Set(keys);
             let valueMap = this.getActivatedValues(bpMap);
 
             if (valueMap) {
-                valueMap.forEach((v, k) => {
-                    this.updateElement(el, k, v);
-                    keyMap.delete(k);
-                });
+                for (const [key, value] of valueMap.entries()) {
+                    this.updateElement(element, key, value);
+                    remainingKeys.delete(key);
+                }
             }
 
-            keyMap.forEach(k => {
-                valueMap = this.getActivatedValues(bpMap, k);
+            for (const key of remainingKeys) {
+                valueMap = this.getActivatedValues(bpMap, key);
                 if (valueMap) {
-                    const value = valueMap.get(k);
-                    this.updateElement(el, k, value);
+                    this.updateElement(element, key, valueMap.get(key));
                 } else {
-                    this.clearElement(el, k);
+                    this.clearElement(element, key);
                 }
-            });
-        });
+            }
+        }
     }
 
     /**

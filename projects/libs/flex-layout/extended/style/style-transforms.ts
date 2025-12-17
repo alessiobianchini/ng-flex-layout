@@ -69,9 +69,12 @@ export function buildMapFromSet(source: NgStyleType, sanitize?: NgStyleSanitizer
     if (getType(source) === 'set') {
         (source as Set<string>).forEach(entry => list.push(entry));
     } else {
-        Object.keys(source).forEach((key: string) => {
-            list.push(`${key}:${(source as NgStyleMap)[key]}`);
-        });
+        const map = source as NgStyleMap;
+        for (const key in map) {
+            if (Object.prototype.hasOwnProperty.call(map, key)) {
+                list.push(`${key}:${map[key]}`);
+            }
+        }
     }
     return buildMapFromList(list, sanitize);
 }

@@ -16,7 +16,7 @@ ng-flex-layout
 ***
 
 
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&ts=1683906897&type=6e&v=21.0.0&x2=0)](https://www.npmjs.com/package/ng-flex-layout) 
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&ts=1683906897&type=6e&v=21.0.3&x2=0)](https://www.npmjs.com/package/ng-flex-layout) 
 [![Test lib CI](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/test-lib.yml/badge.svg)](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/test-lib.yml)
 [![CodeQL](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/github-code-scanning/codeql)
 
@@ -64,6 +64,14 @@ After that is configured, you can use the Angular Layout attributes in your HTML
 Check out [all of the available options](https://github.com/alessiobianchini/ng-flex-layout/wiki/Declarative-API-Overview) for using Angular Layout in your application.
 
 ---
+
+### Signals (optional)
+
+RxJS remains the canonical API; Signals wrappers are provided as conveniences for Signal-based components.
+
+- `MediaObserver.asSignal()` (wraps `asObservable()` via `toSignal()`)
+- `MatchMedia.observeAsSignal()` (wraps `observe()` via `toSignal()`)
+- `MediaMarshaller.trackValueAsSignal()` (wraps `trackValue()` via `toSignal()`)
 
 ### Quick Links
 

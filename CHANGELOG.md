@@ -1,3 +1,12 @@
+# [21.0.3](https://github.com/alessiobianchini/flex-layout/compare/21.0.0...21.0.3) (2025-12-17)
+
+* Added optional (non-breaking) Signals wrappers on top of RxJS: `MediaObserver.asSignal()`, `MatchMedia.observeAsSignal()`, `MediaMarshaller.trackValueAsSignal()`
+* Fixed `MediaObserver` overlap filtering logic and added coverage for `asSignal()` / `observeAsSignal()` / `trackValueAsSignal()`
+* Improved internal performance/readability (reduced allocations in core pipelines, modernized RxJS operator imports)
+* Fixed `coerceArray()` typing to support `readonly` arrays in ng-packagr builds
+* Updated demo-app examples to show Signals usage
+* Updated docs (README + wiki) to document Signals wrappers
+
 # [21.0.0](https://github.com/alessiobianchini/flex-layout/compare/20.0.1...21.0.0) (2025-12-17)
 
 * Migrated to Angular 21 (`@angular/core`, `@angular/cli`, `@angular/material`, ...)
