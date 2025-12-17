@@ -1,4 +1,4 @@
-# Contributing to Angular Flex Layout
+# Contributing to ng-flex-layout
 
 We would love for you to contribute to Angular Flex Layout and help make it ever better!
 As a contributor, here are the guidelines we would like you to follow:
@@ -27,7 +27,7 @@ StackOverflow is a much better place to ask questions since:
 
 To save your and our time, we will be systematically closing all the issues that are requests for general support and redirecting people to StackOverflow.
 
-If you would like to chat about the question in real-time, you can reach out via [our gitter channel][gitter].
+If you would like to chat about the question in real-time, you can reach out via [GitHub Discussions][discussions].
 
 ## <a name="issue"></a> Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by
@@ -69,13 +69,13 @@ chances of your issue being dealt with quickly:
 * **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
     causing the problem (line of code or commit)
 
-You can file new issues by providing the above information [here](https://github.com/alessiobianchini/flex-layout/issues/new).
+You can file new issues by providing the above information [here](https://github.com/alessiobianchini/ng-flex-layout/issues/new).
 
 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-* Search [GitHub](https://github.com/alessiobianchini/flex-layout/pulls) for an open or closed PR
+* Search [GitHub](https://github.com/alessiobianchini/ng-flex-layout/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
 * Please sign our [Contributor License Agreement (CLA)](#cla) before sending PRs.
   We cannot accept code without this.
@@ -104,7 +104,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git push my-fork my-fix-branch
     ```
 
-* In GitHub, send a pull request to `flex-layout:master`.
+* In GitHub, send a pull request to `ng-flex-layout:master`.
 * If we suggest changes then:
   * Make the required updates.
   * Re-run the Angular Flex Layout test suites to ensure tests are still passing.
@@ -236,8 +236,8 @@ changes to be accepted, the CLA must be signed. It's a quick process, we promise
 [coc]: https://github.com/angular/code-of-conduct/blob/main/CODE_OF_CONDUCT.md
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/preview
 [corporate-cla]: http://code.google.com/legal/corporate-cla-v1.0.html
-[github]: https://github.com/alessiobianchini/flex-layout
-[gitter]: https://gitter.im/angular/flex-layout
+[github]: https://github.com/alessiobianchini/ng-flex-layout
+[discussions]: https://github.com/alessiobianchini/ng-flex-layout/discussions
 [individual-cla]: http://code.google.com/legal/individual-cla-v1.0.html
 [js-style-guide]: https://google.github.io/styleguide/jsguide.html
 [stackblitz]: https://stackblitz.com/edit/flex-layout-seed

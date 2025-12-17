@@ -13,7 +13,7 @@ about: Something is broken in Angular Layout
 #### What are the steps to reproduce?
 Providing a StackBlitz (or similar) is the *best* way to get the team to see your issue.
 
-*  [StackBlitz starter](https://stackblitz.com/edit/flex-layout-seed-nightly) using latest `npm` nightly release: 
+*  [StackBlitz starter](https://stackblitz.com/edit/ng-flex-layout-seed) using the latest `ng-flex-layout` release:
 
 
 #### What is the use-case or motivation for changing an existing behavior?

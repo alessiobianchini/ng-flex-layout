@@ -55,4 +55,4 @@ Changes to the fxLayout value will cause the following directives to update and 
 * **fxFlex**
 * **fxLayoutAlign**
 
-[Layout]: https://github.com/alessiobianchini/flex-layout/blob/master/src/lib/flex/layout/layout.ts#L34-L40
+[Layout]: ../../projects/libs/flex-layout/flex/layout/layout.ts

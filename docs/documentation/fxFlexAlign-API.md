@@ -28,4 +28,4 @@ container
 supported by this directive
 
 
-[Align]: https://github.com/alessiobianchini/flex-layout/blob/master/src/lib/flex/flex-align/flex-align.ts#L38
+[Align]: ../../projects/libs/flex-layout/flex/flex-align/flex-align.ts

@@ -2,11 +2,11 @@
   "name": "ng-flex-layout",
   "description": "Angular Flex Layout (DOIT fork)",
   "version": "21.0.0",
-  "homepage": "https://github.com/alessiobianchini/flex-layout",
-  "bugs": "https://github.com/alessiobianchini/flex-layout/issues",
+  "homepage": "https://github.com/alessiobianchini/ng-flex-layout",
+  "bugs": "https://github.com/alessiobianchini/ng-flex-layout/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alessiobianchini/flex-layout"
+    "url": "git+https://github.com/alessiobianchini/ng-flex-layout"
   },
   "license": "MIT",
   "engines": {

@@ -27,4 +27,4 @@ Live Demo:
 
 Source Code:
 
-[![Feature Source](https://cloud.githubusercontent.com/assets/210413/24045169/247bad3c-0aec-11e7-827a-6ece0775ff39.jpg)](https://github.com/alessiobianchini/flex-layout/blob/master/src/demo-app/app/stack-overflow/columnSpan.demo.ts#L28)
+[![Feature Source](https://cloud.githubusercontent.com/assets/210413/24045169/247bad3c-0aec-11e7-827a-6ece0775ff39.jpg)](../../projects/apps/demo-app/src/app/stack-overflow/grid-column-span/grid-column-span.component.ts)

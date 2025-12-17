@@ -1,4 +1,4 @@
-The [**fxLayoutGap** directive](https://github.com/alessiobianchini/flex-layout/blob/master/src/lib/flex/layout-gap/layout-gap.ts#L38) 
+The [**fxLayoutGap** directive](../../projects/libs/flex-layout/flex/layout-gap/layout-gap.ts) 
 should be used on to specify margin gaps on children within a flexbox container (e.g. nested within a fxLayout container).
 
 * `margin-right` used when the parent container `flex-direction` == "row" 
@@ -82,5 +82,4 @@ the child item sizes (using fxFlex).
       <button md-button>Proximo</button>
     </md-card-actions>
 </md-card>
-
 
