@@ -392,7 +392,7 @@ describe('flex directive', () => {
             let parent = queryFor(fixture, '.test')[0];
             let element = queryFor(fixture, '[fxFlex]')[0];
 
-            // TODO(CaerusKaru): Domino is unable to detect this style
+            // NOTE: On server (Domino), computed styles are unreliable; skip these assertions.
             if (!isPlatformServer(platformId)) {
                 // parent flex-direction found with 'column' with child height styles
                 expectEl(parent).toHaveCSS({ 'flex-direction': 'column', 'display': 'flex' }, styler);

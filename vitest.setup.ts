@@ -67,7 +67,7 @@ if (!testBed.platform) {
     );
 }
 
-// Match Jasmine/Karma behavior: reset TestBed after each test so suites can safely reconfigure.
+// Match Jasmine-style behavior: reset TestBed after each test so suites can safely reconfigure.
 if (typeof (globalThis as any).afterEach === 'function') {
     (globalThis as any).afterEach(() => {
         try {

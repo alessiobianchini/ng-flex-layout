@@ -322,7 +322,7 @@ describe('layout-gap directive', () => {
             let nodes = queryFor(fixture, '[fxFlex]');
 
             expect(nodes.length).toEqual(3);
-            // TODO(CaerusKaru): Domino is unable to detect this style
+            // NOTE: On server (Domino), computed styles are unreliable; skip these assertions.
             if (!isPlatformServer(platformId)) {
                 expectEl(nodes[0]).not.toHaveStyle({ 'margin-right': '0px' }, styler);
                 expectEl(nodes[0]).not.toHaveStyle({ 'margin-right': '16px' }, styler);
@@ -352,7 +352,7 @@ describe('layout-gap directive', () => {
             let nodes = queryFor(fixture, '[fxFlex]');
 
             expect(nodes.length).toEqual(4);
-            // TODO(CaerusKaru): Domino is unable to detect this style
+            // NOTE: On server (Domino), computed styles are unreliable; skip these assertions.
             if (!isPlatformServer(platformId)) {
                 expectEl(nodes[0]).not.toHaveStyle({ 'margin-right': '16px' }, styler);
                 expectEl(nodes[1]).toHaveStyle({ 'margin-right': '16px' }, styler);
@@ -367,7 +367,7 @@ describe('layout-gap directive', () => {
             nodes = queryFor(fixture, '[fxFlex]');
 
             expect(nodes.length).toEqual(4);
-            // TODO(CaerusKaru): Domino is unable to detect this style
+            // NOTE: On server (Domino), computed styles are unreliable; skip these assertions.
             if (!isPlatformServer(platformId)) {
                 expectEl(nodes[0]).not.toHaveStyle({ 'margin-bottom': '8px' }, styler);
                 expectEl(nodes[1]).toHaveStyle({ 'margin-bottom': '8px' }, styler);

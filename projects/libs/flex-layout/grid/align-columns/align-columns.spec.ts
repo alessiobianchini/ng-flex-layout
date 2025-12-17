@@ -36,8 +36,10 @@ describe('align columns directive', () => {
                 mediaController = _matchMedia;
                 styler = _styler;
 
-                // TODO(CaerusKaru): Grid tests won't work with Edge 14
-                if (_platform.EDGE) {
+                // TODO: Grid tests don't work reliably on legacy EdgeHTML (Edge/12-18).
+                const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+                const isLegacyEdge = _platform.EDGE && /Edge\/1[2-8]\./.test(userAgent);
+                if (isLegacyEdge) {
                     shouldRun = false;
                 }
             })();
@@ -407,4 +409,3 @@ const MAIN_DEFAULT = {
 const CROSS_DEFAULT = {
     'align-items': 'stretch'
 };
-

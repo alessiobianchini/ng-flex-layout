@@ -28,6 +28,7 @@ describe('grid area parent directive', () => {
     let mediaController: MockMatchMedia;
     let platform: Platform;
     let shouldRun = true;
+    let isLegacyEdge = false;
     let createTestComponent = (template: string, styles?: any) => {
         shouldRun = true;
         fixture = makeCreateTestComponent(() => TestGridAreaComponent)(template, styles);
@@ -37,8 +38,10 @@ describe('grid area parent directive', () => {
                 mediaController = _matchMedia;
                 platform = _platform;
 
-                // TODO(CaerusKaru): Grid tests won't work with Edge 14
-                if (_platform.EDGE) {
+                // TODO: Grid tests don't work reliably on legacy EdgeHTML (Edge/12-18).
+                const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+                isLegacyEdge = _platform.EDGE && /Edge\/1[2-8]\./.test(userAgent);
+                if (isLegacyEdge) {
                     shouldRun = false;
                 }
             })();
@@ -71,9 +74,8 @@ describe('grid area parent directive', () => {
                 return;
             }
 
-            // TODO(CaerusKaru): Edge currently has a bug with template areas
-            // when they don't have columns/rows explicitly set. Remove when fixed
-            if (platform.EDGE) {
+            // NOTE: Legacy EdgeHTML has bugs with template areas when columns/rows aren't explicitly set.
+            if (isLegacyEdge) {
                 return;
             }
 
@@ -97,9 +99,8 @@ describe('grid area parent directive', () => {
                 return;
             }
 
-            // TODO(CaerusKaru): Edge currently has a bug with template areas
-            // when they don't have columns/rows explicitly set. Remove when fixed
-            if (platform.EDGE) {
+            // NOTE: Legacy EdgeHTML has bugs with template areas when columns/rows aren't explicitly set.
+            if (isLegacyEdge) {
                 return;
             }
 
@@ -123,9 +124,8 @@ describe('grid area parent directive', () => {
                 return;
             }
 
-            // TODO(CaerusKaru): Edge currently has a bug with template areas
-            // when they don't have columns/rows explicitly set. Remove when fixed
-            if (platform.EDGE) {
+            // NOTE: Legacy EdgeHTML has bugs with template areas when columns/rows aren't explicitly set.
+            if (isLegacyEdge) {
                 return;
             }
 
@@ -145,9 +145,8 @@ describe('grid area parent directive', () => {
                 return;
             }
 
-            // TODO(CaerusKaru): Edge currently has a bug with template areas
-            // when they don't have columns/rows explicitly set. Remove when fixed
-            if (platform.EDGE) {
+            // NOTE: Legacy EdgeHTML has bugs with template areas when columns/rows aren't explicitly set.
+            if (isLegacyEdge) {
                 return;
             }
 
@@ -176,9 +175,8 @@ describe('grid area parent directive', () => {
                 return;
             }
 
-            // TODO(CaerusKaru): Edge currently has a bug with template areas
-            // when they don't have columns/rows explicitly set. Remove when fixed
-            if (platform.EDGE) {
+            // NOTE: Legacy EdgeHTML has bugs with template areas when columns/rows aren't explicitly set.
+            if (isLegacyEdge) {
                 return;
             }
 

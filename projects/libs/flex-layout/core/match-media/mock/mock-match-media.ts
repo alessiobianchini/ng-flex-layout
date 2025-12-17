@@ -63,15 +63,15 @@ export class MockMatchMedia extends MatchMedia {
     }
 
     /**
-   * Manually onMediaChange any overlapping mediaQueries to simulate
-   * similar functionality in the window.matchMedia()
-   */
+     * Manually activate any overlapping mediaQueries to simulate
+     * window.matchMedia() behavior.
+     */
     private _activateWithOverlaps(mediaQuery: string, useOverlaps: boolean): boolean {
         if (useOverlaps) {
             const bp = this._breakpoints.findByQuery(mediaQuery);
             const alias = bp?.alias ?? 'unknown';
 
-            // Simulate activation of overlapping lt-<XXX> ranges
+            // Simulate activation of overlapping lt-<alias> ranges.
             switch (alias) {
                 case 'lg':
                     this._activateByAlias(['lt-xl']);
@@ -87,7 +87,7 @@ export class MockMatchMedia extends MatchMedia {
                     break;
             }
 
-            // Simulate activation of overlapping gt-<xxxx> mediaQuery ranges
+            // Simulate activation of overlapping gt-<alias> ranges.
             switch (alias) {
                 case 'xl':
                     this._activateByAlias(['gt-lg', 'gt-md', 'gt-sm', 'gt-xs']);
@@ -108,10 +108,8 @@ export class MockMatchMedia extends MatchMedia {
         return this._activateByQuery(mediaQuery);
     }
 
-    /**
-   *
-   */
-    private _activateByAlias(aliases: string[]) {
+    /** Activates media queries for a list of aliases. */
+    private _activateByAlias(aliases: string[]): void {
         const activate = (alias: string) => {
             const bp = this._breakpoints.findByAlias(alias);
             this._activateByQuery(bp?.mediaQuery ?? alias);
