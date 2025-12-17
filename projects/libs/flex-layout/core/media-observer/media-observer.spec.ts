@@ -1,3 +1,5 @@
+import { Injector } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { MediaObserver } from './media-observer';
 import { MediaChange } from '../media-change';
@@ -15,6 +17,7 @@ describe('MediaObserver (vitest)', () => {
     let matchMedia: MockMatchMedia;
     let breakPoints: BreakPointRegistry;
     let mediaObserver: MediaObserver;
+    let injector: Injector;
 
     const activateQuery = async (alias: string, useOverlaps = false) => {
         matchMedia.activate(alias, useOverlaps);
@@ -22,6 +25,9 @@ describe('MediaObserver (vitest)', () => {
     };
 
     beforeEach(() => {
+        TestBed.configureTestingModule({});
+        injector = TestBed.inject(Injector);
+
         breakPoints = new BreakPointRegistry(DEFAULT_BREAKPOINTS);
         matchMedia = new MockMatchMedia(
             { run: (fn: any) => fn(), runOutsideAngular: (fn: any) => fn() } as any,
@@ -115,6 +121,28 @@ describe('MediaObserver (vitest)', () => {
 
         matchMedia.autoRegisterQueries = true;
         sub.unsubscribe();
+    });
+
+    it('can filter overlapping breakpoints when enabled', async () => {
+        let current: MediaChange[] = [];
+        const sub = mediaObserver.asObservable().subscribe(changes => current = changes);
+
+        matchMedia.autoRegisterQueries = false;
+        matchMedia.useOverlaps = true;
+        mediaObserver.filterOverlaps = true;
+
+        await activateQuery('md', true);
+        expect(current.map(c => c.mqAlias)).toEqual(['md']);
+
+        sub.unsubscribe();
+    });
+
+    it('can expose a signal API', async () => {
+        const current = mediaObserver.asSignal({ injector });
+        expect(current()).toEqual([]);
+
+        await activateQuery('md');
+        expect(current()[0]?.mqAlias).toBe('md');
     });
 
     it('can `.unsubscribe()` properly', async () => {

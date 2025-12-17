@@ -5,14 +5,14 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Injectable, OnDestroy} from '@angular/core';
-import {Subject, asapScheduler, Observable, of} from 'rxjs';
+import {Injectable, Injector, OnDestroy, Signal} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {Subject, asapScheduler, Observable} from 'rxjs';
 import {
     debounceTime,
     distinctUntilChanged,
     filter,
     map,
-    switchMap,
     takeUntil,
 } from 'rxjs/operators';
 
@@ -99,12 +99,28 @@ export class MediaObserver implements OnDestroy {
     }
 
     /**
+     * Signal-based API for consuming activation changes.
+     *
+     * Note: `toSignal()` needs an `Injector` to manage teardown when called outside an injection context.
+     */
+    asSignal(options: MediaObserverSignalOptions = {}): Signal<MediaChange[]> {
+        const {initialValue, injector, requireSync} = options;
+        if (requireSync) {
+            return toSignal(this._media$, {injector, requireSync});
+        }
+        return toSignal(this._media$, {
+            injector,
+            initialValue: initialValue ?? [],
+        });
+    }
+
+    /**
    * Allow programmatic query to determine if one or more media query/alias match
    * the current viewport size.
    * @param value One or more media queries (or aliases) to check.
    * @returns Whether any of the media queries match.
    */
-    isActive(value: string | string[]): boolean {
+    isActive(value: string | readonly string[]): boolean {
         const aliases = splitQueries(coerceArray(value));
         return aliases.some(alias => {
             const query = toMediaQuery(alias, this.breakpoints);
@@ -148,7 +164,9 @@ export class MediaObserver implements OnDestroy {
         const excludeOverlaps = (changes: MediaChange[]) => {
             return !this.filterOverlaps ? changes : changes.filter(change => {
                 const bp = this.breakpoints.findByQuery(change.mediaQuery);
-                return bp?.overlapping ?? true;
+                // Exclude ranges that overlap standard breakpoints (eg. gt-*, lt-*).
+                // Keep unregistered/custom queries by default.
+                return bp?.overlapping !== true;
             });
         };
         const ignoreDuplicates = (previous: MediaChange[], current: MediaChange[]): boolean => {
@@ -170,7 +188,7 @@ export class MediaObserver implements OnDestroy {
             .pipe(
                 filter((change: MediaChange) => change.matches),
                 debounceTime(0, asapScheduler),
-                switchMap(_ => of(this.findAllActivations())),
+                map(() => this.findAllActivations()),
                 map(excludeOverlaps),
                 filter(hasChanges),
                 distinctUntilChanged(ignoreDuplicates),
@@ -200,6 +218,15 @@ export class MediaObserver implements OnDestroy {
 
     private readonly _media$: Observable<MediaChange[]>;
     private readonly destroyed$ = new Subject<void>();
+}
+
+export interface MediaObserverSignalOptions {
+    /** Injector used for teardown when called outside an injection context. */
+    injector?: Injector;
+    /** Initial value used until the first observable emission. Defaults to `[]`. */
+    initialValue?: MediaChange[];
+    /** Require the observable to emit synchronously. */
+    requireSync?: boolean;
 }
 
 /**
