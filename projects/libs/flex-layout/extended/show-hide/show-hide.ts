@@ -26,7 +26,7 @@ import {
     StyleBuilder,
 } from 'ng-flex-layout/core';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs';
 
 export interface ShowHideParent {
     display: string

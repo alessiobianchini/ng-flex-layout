@@ -18,7 +18,7 @@ import {
     LayoutConfigOptions,
 } from 'ng-flex-layout/core';
 import {isFlowHorizontal} from 'ng-flex-layout/_private-utils';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs';
 
 
 export interface FlexOffsetParent {

@@ -1,7 +1,6 @@
 import {Directive, ElementRef, Inject, Output, DOCUMENT} from '@angular/core';
 
-import {fromEvent, Observable} from 'rxjs';
-import {map, switchMap, takeUntil, throttleTime} from 'rxjs/operators';
+import {Observable, fromEvent, map, switchMap, takeUntil, throttleTime} from 'rxjs';
 
 @Directive({
     selector: '[ngxSplitHandle]',

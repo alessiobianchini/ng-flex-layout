@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Injectable} from '@angular/core';
+import {Injectable, Injector, Signal} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 
-import {merge, Observable, Subject, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import {Observable, Subject, Subscription, filter, merge, tap} from 'rxjs';
 
 import {BreakPoint} from '../breakpoints/break-point';
 import {sortDescendingPriority} from '../utils/sort';
@@ -23,7 +23,7 @@ type ClearCallback = () => void;
 type UpdateCallback = (val: any) => void;
 type Builder = UpdateCallback | ClearCallback;
 
-type ValueMap = Map<string, string>;
+type ValueMap = Map<string, any>;
 type BreakpointMap = Map<string, ValueMap>;
 type ElementMap = Map<HTMLElement, BreakpointMap>;
 type ElementKeyMap = WeakMap<HTMLElement, Set<string>>;
@@ -37,6 +37,19 @@ export interface ElementMatcher {
     value: any
 }
 
+export interface MediaMarshallerSignalOptions {
+    /** Injector used for teardown when called outside an injection context. */
+    injector?: Injector;
+    /**
+     * Initial value used until the first observable emission.
+     *
+     * Defaults to `{ element, key, value: getValue(element, key) }`.
+     */
+    initialValue?: ElementMatcher;
+    /** Require the observable to emit synchronously. */
+    requireSync?: boolean;
+}
+
 /**
  * MediaMarshaller - register responsive values from directives and
  *                   trigger them based on media query events
@@ -45,13 +58,13 @@ export interface ElementMatcher {
 export class MediaMarshaller {
     private _useFallbacks = true;
     private _activatedBreakpoints: BreakPoint[] = [];
-    private elementMap: ElementMap = new Map();
-    private elementKeyMap: ElementKeyMap = new WeakMap();
-    private watcherMap: WatcherMap = new WeakMap();     // special triggers to update elements
-    private updateMap: BuilderMap = new WeakMap();      // callback functions to update styles
-    private clearMap: BuilderMap = new WeakMap();       // callback functions to clear styles
+    private readonly elementMap: ElementMap = new Map();
+    private readonly elementKeyMap: ElementKeyMap = new WeakMap();
+    private readonly watcherMap: WatcherMap = new WeakMap();     // special triggers to update elements
+    private readonly updateMap: BuilderMap = new WeakMap();      // callback functions to update styles
+    private readonly clearMap: BuilderMap = new WeakMap();       // callback functions to clear styles
 
-    private subject: Subject<ElementMatcher> = new Subject();
+    private readonly subject = new Subject<ElementMatcher>();
 
     get activatedAlias(): string {
         return this.activatedBreakpoints[0]?.alias ?? '';
@@ -186,6 +199,25 @@ export class MediaMarshaller {
             .pipe(filter(v => v.element === element && v.key === key));
     }
 
+    /**
+     * Signal-based wrapper around `trackValue()`.
+     *
+     * Note: `toSignal()` needs an `Injector` to manage teardown when called outside an injection context.
+     */
+    trackValueAsSignal(element: HTMLElement, key: string, options: MediaMarshallerSignalOptions = {}): Signal<ElementMatcher> {
+        const {injector, initialValue, requireSync} = options;
+        const source$ = this.trackValue(element, key);
+
+        if (requireSync) {
+            return toSignal(source$, {injector, requireSync});
+        }
+
+        return toSignal(source$, {
+            injector,
+            initialValue: initialValue ?? {element, key, value: this.getValue(element, key)},
+        });
+    }
+
     /** update all styles for all elements on the current breakpoint */
     updateStyles(): void {
         this.elementMap.forEach((bpMap, el) => {
@@ -221,7 +253,7 @@ export class MediaMarshaller {
 
         if (builders) {
             const clearFn: ClearCallback = builders.get(key) as ClearCallback;
-            if (!!clearFn) {
+            if (clearFn) {
                 clearFn();
                 this.subject.next({element, key, value: ''});
             }
@@ -238,7 +270,7 @@ export class MediaMarshaller {
         const builders = this.updateMap.get(element);
         if (builders) {
             const updateFn: UpdateCallback = builders.get(key) as UpdateCallback;
-            if (!!updateFn) {
+            if (updateFn) {
                 updateFn(value);
                 this.subject.next({element, key, value});
             }
@@ -253,11 +285,12 @@ export class MediaMarshaller {
         const watcherMap = this.watcherMap.get(element);
         if (watcherMap) {
             watcherMap.forEach(s => s.unsubscribe());
+            watcherMap.clear();
             this.watcherMap.delete(element);
         }
         const elementMap = this.elementMap.get(element);
         if (elementMap) {
-            elementMap.forEach((_, s) => elementMap.delete(s));
+            elementMap.clear();
             this.elementMap.delete(element);
         }
     }
@@ -377,4 +410,3 @@ function initBuilderMap(map: BuilderMap,
         map.set(element, oldMap);
     }
 }
-

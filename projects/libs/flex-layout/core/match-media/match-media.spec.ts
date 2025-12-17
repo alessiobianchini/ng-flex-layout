@@ -5,6 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import { Injector } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { MediaChange } from '../media-change';
 import { MockMatchMedia } from './mock/mock-match-media';
@@ -26,8 +28,11 @@ const createMatchMediaSuite = () => {
 describe('match-media', () => {
     let matchMedia: MockMatchMedia;
     let breakPoints: BreakPointRegistry;
+    let injector: Injector;
 
     beforeEach(() => {
+        TestBed.configureTestingModule({});
+        injector = TestBed.inject(Injector);
         ({ matchMedia, breakPoints } = createMatchMediaSuite());
     });
 
@@ -59,6 +64,15 @@ describe('match-media', () => {
         expect(matchMedia.isActive(q2)).toBe(true);
 
         sub.unsubscribe();
+    });
+
+    it('can expose a signal wrapper around observe()', () => {
+        const q1 = 'screen and (min-width: 610px) and (max-width: 620px)';
+        const current = matchMedia.observeAsSignal([q1], { injector });
+
+        matchMedia.activate(q1);
+        expect(current().mediaQuery).toBe(q1);
+        expect(current().matches).toBe(true);
     });
 
     it('can observe an array of custom mediaQuery ranges', () => {

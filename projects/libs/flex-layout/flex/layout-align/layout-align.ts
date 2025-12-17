@@ -14,7 +14,7 @@ import {
     MediaMarshaller,
     ElementMatcher,
 } from 'ng-flex-layout/core';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs';
 
 import {extendObject} from 'ng-flex-layout/_private-utils';
 import {LAYOUT_VALUES, isFlowHorizontal} from 'ng-flex-layout/_private-utils';

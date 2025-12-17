@@ -28,7 +28,7 @@ import {
 } from 'ng-flex-layout/core';
 import {LAYOUT_VALUES} from 'ng-flex-layout/_private-utils';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs';
 
 
 export interface LayoutGapParent {

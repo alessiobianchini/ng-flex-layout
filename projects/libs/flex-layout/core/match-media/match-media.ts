@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Inject, Injectable, NgZone, OnDestroy, PLATFORM_ID} from '@angular/core';
+import {Inject, Injectable, Injector, NgZone, OnDestroy, PLATFORM_ID, Signal} from '@angular/core';
 import {DOCUMENT, isPlatformBrowser} from '@angular/common';
-import {BehaviorSubject, Observable, merge, Observer} from 'rxjs';
-import {filter} from 'rxjs/operators';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {BehaviorSubject, Observable, filter, merge, Observer} from 'rxjs';
 
 import {MediaChange} from '../media-change';
 
@@ -95,6 +95,45 @@ export class MatchMedia implements OnDestroy {
     }
 
     /**
+     * Signal-based wrapper around `observe()`.
+     *
+     * Note: `toSignal()` needs an `Injector` to manage teardown when called outside an injection context.
+     */
+    observeAsSignal(): Signal<MediaChange>;
+    observeAsSignal(options: MatchMediaSignalOptions): Signal<MediaChange>;
+    observeAsSignal(mediaQueries: string[], options?: MatchMediaSignalOptions): Signal<MediaChange>;
+    observeAsSignal(mediaQueries: string[], filterOthers: boolean, options?: MatchMediaSignalOptions): Signal<MediaChange>;
+    observeAsSignal(
+        mediaQueriesOrOptions?: string[] | MatchMediaSignalOptions,
+        filterOthersOrOptions?: boolean | MatchMediaSignalOptions,
+        options?: MatchMediaSignalOptions,
+    ): Signal<MediaChange> {
+        let mediaQueries: string[] | undefined;
+        let filterOthers = false;
+        let resolvedOptions: MatchMediaSignalOptions = {};
+
+        if (Array.isArray(mediaQueriesOrOptions)) {
+            mediaQueries = mediaQueriesOrOptions;
+            if (typeof filterOthersOrOptions === 'boolean') {
+                filterOthers = filterOthersOrOptions;
+                resolvedOptions = options ?? {};
+            } else {
+                resolvedOptions = filterOthersOrOptions ?? {};
+            }
+        } else {
+            resolvedOptions = mediaQueriesOrOptions ?? {};
+        }
+
+        const {injector, initialValue, requireSync} = resolvedOptions;
+        const source$ = mediaQueries ? this.observe(mediaQueries, filterOthers) : this.observe();
+
+        if (requireSync) {
+            return toSignal(source$, {injector, requireSync});
+        }
+        return toSignal(source$, {injector, initialValue: initialValue ?? new MediaChange()});
+    }
+
+    /**
    * Based on the BreakPointRegistry provider, register internal listeners for each unique
    * mediaQuery. Each listener emits specific MediaChange data to observers
    */
@@ -141,6 +180,15 @@ export class MatchMedia implements OnDestroy {
     }
 
     protected _observable$ = this.source.asObservable();
+}
+
+export interface MatchMediaSignalOptions {
+    /** Injector used for teardown when called outside an injection context. */
+    injector?: Injector;
+    /** Initial value used until the first observable emission. Defaults to `new MediaChange()`. */
+    initialValue?: MediaChange;
+    /** Require the observable to emit synchronously. */
+    requireSync?: boolean;
 }
 
 /**

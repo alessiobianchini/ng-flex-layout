@@ -1,5 +1,7 @@
 import { Subject } from 'rxjs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Injector } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { BreakPointRegistry } from '../breakpoints/break-point-registry';
 import { DEFAULT_BREAKPOINTS } from '../breakpoints/data/break-points';
 import { MockMatchMedia } from '../match-media/mock/mock-match-media';
@@ -33,8 +35,12 @@ describe('MediaMarshaller (vitest)', () => {
         let matchMedia: MockMatchMedia;
         let onMediaChangeSpy: ReturnType<typeof vi.spyOn>;
         let updateStylesSpy: ReturnType<typeof vi.spyOn>;
+        let injector: Injector;
 
         beforeEach(() => {
+            TestBed.configureTestingModule({});
+            injector = TestBed.inject(Injector);
+
             const suite = createMarshallerSuite();
             mediaMarshaller = suite.mediaMarshaller;
             matchMedia = suite.matchMedia;
@@ -51,12 +57,12 @@ describe('MediaMarshaller (vitest)', () => {
             const builder = () => { triggered = true; };
 
             mediaMarshaller.init(fakeElement, fakeKey, builder);
-            mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs'); // 👈 NECESSARIO
+            mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
 
             triggered = false;
             matchMedia.activate('xs');
 
-            expect(triggered).toBeTruthy(); // ✅ Ora passa
+            expect(triggered).toBeTruthy();
         });
 
         it('doesn\'t trigger onMediaChange for same breakpoint activations', () => {
@@ -138,6 +144,19 @@ describe('MediaMarshaller (vitest)', () => {
             expect(triggered).toBeTruthy();
         });
 
+        it('supports `trackValueAsSignal()`', () => {
+            const builder = () => { };
+            mediaMarshaller.init(fakeElement, fakeKey, builder);
+
+            const matcher = mediaMarshaller.trackValueAsSignal(fakeElement, fakeKey, { injector });
+            expect(matcher().element).toBe(fakeElement);
+            expect(matcher().key).toBe(fakeKey);
+            expect(matcher().value).toBeUndefined();
+
+            mediaMarshaller.setValue(fakeElement, fakeKey, 123, '');
+            expect(matcher().value).toBe(123);
+        });
+
         it('should release', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
@@ -173,7 +192,7 @@ describe('MediaMarshaller (vitest)', () => {
             const builder = () => { triggered = true; };
 
             mediaMarshaller.init(fakeElement, fakeKey, builder);
-            mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs'); // 👈 obbligatorio
+            mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
 
             triggered = false;
             matchMedia.activate('xs');

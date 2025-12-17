@@ -17,7 +17,7 @@ import {
     StyleUtils,
     validateBasis,
 } from 'ng-flex-layout/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs';
 
 import { extendObject, isFlowHorizontal } from 'ng-flex-layout/_private-utils';
 

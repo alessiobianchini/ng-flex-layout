@@ -8,8 +8,7 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser, DOCUMENT} from '@angular/common';
 
-import {fromEvent, Subscription} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {Subscription, fromEvent, take} from 'rxjs';
 
 import {mergeAlias} from '../add-alias';
 import {MediaChange} from '../media-change';
@@ -200,4 +199,3 @@ export class MediaTrigger {
 
     private resizeSubscription!: Subscription;
 }
-

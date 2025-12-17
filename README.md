@@ -12,6 +12,7 @@ ng-flex-layout
   - Updated to Angular 21
   - Migrated from tslint to eslint
   - Migrated tests to **Vitest**
+  - Added non-breaking **Signals** wrappers (RxJS remains the base API)
 ***
 
 

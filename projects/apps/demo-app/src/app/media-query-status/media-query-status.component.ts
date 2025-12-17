@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Signal} from '@angular/core';
 import {MediaChange, MediaObserver} from 'ng-flex-layout';
-import {Observable} from 'rxjs';
 
 @Component({
     selector: 'media-query-status',
@@ -9,9 +8,9 @@ import {Observable} from 'rxjs';
     standalone: false
 })
 export class MediaQueryStatusComponent {
-  media$: Observable<MediaChange[]>;
+  readonly mediaChanges: Signal<MediaChange[]>;
 
   constructor(media: MediaObserver) {
-    this.media$ = media.asObservable();
+    this.mediaChanges = media.asSignal();
   }
 }

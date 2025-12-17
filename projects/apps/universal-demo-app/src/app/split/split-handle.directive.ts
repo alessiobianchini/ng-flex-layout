@@ -1,7 +1,6 @@
 import {Directive, ElementRef, Inject, Output, PLATFORM_ID, DOCUMENT} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {fromEvent, Observable} from 'rxjs';
-import {map, switchMap, takeUntil} from 'rxjs/operators';
+import {Observable, fromEvent, map, switchMap, takeUntil} from 'rxjs';
 
 @Directive({
     selector: '[ngxSplitHandle]',

@@ -7,14 +7,16 @@
  */
 import {Injectable, Injector, OnDestroy, Signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {Subject, asapScheduler, Observable} from 'rxjs';
 import {
+    Observable,
+    Subject,
+    asapScheduler,
     debounceTime,
     distinctUntilChanged,
     filter,
     map,
     takeUntil,
-} from 'rxjs/operators';
+} from 'rxjs';
 
 import {mergeAlias} from '../add-alias';
 import {MediaChange} from '../media-change';
@@ -44,7 +46,7 @@ import {coerceArray} from '../utils/array';
  *  @usage
  *
  *  // RxJS
- *  import { filter } from 'rxjs/operators';
+ *  import { filter } from 'rxjs';
  *  import { MediaObserver } from 'ng-flex-layout';
  *
  *  @Component({ ... })
