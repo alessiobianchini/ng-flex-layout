@@ -5,30 +5,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-test:
+  test-lib:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: pnpm
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
           version: 8
+          run_install: false
 
-      - name: Install
-        run: pnpm install --frozen-lockfile
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Set github repository
+        run: pnpm config set //https://npm.pkg.github.com//:_authToken ${{secrets.GITHUB_TOKEN}}
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Build lib
         run: pnpm run build
-
-      - name: Test
+        
+      - name: Test lib
         run: pnpm run test

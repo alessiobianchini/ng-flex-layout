@@ -1,39 +1,52 @@
-name: demo-app - build and deploy to Azure web service
+﻿name: demo-app - build and deploy to Azure web service
 
 on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Git ref (branch/tag/SHA) to deploy (optional)"
+        description: 'Git ref (branch/tag/SHA) to deploy (optional)'
         required: false
-        default: ""
+        default: ''
   release:
     types: [created]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref) || github.ref }}
 
-      - name: Setup Node
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: pnpm
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
           version: 8
+          run_install: false
 
-      - name: Install
-        run: pnpm install --frozen-lockfile
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Set github repository
+        run: pnpm config set //https://npm.pkg.github.com//:_authToken ${{secrets.GITHUB_TOKEN}}
+        
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Build lib
         run: pnpm run build
@@ -49,13 +62,13 @@ jobs:
 
   deploy:
     if: github.event_name == 'release' || github.actor == 'alessiobianchini'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
-      name: Production
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write
+      id-token: write # This is required for requesting the JWT
       contents: read
 
     steps:
@@ -63,13 +76,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: demo-app
-
+      
+      
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ng-flex-layout
-          slot-name: Production
+          app-name: 'ng-flex-layout'
+          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4ED41A4BA6A141F58A659539E5960D37 }}
-
