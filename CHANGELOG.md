@@ -596,7 +596,7 @@ This **ng-flex-layout** release provides full support for Angular 5.x
 
 > This release bumps the version for parity with Angular Material and latest builds of Angular.
 
-Angular SSR support has been fixed and is now enabled properly. Developers should see [Live Demo Docs](https://github.com/alessiobianchini/flex-layout/blob/master/docs/documentation/Live-Demos.md) for details on how to build and test [locally] the demo applications. 
+Angular SSR support has been fixed and is now enabled properly. Developers should see [Live Demo Docs](https://github.com/alessiobianchini/ng-flex-layout/wiki/Live-Demos) for details on how to build and test [locally] the demo applications. 
 
 ### Features
 
