@@ -1,0 +1,38 @@
+<div fxLayout="column" fxLayoutGap="12px">
+  <mat-card>
+    <mat-card-title>Signals (optional)</mat-card-title>
+    <mat-card-content>
+      RxJS remains the canonical API. These demos show the optional Signal wrappers (`toSignal`) shipped by the library.
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>MediaObserver.asSignal()</mat-card-title>
+    <mat-card-content>
+      <div>Active breakpoints (by priority):</div>
+      <pre>{{ activations() | json }}</pre>
+      <div>xs active: {{ isXsActive() }}</div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>MatchMedia.observeAsSignal()</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="8px">
+      <div>Query: <code>{{ query }}</code></div>
+      <div>matches: {{ queryChange().matches }}</div>
+      <div>mediaQuery: <code>{{ queryChange().mediaQuery }}</code></div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>MediaMarshaller.trackValueAsSignal()</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="8px">
+      <div>Current tracked <code>layout</code> value: <code>{{ layoutValue() }}</code></div>
+      <button mat-raised-button color="primary" (click)="toggleLayout()">Toggle layout</button>
+      <div #layoutBox [fxLayout]="layoutDir()" fxLayoutGap="8px" style="border:1px solid #ddd; padding: 8px;">
+        <div style="background:#eee; padding: 6px;">Box A</div>
+        <div style="background:#eee; padding: 6px;">Box B</div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

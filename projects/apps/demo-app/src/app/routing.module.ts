@@ -10,6 +10,10 @@ const DEMO_APP_ROUTES: Routes = [
       .then(m => m.DocsLayoutModule)
   },
   {
+    path: 'signals',
+    loadChildren: () => import('./signals/signals.module').then(m => m.DocsSignalsModule)
+  },
+  {
     path: 'responsive',
     loadChildren: () => import('./responsive/responsive.module').then(m => m.DocsResponsiveModule)
   },

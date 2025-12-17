@@ -15,6 +15,7 @@ export * from './add-alias';
 
 export * from './base/index';
 export * from './breakpoints/index';
+export { MatchMedia } from './match-media/match-media';
 export {
     MatchMedia as ɵMatchMedia,
     MockMatchMedia as ɵMockMatchMedia,
