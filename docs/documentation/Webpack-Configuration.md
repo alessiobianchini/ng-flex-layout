@@ -5,7 +5,7 @@ npm install --save ng-flex-layout
 ```
 **or...**
 ```bash
-yarn add ng-flex-layout
+pnpm add ng-flex-layout
 ```
 
 ### Import the Angular Flex-Layout Module

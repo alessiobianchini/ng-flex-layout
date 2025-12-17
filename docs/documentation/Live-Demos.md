@@ -16,7 +16,7 @@ Use the following Terminal command to start the server and launch the demo appli
 responsive demos:
 
 ```
-npm run demo:serve 
+pnpm run demo:serve
 ```
 
 
@@ -26,6 +26,10 @@ A small-scale application that demonstrates how to use Flex Layout on the server
 available publically, but can be run with the following command:
 
 `npm run universal:serve`
+
+is now:
+
+`pnpm run serve:universal-demo-app`
 
 **Note**: This server, unlike the demo-app, does **not** live reload. In order to incorporate build
 changes into the universal-app, it will need to be re-built/re-served each time.

@@ -3,21 +3,21 @@
 Most of the **ng-flex-layout** functionality is provided via Directives used **declaratively** in template HTML. 
 There are three (3) programmatic features, however, that are published for programmatic usages:
 
-* **[ObservableMedia](https://github.com/alessiobianchini/flex-layout/wiki/ObservableMedia)**:  
+* **[ObservableMedia](ObservableMedia.md)**:  
 Injectable Observable used to subscribe to MediaQuery activation changes.
 ```typescript
 import {ObservableMedia} from 'ng-flex-layout';
 constructor(public media: ObservableMedia ) { ... }
 ```
 
-* **[BREAKPOINTS](https://github.com/alessiobianchini/flex-layout/wiki/BreakPoints)**:  
+* **[BREAKPOINTS](BreakPoints.md)**:  
 Injection token used to override or extend the default breakpoints with custom MediaQuery breakpoints.
 ```typescript
 import {BREAKPOINTS} from 'ng-flex-layout';
 providers: [{provide: BREAKPOINTS, useValue: MY_CUSTOM_BREAKPOINTS }]
 ```
 
-* **[BaseDirectiveAdapter](https://github.com/alessiobianchini/flex-layout/wiki/BaseDirectiveAdapter)**:  
+* **[BaseDirectiveAdapter](BaseFxDirectiveAdapter.md)**:  
 Adapter class useful to extend existing Directives with MediaQuery activation features.  
 ```typescript
 import {NgClass} from '@angular/core';
@@ -28,9 +28,9 @@ export class ClassDirective extends NgClass { ... }
 
 The features of Flex-Layout are best used declaratively in template HTML. This API has two (2) significant feature sets:
 
-* **[Static API](https://github.com/alessiobianchini/flex-layout/wiki/Declarative-API-Overview)**: Summary of static API 
+* **[Static API](Declarative-API-Overview.md)**: Summary of static API 
 features.
-* **[Responsive API](https://github.com/alessiobianchini/flex-layout/wiki/Responsive-API)**: Introducing Responsive API and 
+* **[Responsive API](Responsive-API.md)**: Introducing Responsive API and 
 BreakPoints details.
 
 As each directive (aka API) within **ng-flex-layout** has its own constraints and options, 
@@ -41,17 +41,17 @@ the links below should be used to navigate to the specific documentation pages f
 
 This API set applies flexbox CSS stylings for DOM **container elements** with 1 or more nested flex children:
 
-* [**fxLayout**](https://github.com/alessiobianchini/flex-layout/wiki/fxLayout-API): 
+* [**fxLayout**](fxLayout-API.md): 
 Defines the flow order of child items within a flexbox container
 ```html
 <div fxLayout="row" fxLayout.xs="column"></div>
 ```
-* **[fxLayoutGap](https://github.com/alessiobianchini/flex-layout/wiki/fxLayoutGap-API)**:
+* **[fxLayoutGap](fxLayoutGap-API.md)**:
 Defines if child items within a flexbox container should have a gap
 ```html
 <div fxLayoutGap="10px"></div>
 ```
-* **[fxLayoutAlign](https://github.com/alessiobianchini/flex-layout/wiki/fxLayoutAlign-API)**:
+* **[fxLayoutAlign](fxLayoutAlign-API.md)**:
 Defines how flexbox items are aligned according to both the main-axis and the cross-axis, within a flexbox container
 ```html
 <div fxLayoutAlign="start stretch"></div>
@@ -62,27 +62,27 @@ Defines how flexbox items are aligned according to both the main-axis and the cr
 
 This API set applies flexbox CSS stylings for a DOM element nested within FlexBox DOM container:
 
-* **[fxFlex](https://github.com/alessiobianchini/flex-layout/wiki/fxFlex-API)**: 
+* **[fxFlex](fxFlex-API.md)**: 
 This markup specifies the resizing of its host element within a flexbox container flow
 ```html
 <div fxFlex="1 2 calc(15em + 20px)"></div>
 ```
-* **[fxFlexOrder](https://github.com/alessiobianchini/flex-layout/wiki/fxFlexOrder-API)**: 
+* **[fxFlexOrder](fxFlexOrder-API.md)**: 
 Defines the order of a flexbox item
 ```html
 <div fxFlexOrder="2"></div>
 ```
-* **[fxFlexOffset](https://github.com/alessiobianchini/flex-layout/wiki/fxFlexOffset-API)**: 
+* **[fxFlexOffset](fxFlexOffset-API.md)**: 
 Offset a flexbox item in its parent container flow layout
 ```html
 <div fxFlexOffset="20px"></div>
 ```
-* **[fxFlexAlign](https://github.com/alessiobianchini/flex-layout/wiki/fxFlexAlign-API)**: 
+* **[fxFlexAlign](fxFlexAlign-API.md)**: 
 Works like fxLayoutAlign, but applies only to a single flexbox item, instead of all of them
 ```html
 <div fxFlexAlign="center"></div>
 ```
-* **[fxFlexFill](https://github.com/alessiobianchini/flex-layout/wiki/fxFlexFill-API)**:  
+* **[fxFlexFill](fxFlexFill-API.md)**:  
 Maximizes width and height of element in a layout container
 ```html
 <div fxFlexFill></div>
@@ -96,25 +96,24 @@ While the following APIs also add or remove DOM element inline styles, they are 
 Instead these are **Responsive** APIs used to adjust specific, non-flexbox styles when a specific mediaQuery has 
 activated:
 
-* **[fxShow](https://github.com/alessiobianchini/flex-layout/wiki/fxShow-API)**:
+* **[fxShow](fxShow-API.md)**:
 This markup specifies if its host element should be displayed (or not)
 ```html
 <div fxShow [fxShow.xs]="isVisibleOnMobile()"></div>
 ```
-* **[fxHide](https://github.com/alessiobianchini/flex-layout/wiki/fxHide-API)**: 
+* **[fxHide](fxHide-API.md)**: 
 This markup specifies if its host element should NOT be displayed
 ```html
 <div fxHide [fxHide.gt-sm]="isVisibleOnDesktop()"></div>
 ```
-* **[ngClass](https://github.com/alessiobianchini/flex-layout/wiki/ngClass-API)** :
+* **[ngClass](ngClass-API.md)** :
 Enhances the **ngClass** directives with class changes based on mediaQuery activations
 ```html
 <div [ngClass.sm]="{'fxClass-sm': hasStyle}"></div>
 ``` 
-* **[ngStyle](https://github.com/alessiobianchini/flex-layout/wiki/ngStyle-API)**: 
+* **[ngStyle](ngStyle-API.md)**: 
 Enhances the **ngStyle** directive with style updates based on mediaQuery activations
 ```html
 <div [ngStyle.xs]="{'font-size.px': 10, color: 'blue'}"></div>
 ```
-
 

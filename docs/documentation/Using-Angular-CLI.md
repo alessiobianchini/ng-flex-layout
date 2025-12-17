@@ -32,12 +32,6 @@ npm install ng-flex-layout --save
 
 >  This installs the most recent npm release of Flex-Layout.
 
-```bash
-npm install angular/flex-layout-builds --save
-```
-
-> This installs a nightly build which incorporates the latest updates not yet published to NPM
-
 ## Import the Angular Flex-Layout NgModule
   
 **src/app/app.module.ts**
@@ -52,23 +46,9 @@ import {FlexLayoutModule} from 'ng-flex-layout';
 export class PizzaPartyAppModule {}
 ```
 
-## Configuring SystemJS
-If your project is using SystemJS for module loading, you will need to add `ng-flex-layout` 
-to the SystemJS configuration:
-
-```js
-System.config({
-  // existing configuration options
-  map: {
-    ...,
-    'ng-flex-layout': 'npm:ng-flex-layout-builds/bundles/flex-layout.umd.js'
-  }
-});
-```
-
 ## Sample Angular Flex-Layout projects
 
 Developers are encouraged to review the live demos and source for the Flex-Layout Demos:
 
 * [Live Demos](https://ng-flex-layout.azurewebsites.net/)
-* [Demo Source Code](https://github.com/alessiobianchini/flex-layout/blob/master/projects/apps/demo-app/)
+* [Demo Source Code](https://github.com/alessiobianchini/ng-flex-layout/tree/master/projects/apps/demo-app)

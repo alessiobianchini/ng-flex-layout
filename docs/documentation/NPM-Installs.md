@@ -4,20 +4,29 @@
 npm install --save ng-flex-layout@latest
 ```
 
-> For recent fixes and code merges that have **not yet been released to NPM**, you should install from HEAD.
-
-### Install from Nightly Build (HEAD)
-
-You can install latest, nightly builds from master/HEAD using:
+or:
 
 ```bash
-npm install angular/flex-layout-builds --save
+pnpm add ng-flex-layout@latest
 ```
 
-or 
+> For recent fixes and code merges that have **not yet been released to npm**, prefer installing from a local build.
+
+### Install from a Local Build (unreleased changes)
+
+From this repository:
 
 ```bash
-yarn add angular/flex-layout-builds --save
+pnpm install
+pnpm run build
+cd dist/releases/flex-layout
+npm pack
+```
+
+Then, in your app:
+
+```bash
+npm install /path/to/ng-flex-layout-<version>.tgz
 ```
 
 ----

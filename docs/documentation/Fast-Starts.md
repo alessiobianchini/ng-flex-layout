@@ -1,10 +1,14 @@
-### NPM Install
+### Install from npm
 
 ```terminal
-npm install https://github.com/alessiobianchini/flex-layout-builds --save
+npm install --save ng-flex-layout
 ```
 
-> Note: this installs a nightly build required for Angular 4.x; until Beta.9 is released.
+or with pnpm:
+
+```terminal
+pnpm add ng-flex-layout
+```
 
 Next, modify your `app.module.ts` to use the `FlexLayoutModule`:
 
@@ -26,32 +30,14 @@ import {DemoAppComponent}          from './demo-app/demo-app';
 export class DemoAppModule {}
 ```
 
-<br/>
-
-### SystemJS + UMD
-
-If your project is using SystemJS for module loading, you will need to add `ng-flex-layout` to the SystemJS 
-configuration.
-
-Here is a example configuration where `ng-flex-layout` is used:
-```js
-System.config({
-  // Existing configuration options
-  map: {
-    // ...
-    'ng-flex-layout': 'npm:ng-flex-layout/bundles/flex-layout.umd.js',
-    // ...
-  }
-});
-```
 ----
 
-### 1) Angular CLI + **`npm`** + `ng-flex-layout`
+### Angular CLI + `ng-flex-layout`
 
 If you are using the Angular CLI to bundle and serve your application (using `ng serve`), run the following command:
 
 ```terminal
-npm install angular/flex-layout-builds
+npm install --save ng-flex-layout
 ```
 
 Next, modify your `app.module.ts` to use the `FlexLayoutModule`:
@@ -80,8 +66,7 @@ Developers can, however, easily install this `ng-flex-layout` library using a **
 and a directory copy:
 
 ```console
-npm run lib:build
-cd dist/packages/flex-layout
-npm pack   /* This will create an npm binary that you can install from */
+pnpm run build
+cd dist/releases/flex-layout
+npm pack
 ```
-
