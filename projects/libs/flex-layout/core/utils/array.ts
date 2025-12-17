@@ -7,6 +7,11 @@
  */
 
 /** Wraps the provided value in an array, unless the provided value is an array. */
+function isReadonlyArray<T>(value: T | readonly T[]): value is readonly T[] {
+    return Array.isArray(value);
+}
+
+/** Wraps the provided value in an array, unless the provided value is an array. */
 export function coerceArray<T>(value: T | readonly T[]): T[] {
-    return Array.isArray(value) ? (value as T[]) : [value];
+    return isReadonlyArray(value) ? [...value] : [value];
 }
