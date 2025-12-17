@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutWithDirectionComponent } from './layout-with-direction.component';
@@ -8,7 +9,8 @@ describe('LayoutWithDirectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutWithDirectionComponent ]
+      declarations: [ LayoutWithDirectionComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

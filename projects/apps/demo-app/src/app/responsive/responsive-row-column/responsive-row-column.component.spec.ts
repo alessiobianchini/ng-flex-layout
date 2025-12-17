@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResponsiveRowColumnComponent } from './responsive-row-column.component';
@@ -8,7 +9,8 @@ describe('ResponsiveRowColumnComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResponsiveRowColumnComponent ]
+      declarations: [ ResponsiveRowColumnComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

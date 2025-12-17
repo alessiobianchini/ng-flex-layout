@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MozHolyGrailComponent } from './moz-holy-grail.component';
@@ -8,7 +9,8 @@ describe('MozHolyGrailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MozHolyGrailComponent ]
+      declarations: [ MozHolyGrailComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

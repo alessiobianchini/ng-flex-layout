@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResponsiveLayoutDirectionComponent } from './responsive-layout-direction.component';
@@ -8,7 +9,8 @@ describe('ResponsiveLayoutDirectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResponsiveLayoutDirectionComponent ]
+      declarations: [ ResponsiveLayoutDirectionComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

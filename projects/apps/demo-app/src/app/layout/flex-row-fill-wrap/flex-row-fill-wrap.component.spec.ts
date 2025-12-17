@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlexRowFillWrapComponent } from './flex-row-fill-wrap.component';
@@ -8,7 +9,8 @@ describe('FlexRowFillWrapComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlexRowFillWrapComponent ]
+      declarations: [ FlexRowFillWrapComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

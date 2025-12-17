@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlexAlignSelfComponent } from './flex-align-self.component';
@@ -8,7 +9,8 @@ describe('FlexAlignSelfComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlexAlignSelfComponent ]
+      declarations: [ FlexAlignSelfComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

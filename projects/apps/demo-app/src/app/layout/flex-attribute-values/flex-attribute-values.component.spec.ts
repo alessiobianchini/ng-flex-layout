@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlexAttributeValuesComponent } from './flex-attribute-values.component';
@@ -8,7 +9,8 @@ describe('FlexAttributeValuesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlexAttributeValuesComponent ]
+      declarations: [ FlexAttributeValuesComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));

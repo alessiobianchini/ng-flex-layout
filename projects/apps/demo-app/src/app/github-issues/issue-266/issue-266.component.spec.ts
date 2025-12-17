@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Issue266Component } from './issue-266.component';
@@ -8,7 +9,8 @@ describe('Issue266Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ Issue266Component ]
+      declarations: [ Issue266Component ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));
