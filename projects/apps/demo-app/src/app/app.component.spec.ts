@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 describe('AppComponent', () => {
@@ -6,6 +7,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
   it('should create the app', waitForAsync(() => {
@@ -13,15 +15,16 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
-  it(`should have as title 'demo'`, waitForAsync(() => {
+  it('should expose a version string', waitForAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('demo');
+    expect(app.version).toBeTruthy();
   }));
-  it('should render title in a h1 tag', waitForAsync(() => {
+  it('should render the header', waitForAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to demo!');
+    expect(compiled.querySelector('h2')?.textContent).toContain('Layout Demos');
+    expect(compiled.textContent).toContain('Version:');
   }));
 });

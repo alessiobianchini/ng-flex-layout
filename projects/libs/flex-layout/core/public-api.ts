@@ -18,7 +18,7 @@ export * from './breakpoints/index';
 export {
     MatchMedia as ɵMatchMedia,
     MockMatchMedia as ɵMockMatchMedia,
-    MockMatchMediaProvider as ɵMockMatchMediaProvider,
+    MockMatchMediaProvider as ɵMockMatchMediaProvider
 } from './match-media/index';
 export * from './media-observer/index';
 export * from './media-trigger/index';
@@ -29,4 +29,4 @@ export * from './style-builder/style-builder';
 export * from './basis-validator/basis-validator';
 export * from './media-marshaller/media-marshaller';
 export * from './media-marshaller/print-hook';
-export {Multiplier, multiply as ɵmultiply} from './multiply/multiplier';
+export { Multiplier, multiply as ɵmultiply } from './multiply/multiplier';

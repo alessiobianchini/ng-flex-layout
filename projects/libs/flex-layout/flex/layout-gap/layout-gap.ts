@@ -291,7 +291,12 @@ function buildGridMargin(value: string, directionality: string): StyleDefinition
         marginRight = minus(between);
     }
 
-    return {'margin': `0px ${marginRight} ${marginBottom} ${marginLeft}`};
+    return {
+        'margin-top': '0px',
+        'margin-right': marginRight,
+        'margin-bottom': marginBottom,
+        'margin-left': marginLeft,
+    };
 }
 
 function getMarginType(directionality: string, layout: string) {

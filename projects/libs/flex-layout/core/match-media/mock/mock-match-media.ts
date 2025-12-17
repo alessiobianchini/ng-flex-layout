@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Inject, Injectable, NgZone, PLATFORM_ID} from '@angular/core';
+import {Inject, Injectable, NgZone, PLATFORM_ID, Provider} from '@angular/core';
 
 
 import {MatchMedia} from '../match-media';
@@ -17,7 +17,9 @@ import { DOCUMENT } from '@angular/common';
  * MockMediaQueryListener. Methods are available to simulate an activation of a mediaQuery
  * range and to clearAll mediaQuery listeners.
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MockMatchMedia extends MatchMedia {
 
 
@@ -241,9 +243,15 @@ export class MockMediaQueryList extends EventTarget implements MediaQueryList {
  * Pre-configured provider for MockMatchMedia
  */
 /* eslint-disable @typescript-eslint/naming-convention */
-export const MockMatchMediaProvider = {
-    provide: MatchMedia,
-    useClass: MockMatchMedia
-};
+export const MockMatchMediaProvider: Provider[] = [
+    {
+        provide: MatchMedia,
+        useClass: MockMatchMedia
+    },
+    {
+        provide: MockMatchMedia,
+        useExisting: MatchMedia
+    }
+];
 
 type MediaQueryListListener = ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | null;

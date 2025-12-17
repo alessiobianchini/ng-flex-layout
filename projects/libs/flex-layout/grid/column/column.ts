@@ -19,7 +19,16 @@ const DEFAULT_VALUE = 'auto';
 @Injectable({providedIn: 'root'})
 export class GridColumnStyleBuilder extends StyleBuilder {
     buildStyles(input: string) {
-        return {'grid-column': input || DEFAULT_VALUE};
+        const value = input || DEFAULT_VALUE;
+        const parts = value.split('/').map((v) => v.trim()).filter(Boolean);
+        const colStart = parts[0];
+        const colEnd = parts.length > 1 ? parts[1] : parts[0];
+
+        return {
+            'grid-column': value,
+            ...(colStart ? { 'grid-column-start': colStart } : {}),
+            ...(colEnd ? { 'grid-column-end': colEnd } : {})
+        };
     }
 }
 

@@ -1,5 +1,9 @@
 import { expect } from 'vitest';
 
+function unwrapNativeElement(value: any): HTMLElement {
+    return (value && typeof value === 'object' && 'nativeElement' in value) ? (value as any).nativeElement : value;
+}
+
 expect.extend({
     toHaveMap(received: Record<string, string>, expected: Record<string, string>) {
         const pass = Object.entries(expected).every(([k, v]) => received[k] === v);
@@ -9,22 +13,24 @@ expect.extend({
                 `Expected map ${JSON.stringify(received)} ${pass ? 'not ' : ''}to match ${JSON.stringify(expected)}`,
         };
     },
-    toHaveCssClass(received: HTMLElement, className: string) {
-        const hasClass = received.classList.contains(className);
+    toHaveCssClass(received: any, className: string) {
+        const el = unwrapNativeElement(received);
+        const hasClass = el.classList.contains(className);
         return {
             pass: hasClass,
             message: () =>
-                `Expected element ${received.outerHTML} ${hasClass ? 'not ' : ''}to have class '${className}'`
+                `Expected element ${el.outerHTML} ${hasClass ? 'not ' : ''}to have class '${className}'`
         };
     },
-    toHaveAttributes(received: HTMLElement, expected: Record<string, string>) {
+    toHaveAttributes(received: any, expected: Record<string, string>) {
+        const el = unwrapNativeElement(received);
         const allMatch = Object.entries(expected).every(
-            ([key, value]) => received.getAttribute(key) === value
+            ([key, value]) => el.getAttribute(key) === value
         );
         return {
             pass: allMatch,
             message: () =>
-                `Expected element ${received.outerHTML} ${allMatch ? 'not ' : ''}to have attributes ${JSON.stringify(expected)}`
+                `Expected element ${el.outerHTML} ${allMatch ? 'not ' : ''}to have attributes ${JSON.stringify(expected)}`
         };
     }
 });

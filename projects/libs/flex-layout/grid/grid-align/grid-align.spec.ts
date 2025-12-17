@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { TestBed, inject } from '@angular/core/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -17,10 +17,10 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import { FlexLayoutModule } from '../../module';
 import { extendObject } from 'ng-flex-layout/_private-utils';
-import { customMatchers } from 'ng-flex-layout/_private-utils/testing';
-import { makeCreateTestComponent, expectNativeEl } from 'ng-flex-layout/_private-utils/testing';
+import { expectNativeEl, makeCreateTestComponent } from 'ng-flex-layout/_private-utils/testing';
+import { beforeEach, describe, it } from 'vitest';
+import { FlexLayoutModule } from '../../module';
 
 describe('align directive', () => {
     let fixture: any;
@@ -44,8 +44,6 @@ describe('align directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, FlexLayoutModule],

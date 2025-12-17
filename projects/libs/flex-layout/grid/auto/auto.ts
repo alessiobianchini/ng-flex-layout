@@ -14,6 +14,7 @@ import {
     StyleDefinition,
 } from 'ng-flex-layout/core';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
+import { Platform } from '@angular/cdk/platform';
 
 const DEFAULT_VALUE = 'initial';
 
@@ -23,17 +24,25 @@ export interface GridAutoParent {
 
 @Injectable({providedIn: 'root'})
 export class GridAutoStyleBuilder extends StyleBuilder {
+    constructor(private _platform: Platform) {
+        super();
+    }
+
     buildStyles(input: string, parent: GridAutoParent) {
         let [direction, dense] = (input || DEFAULT_VALUE).split(' ');
         if (direction !== 'column' && direction !== 'row' && direction !== 'dense') {
             direction = 'row';
         }
 
-        dense = (dense === 'dense' && direction !== 'dense') ? ' dense' : '';
+        const hasDense = dense === 'dense' && direction !== 'dense';
+        dense = hasDense ? ' dense' : '';
+
+        const allowDenseOnly = hasDense && direction === 'row' && !(this._platform.IOS || !this._platform.isBrowser);
+        const autoFlow = allowDenseOnly ? 'dense' : (direction + dense);
 
         return {
             'display': parent.inline ? 'inline-grid' : 'grid',
-            'grid-auto-flow': direction + dense
+            'grid-auto-flow': autoFlow
         };
     }
 }

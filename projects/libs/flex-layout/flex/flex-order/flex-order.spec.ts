@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import {Component} from '@angular/core';
-import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 import {CommonModule} from '@angular/common';
 import {
     ɵMatchMedia as MatchMedia,
@@ -16,7 +16,6 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
 import {FlexLayoutModule} from '../../module';
 import {expectNativeEl, makeCreateTestComponent} from 'ng-flex-layout/_private-utils/testing';
 
@@ -34,7 +33,6 @@ describe('flex-order', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
         TestBed.configureTestingModule({
             declarations: [TestOrderComponent],
             imports: [CommonModule, FlexLayoutModule],

@@ -5,10 +5,17 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component, Injectable, PLATFORM_ID, ViewChild} from '@angular/core';
-import {CommonModule, isPlatformServer} from '@angular/common';
-import {ComponentFixture, TestBed, inject, fakeAsync} from '@angular/core/testing';
-import {Platform} from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
+import { CommonModule, isPlatformServer } from '@angular/common';
+import { Component, Injectable, PLATFORM_ID, ViewChild } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import {
+    expectEl,
+    expectNativeEl,
+    makeCreateTestComponent,
+    queryFor
+} from 'ng-flex-layout/_private-utils/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -16,62 +23,48 @@ import {
     StyleBuilder,
     StyleUtils,
 } from 'ng-flex-layout/core';
-import {FlexLayoutModule} from 'ng-flex-layout';
-import {DefaultFlexDirective, DefaultLayoutDirective, FlexStyleBuilder} from 'ng-flex-layout/flex';
-import {
-    customMatchers,
-    expect,
-    makeCreateTestComponent,
-    expectNativeEl,
-    queryFor,
-    expectEl,
-} from 'ng-flex-layout/_private-utils/testing';
+import { DefaultFlexDirective, DefaultLayoutDirective, FlexStyleBuilder } from 'ng-flex-layout/flex';
 
+let fixture: any;
+let mediaController: MockMatchMedia;
+let styler: StyleUtils;
+let platform: Platform;
+let platformId: Object;
+
+const componentWithTemplate = (template: string) => {
+    fixture = makeCreateTestComponent(() => TestFlexComponent)(template);
+
+    mediaController = TestBed.inject(MockMatchMedia);
+    styler = TestBed.inject(StyleUtils);
+    platform = TestBed.inject(Platform);
+    platformId = TestBed.inject(PLATFORM_ID);
+
+    return fixture;
+};
 
 describe('flex directive', () => {
-    let fixture: any;
-    let mediaController: MockMatchMedia;
-    let styler: StyleUtils;
-    let platform: Platform;
-    let platformId: Object;
-    let componentWithTemplate = (template: string) => {
-        fixture = makeCreateTestComponent(() => TestFlexComponent)(template);
-
-        // Can only Inject() AFTER TestBed.override(...)
-        inject(
-            [MatchMedia, StyleUtils, Platform, PLATFORM_ID],
-            (_matchMedia: MockMatchMedia, _styler: StyleUtils, _platform: Platform,
-                _platformId: Object) => {
-                mediaController = _matchMedia;
-                styler = _styler;
-                platform = _platform;
-                platformId = _platformId;
-
-            })();
-
-        return fixture;
-    };
-
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         TestBed.configureTestingModule({
             imports: [
                 CommonModule,
-                FlexLayoutModule.withConfig({serverLoaded: true}),
+                FlexLayoutModule.withConfig({ serverLoaded: true }),
             ],
             declarations: [TestFlexComponent, TestQueryWithFlexComponent],
-            providers: [MockMatchMediaProvider]
+            providers: [
+                MockMatchMediaProvider,
+                { provide: MockMatchMedia, useExisting: MatchMedia }
+            ]
         });
     });
 
     afterEach(() => {
-        mediaController.clearAll();
+        mediaController?.clearAll();
+        TestBed.resetTestingModule();
     });
 
     describe('with static features', () => {
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
         it('should add correct styles for default `fxFlex` usage', () => {
@@ -79,8 +72,8 @@ describe('flex directive', () => {
             fixture.detectChanges();
 
             let dom = fixture.debugElement.children[0];
-            expectEl(dom).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(dom).toHaveStyle({'flex': '1 1 0%'}, styler);
+            expectEl(dom).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(dom).toHaveStyle({ 'flex': '1 1 0%' }, styler);
         });
 
         it('should add correct styles for `fxFlex` and ngStyle with layout change', () => {
@@ -93,9 +86,9 @@ describe('flex directive', () => {
             fixture.detectChanges();
             mediaController.activate('sm', true);
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'width': '15px'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '10 1 auto'}, styler);
+            expectEl(element).toHaveStyle({ 'width': '15px' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '10 1 auto' }, styler);
         });
 
         it('should add correct styles for `fxFlex` with NgForOf', () => {
@@ -107,15 +100,15 @@ describe('flex directive', () => {
             fixture.componentInstance.direction = 'row';
             fixture.detectChanges();
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'max-width': '50%'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 100%'}, styler);
+            expectEl(element).toHaveStyle({ 'max-width': '50%' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 100%' }, styler);
             fixture.componentInstance.direction = 'column';
             fixture.detectChanges();
             element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'max-height': '50%'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 100%'}, styler);
+            expectEl(element).toHaveStyle({ 'max-height': '50%' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 100%' }, styler);
         });
 
         it('should add correct styles for `fxFlex` and ngStyle without layout change', () => {
@@ -128,9 +121,9 @@ describe('flex directive', () => {
             fixture.detectChanges();
             mediaController.activate('sm', true);
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'width': '15px'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '10 1 auto'}, styler);
+            expectEl(element).toHaveStyle({ 'width': '15px' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '10 1 auto' }, styler);
         });
 
         it('should add correct styles for `fxFlex` with multiple layout changes and wraps', () => {
@@ -142,26 +135,26 @@ describe('flex directive', () => {
             fixture.debugElement.componentInstance.direction = 'column';
             fixture.detectChanges();
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'column'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-height': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'column' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-height': '30%' }, styler);
 
             fixture.debugElement.componentInstance.direction = 'row';
             fixture.detectChanges();
 
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'row'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-width': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'row' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-width': '30%' }, styler);
 
             fixture.debugElement.componentInstance.direction = 'column';
             fixture.detectChanges();
 
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'column'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-height': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'column' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-height': '30%' }, styler);
         });
 
         it('should add correct styles for `fxFlex` with gap in grid mode and wrap parent', () => {
@@ -175,34 +168,34 @@ describe('flex directive', () => {
             fixture.debugElement.componentInstance.direction = 'row';
             fixture.detectChanges();
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'row'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-width': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'row' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-width': '30%' }, styler);
 
             fixture.debugElement.componentInstance.direction = 'row-reverse';
             fixture.detectChanges();
 
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'row-reverse'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-width': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'row-reverse' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-width': '30%' }, styler);
 
             fixture.debugElement.componentInstance.direction = 'column';
             fixture.detectChanges();
 
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'column'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-height': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'column' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-height': '30%' }, styler);
 
             fixture.debugElement.componentInstance.direction = 'column-reverse';
             fixture.detectChanges();
 
-            expectNativeEl(fixture).toHaveStyle({'flex-direction': 'column-reverse'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-            expectEl(element).toHaveStyle({'max-height': '30%'}, styler);
+            expectNativeEl(fixture).toHaveStyle({ 'flex-direction': 'column-reverse' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+            expectEl(element).toHaveStyle({ 'max-height': '30%' }, styler);
         });
 
         it('should add correct styles for `fxFlex` and ngStyle with multiple layout changes', () => {
@@ -216,16 +209,16 @@ describe('flex directive', () => {
             fixture.detectChanges();
 
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'width': '15px'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '10 1 auto'}, styler);
+            expectEl(element).toHaveStyle({ 'width': '15px' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '10 1 auto' }, styler);
 
             mediaController.activate('md', true);
             fixture.detectChanges();
 
-            expectEl(element).not.toHaveStyle({'width': '15px'}, styler);
-            expectEl(element).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(element).toHaveStyle({'flex': '10 1 auto'}, styler);
+            expectEl(element).not.toHaveStyle({ 'width': '15px' }, styler);
+            expectEl(element).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(element).toHaveStyle({ 'flex': '10 1 auto' }, styler);
         });
 
         it('should apply `fxGrow` value to flex-grow when used default `fxFlex`', () => {
@@ -234,8 +227,8 @@ describe('flex directive', () => {
 
             let dom = fixture.debugElement.children[0];
 
-            expectEl(dom).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(dom).toHaveStyle({'flex': '10 1 0%'}, styler);
+            expectEl(dom).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(dom).toHaveStyle({ 'flex': '10 1 0%' }, styler);
         });
 
         it('should apply `fxShrink` value to flex-shrink when used default `fxFlex`', () => {
@@ -244,8 +237,8 @@ describe('flex directive', () => {
 
             let dom = fixture.debugElement.children[0];
 
-            expectEl(dom).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(dom).toHaveStyle({'flex': '1 10 0%'}, styler);
+            expectEl(dom).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(dom).toHaveStyle({ 'flex': '1 10 0%' }, styler);
         });
 
         it('should apply both `fxGrow` and `fxShrink` when used with default fxFlex', () => {
@@ -253,8 +246,8 @@ describe('flex directive', () => {
             fixture.detectChanges();
 
             let dom = fixture.debugElement.children[0];
-            expectEl(dom).toHaveStyle({'box-sizing': 'border-box'}, styler);
-            expectEl(dom).toHaveStyle({'flex': '4 5 0%'}, styler);
+            expectEl(dom).toHaveStyle({ 'box-sizing': 'border-box' }, styler);
+            expectEl(dom).toHaveStyle({ 'flex': '4 5 0%' }, styler);
         });
 
         it('should add correct styles for flex-basis unitless 0 input', () => {
@@ -344,9 +337,9 @@ describe('flex directive', () => {
             let element = queryFor(fixture, '[fxFlex]')[0];
 
             // parent flex-direction found with 'column' with child height styles
-            expectEl(parent).toHaveStyle({'flex-direction': 'column', 'display': 'flex'}, styler);
-            expectEl(element).toHaveStyle({'min-height': '30px'}, styler);
-            expectEl(element).not.toHaveStyle({'min-width': '30px'}, styler);
+            expectEl(parent).toHaveStyle({ 'flex-direction': 'column', 'display': 'flex' }, styler);
+            expectEl(element).toHaveStyle({ 'min-height': '30px' }, styler);
+            expectEl(element).not.toHaveStyle({ 'min-width': '30px' }, styler);
         });
 
         it('should work fxLayout parents default in column mode', () => {
@@ -360,7 +353,7 @@ describe('flex directive', () => {
             let element = queryFor(fixture, '[fxFlex]')[0];
 
             // parent flex-direction found with 'column' with child height styles
-            expectEl(parent).toHaveStyle({'flex-direction': 'column', 'display': 'flex'}, styler);
+            expectEl(parent).toHaveStyle({ 'flex-direction': 'column', 'display': 'flex' }, styler);
 
             if (platform.BLINK) {
                 expectEl(element).toHaveStyle({
@@ -402,13 +395,13 @@ describe('flex directive', () => {
             // TODO(CaerusKaru): Domino is unable to detect this style
             if (!isPlatformServer(platformId)) {
                 // parent flex-direction found with 'column' with child height styles
-                expectEl(parent).toHaveCSS({'flex-direction': 'column', 'display': 'flex'}, styler);
-                expectEl(element).toHaveStyle({'min-height': '30px'}, styler);
-                expectEl(element).not.toHaveStyle({'min-width': '30px'}, styler);
+                expectEl(parent).toHaveCSS({ 'flex-direction': 'column', 'display': 'flex' }, styler);
+                expectEl(element).toHaveStyle({ 'min-height': '30px' }, styler);
+                expectEl(element).not.toHaveStyle({ 'min-width': '30px' }, styler);
             }
         });
 
-        it('should work with non-direct-parent fxLayouts', fakeAsync(() => {
+        it('should work with non-direct-parent fxLayouts', () => {
             componentWithTemplate(`
         <div fxLayout='column'>
           <div class='test'>
@@ -424,11 +417,11 @@ describe('flex directive', () => {
             // The parent flex-direction not found;
             // A flex-direction should have been auto-injected to the parent...
             // fallback to 'row' and set child width styles accordingly
-            expectEl(parent).toHaveStyle({'flex-direction': 'row'}, styler);
-            expectEl(element).toHaveStyle({'min-width': '40px'}, styler);
-            expectEl(element).not.toHaveStyle({'min-height': '40px'}, styler);
+            expectEl(parent).toHaveStyle({ 'flex-direction': 'row' }, styler);
+            expectEl(element).toHaveStyle({ 'min-width': '40px' }, styler);
+            expectEl(element).not.toHaveStyle({ 'min-height': '40px' }, styler);
 
-        }));
+        });
 
         it('should work with styled-parent flex directions', () => {
             componentWithTemplate(`
@@ -443,8 +436,8 @@ describe('flex directive', () => {
             let parent = queryFor(fixture, '.parent')[0];
 
             // parent flex-direction found with 'column'; set child with height styles
-            expectEl(element).toHaveStyle({'min-height': '60px'}, styler);
-            expectEl(parent).toHaveStyle({'flex-direction': 'column'}, styler);
+            expectEl(element).toHaveStyle({ 'min-height': '60px' }, styler);
+            expectEl(parent).toHaveStyle({ 'flex-direction': 'column' }, styler);
         });
 
         it('should work with "1 1 auto" values', () => {
@@ -460,14 +453,14 @@ describe('flex directive', () => {
             let nodes = queryFor(fixture, '[fxFlex]');
 
             expect(nodes.length).toEqual(3);
-            expectEl(nodes[1]).not.toHaveStyle({'max-height': '*', 'min-height': '*'}, styler);
+            expectEl(nodes[1]).not.toHaveStyle({ 'max-height': '*', 'min-height': '*' }, styler);
             expectEl(nodes[1]).toHaveStyle({
                 'flex': '1 1 auto',
                 'box-sizing': 'border-box'
             }, styler);
         });
 
-        it('should work with calc without internal whitespaces', fakeAsync(() => {
+        it('should work with calc without internal whitespaces', () => {
             // @see http://caniuse.com/#feat=calc for IE issues with calc()
             componentWithTemplate('<div fxFlex="calc(75%-10px)"></div>');
             if (!(platform.FIREFOX || platform.EDGE)) {
@@ -479,7 +472,7 @@ describe('flex directive', () => {
                     'flex-basis': 'calc(75% - 10px)' // correct version has whitespace
                 }, styler);
             }
-        }));
+        });
 
         it('should work with "auto" values', () => {
             componentWithTemplate('<div fxFlex=\'auto\'></div>');
@@ -553,7 +546,7 @@ describe('flex directive', () => {
             componentWithTemplate('<div fxFlex=\'1 0 303px\'></div>');
             fixture.detectChanges();
             let dom = fixture.debugElement.children[0];
-            expectEl(dom).not.toHaveStyle({'max-width': '*'}, styler);
+            expectEl(dom).not.toHaveStyle({ 'max-width': '*' }, styler);
         });
 
         it('should not set min-width to 96px when fxFlex="0 1 96px"', () => {
@@ -567,7 +560,7 @@ describe('flex directive', () => {
             componentWithTemplate('<div fxFlex=\'0 1 313px\'></div>');
             fixture.detectChanges();
             let dom = fixture.debugElement.children[0];
-            expectEl(dom).not.toHaveStyle({'min-width': '*'}, styler);
+            expectEl(dom).not.toHaveStyle({ 'min-width': '*' }, styler);
         });
 
         it('should set a min-width when basis is a Px value', () => {
@@ -640,7 +633,7 @@ describe('flex directive', () => {
 
     describe('with responsive features', () => {
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
         it('should initialize the component with the smallest lt-xxx matching breakpoint', () => {
@@ -722,33 +715,33 @@ describe('flex directive', () => {
 
             let nodes = queryFor(fixture, '[fxFlex]');
             expect(nodes.length).toEqual(3);
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[1]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[2]).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[1]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[2]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
 
             mediaController.activate('xl');
             fixture.detectChanges();
 
             nodes = queryFor(fixture, '[fxFlex]');
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 100%', 'max-height': '50%'}, styler);
-            expectEl(nodes[1]).toHaveStyle({'flex': '1 1 100%', 'max-height': '24.4%'}, styler);
-            expectEl(nodes[2]).toHaveStyle({'flex': '1 1 100%', 'max-height': '25.6%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 100%', 'max-height': '50%' }, styler);
+            expectEl(nodes[1]).toHaveStyle({ 'flex': '1 1 100%', 'max-height': '24.4%' }, styler);
+            expectEl(nodes[2]).toHaveStyle({ 'flex': '1 1 100%', 'max-height': '25.6%' }, styler);
 
             mediaController.activate('sm');
             fixture.detectChanges();
 
             nodes = queryFor(fixture, '[fxFlex]');
             expect(nodes.length).toEqual(3);
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[1]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[2]).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[1]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[2]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
 
-            expectEl(nodes[0]).not.toHaveStyle({'max-height': '50%'}, styler);
-            expectEl(nodes[1]).not.toHaveStyle({'max-height': '24.4%'}, styler);
-            expectEl(nodes[2]).not.toHaveStyle({'max-height': '25.6%'}, styler);
-            expectEl(nodes[0]).not.toHaveStyle({'max-height': '*'}, styler);
-            expectEl(nodes[1]).not.toHaveStyle({'max-height': '*'}, styler);
-            expectEl(nodes[2]).not.toHaveStyle({'max-height': '*'}, styler);
+            expectEl(nodes[0]).not.toHaveStyle({ 'max-height': '50%' }, styler);
+            expectEl(nodes[1]).not.toHaveStyle({ 'max-height': '24.4%' }, styler);
+            expectEl(nodes[2]).not.toHaveStyle({ 'max-height': '25.6%' }, styler);
+            expectEl(nodes[0]).not.toHaveStyle({ 'max-height': '*' }, styler);
+            expectEl(nodes[1]).not.toHaveStyle({ 'max-height': '*' }, styler);
+            expectEl(nodes[2]).not.toHaveStyle({ 'max-height': '*' }, styler);
         });
 
         it('should fallback to the default layout from gt-md selectors', () => {
@@ -765,25 +758,25 @@ describe('flex directive', () => {
             let nodes = queryFor(fixture, '[fxFlex]');
 
             expect(nodes.length).toEqual(3);
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[1]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[2]).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[1]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[2]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
 
             mediaController.activate('sm');
             fixture.detectChanges();
             nodes = queryFor(fixture, '[fxFlex]');
 
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[1]).toHaveStyle({'flex': '1 1 auto'}, styler);
-            expectEl(nodes[2]).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[1]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
+            expectEl(nodes[2]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
 
             mediaController.activate('lg', true);
             fixture.detectChanges();
             nodes = queryFor(fixture, '[fxFlex]');
 
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 100%', 'max-height': '50%'}, styler);
-            expectEl(nodes[1]).toHaveStyle({'flex': '1 1 100%', 'max-height': '24.4%'}, styler);
-            expectEl(nodes[2]).toHaveStyle({'flex': '1 1 100%', 'max-height': '25.6%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 100%', 'max-height': '50%' }, styler);
+            expectEl(nodes[1]).toHaveStyle({ 'flex': '1 1 100%', 'max-height': '24.4%' }, styler);
+            expectEl(nodes[2]).toHaveStyle({ 'flex': '1 1 100%', 'max-height': '25.6%' }, styler);
         });
 
         it('should fallback to the default layout from lt-md selectors', () => {
@@ -798,7 +791,7 @@ describe('flex directive', () => {
             let nodes = queryFor(fixture, '[fxFlex]');
 
             expect(nodes.length).toEqual(1);
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
 
             mediaController.activate('sm', true);
             fixture.detectChanges();
@@ -813,25 +806,20 @@ describe('flex directive', () => {
             fixture.detectChanges();
             nodes = queryFor(fixture, '[fxFlex]');
 
-            expectEl(nodes[0]).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'flex': '1 1 auto' }, styler);
         });
     });
 
     describe('with API directive queries', () => {
-        beforeEach(inject(
-            [MatchMedia, StyleUtils, Platform, PLATFORM_ID],
-            (_matchMedia: MockMatchMedia, _styler: StyleUtils, _platform: Platform,
-                _platformId: Object) => {
-
-                mediaController = _matchMedia;
-                styler = _styler;
-                platform = _platform;
-                platformId = _platformId;
-
-            }));
+        beforeEach(() => {
+            mediaController = TestBed.inject(MockMatchMedia);
+            styler = TestBed.inject(StyleUtils);
+            platform = TestBed.inject(Platform);
+            platformId = TestBed.inject(PLATFORM_ID);
+        });
 
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
         it('should query the ViewChild `fxLayout` directive properly', () => {
@@ -865,7 +853,7 @@ describe('flex directive', () => {
 
             let nodes = queryFor(fixture, '[fxFlex]');
             expect(nodes.length).toEqual(1);
-            expectEl(nodes[0]).toHaveStyle({'max-width': '50%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'max-width': '50%' }, styler);
 
             // Test for raw value assignments that are converted to percentages
             flex.activatedValue = '35';
@@ -873,7 +861,7 @@ describe('flex directive', () => {
 
             nodes = queryFor(fixture, '[fxFlex]');
             expect(nodes.length).toEqual(1);
-            expectEl(nodes[0]).toHaveStyle({'max-width': '35%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'max-width': '35%' }, styler);
 
             // Test for pixel value assignments
             flex.activatedValue = '27.5px';
@@ -881,7 +869,7 @@ describe('flex directive', () => {
 
             nodes = queryFor(fixture, '[fxFlex]');
             expect(nodes.length).toEqual(1);
-            expectEl(nodes[0]).toHaveStyle({'max-width': '27.5px'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'max-width': '27.5px' }, styler);
         });
 
         it('should restore `fxFlex` value after breakpoint activations', () => {
@@ -897,7 +885,7 @@ describe('flex directive', () => {
 
             let nodes = queryFor(fixture, '[fxFlex]');
             expect(nodes.length).toEqual(1);
-            expectEl(nodes[0]).toHaveStyle({'max-width': '35%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'max-width': '35%' }, styler);
 
             mediaController.activate('sm');
             fixture.detectChanges();
@@ -905,7 +893,7 @@ describe('flex directive', () => {
             // Test for breakpoint value changes
             expect(flex.activatedValue).toBe('71%');
             nodes = queryFor(fixture, '[fxFlex]');
-            expectEl(nodes[0]).toHaveStyle({'max-width': '71%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'max-width': '71%' }, styler);
 
             mediaController.activate('lg');
             fixture.detectChanges();
@@ -913,7 +901,7 @@ describe('flex directive', () => {
             // Confirm activatedValue was restored properly when `sm` deactivated
             expect(flex.activatedValue).toBe('35');
             nodes = queryFor(fixture, '[fxFlex]');
-            expectEl(nodes[0]).toHaveStyle({'max-width': '35%'}, styler);
+            expectEl(nodes[0]).toHaveStyle({ 'max-width': '35%' }, styler);
         });
     });
 
@@ -923,7 +911,7 @@ describe('flex directive', () => {
             TestBed.configureTestingModule({
                 imports: [
                     CommonModule,
-                    FlexLayoutModule.withConfig({addFlexToParent: true, serverLoaded: true}),
+                    FlexLayoutModule.withConfig({ addFlexToParent: true, serverLoaded: true }),
                 ],
                 declarations: [TestFlexComponent, TestQueryWithFlexComponent],
                 providers: [MockMatchMediaProvider]
@@ -931,10 +919,10 @@ describe('flex directive', () => {
         });
 
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
-        it('should work with non-direct-parent fxLayouts', fakeAsync(() => {
+        it('should work with non-direct-parent fxLayouts', () => {
             componentWithTemplate(`
         <div fxLayout='column'>
           <div class='test'>
@@ -949,11 +937,11 @@ describe('flex directive', () => {
             // The parent flex-direction not found;
             // A flex-direction should have been auto-injected to the parent...
             // fallback to 'row' and set child width styles accordingly
-            expectEl(parent).toHaveStyle({'flex-direction': 'row'}, styler);
-            expectEl(element).toHaveStyle({'min-width': '40px'}, styler);
-            expectEl(element).not.toHaveStyle({'min-height': '40px'}, styler);
+            expectEl(parent).toHaveStyle({ 'flex-direction': 'row' }, styler);
+            expectEl(element).toHaveStyle({ 'min-width': '40px' }, styler);
+            expectEl(element).not.toHaveStyle({ 'min-height': '40px' }, styler);
 
-        }));
+        });
     });
 
     describe('with prefixes disabled', () => {
@@ -973,10 +961,10 @@ describe('flex directive', () => {
         });
 
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
-        it('should work with non-direct-parent fxLayouts', fakeAsync(() => {
+        it('should work with non-direct-parent fxLayouts', () => {
             componentWithTemplate(`
         <div fxLayout='column'>
           <div class='test'>
@@ -992,10 +980,10 @@ describe('flex directive', () => {
             // A flex-direction should have been auto-injected to the parent...
             // fallback to 'row' and set child width styles accordingly
             expect(parent.nativeElement.getAttribute('style')).not.toContain('-webkit-flex-direction');
-            expectEl(element).toHaveStyle({'min-width': '40px'}, styler);
-            expectEl(element).not.toHaveStyle({'min-height': '40px'}, styler);
+            expectEl(element).toHaveStyle({ 'min-width': '40px' }, styler);
+            expectEl(element).not.toHaveStyle({ 'min-height': '40px' }, styler);
 
-        }));
+        });
     });
 
     describe('with column basis zero disabled', () => {
@@ -1017,7 +1005,7 @@ describe('flex directive', () => {
         });
 
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
         it('should set flex basis to auto', () => {
@@ -1032,7 +1020,7 @@ describe('flex directive', () => {
             styleBuilder.shouldCache = false;
             fixture.detectChanges();
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'flex': '1 1 auto'}, styler);
+            expectEl(element).toHaveStyle({ 'flex': '1 1 auto' }, styler);
         });
     });
 
@@ -1059,10 +1047,10 @@ describe('flex directive', () => {
         });
 
         afterEach(() => {
-            mediaController.clearAll();
+            mediaController?.clearAll();
         });
 
-        it('should set flex basis to input', fakeAsync(() => {
+        it('should set flex basis to input', () => {
             componentWithTemplate(`
         <div fxLayout='column'>
           <div fxFlex="25"></div>
@@ -1070,8 +1058,8 @@ describe('flex directive', () => {
       `);
             fixture.detectChanges();
             let element = queryFor(fixture, '[fxFlex]')[0];
-            expectEl(element).toHaveStyle({'flex': '1 1 30%'}, styler);
-        }));
+            expectEl(element).toHaveStyle({ 'flex': '1 1 30%' }, styler);
+        });
     });
 
 });
@@ -1081,7 +1069,7 @@ export class MockFlexStyleBuilder extends StyleBuilder {
     override shouldCache = false;
 
     buildStyles(_input: string) {
-        return {'flex': '1 1 30%'};
+        return { 'flex': '1 1 30%' };
     }
 }
 
@@ -1109,6 +1097,6 @@ class TestFlexComponent {
     standalone: false
 })
 class TestQueryWithFlexComponent {
-    @ViewChild(DefaultFlexDirective, {static: true}) flex!: DefaultFlexDirective;
-    @ViewChild(DefaultLayoutDirective, {static: true}) layout!: DefaultLayoutDirective;
+    @ViewChild(DefaultFlexDirective, { static: true }) flex!: DefaultFlexDirective;
+    @ViewChild(DefaultLayoutDirective, { static: true }) layout!: DefaultLayoutDirective;
 }

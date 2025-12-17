@@ -16,7 +16,8 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import { _dom as _, customMatchers, expect, expectEl, makeCreateTestComponent, queryFor } from 'ng-flex-layout/_private-utils/testing';
+import { _dom as _, expectEl, makeCreateTestComponent, queryFor } from 'ng-flex-layout/_private-utils/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { FlexLayoutModule } from '../../module';
 
 const SRC_URLS = {
@@ -65,15 +66,13 @@ describe('img-src directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, FlexLayoutModule],
             declarations: [TestSrcComponent],
             providers: [
                 MockMatchMediaProvider,
-                {provide: SERVER_TOKEN, useValue: true}
+                { provide: SERVER_TOKEN, useValue: true }
             ]
         });
     });

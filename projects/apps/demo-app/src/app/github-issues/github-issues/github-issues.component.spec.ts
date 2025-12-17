@@ -1,17 +1,18 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { beforeEach, describe, expect, it } from 'vitest';
 import { GithubIssuesComponent } from './github-issues.component';
 
 describe('GithubIssuesComponent', () => {
   let component: GithubIssuesComponent;
   let fixture: ComponentFixture<GithubIssuesComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ GithubIssuesComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GithubIssuesComponent);

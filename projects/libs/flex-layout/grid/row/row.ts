@@ -19,7 +19,16 @@ const DEFAULT_VALUE = 'auto';
 @Injectable({providedIn: 'root'})
 export class GridRowStyleBuilder extends StyleBuilder {
     buildStyles(input: string) {
-        return {'grid-row': input || DEFAULT_VALUE};
+        const value = input || DEFAULT_VALUE;
+        const parts = value.split('/').map((v) => v.trim()).filter(Boolean);
+        const rowStart = parts[0];
+        const rowEnd = parts.length > 1 ? parts[1] : parts[0];
+
+        return {
+            'grid-row': value,
+            ...(rowStart ? { 'grid-row-start': rowStart } : {}),
+            ...(rowEnd ? { 'grid-row-end': rowEnd } : {})
+        };
     }
 }
 

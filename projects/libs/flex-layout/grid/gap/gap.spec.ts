@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TestBed, ComponentFixture, inject} from '@angular/core/testing';
-import {Platform} from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -17,10 +17,10 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
-import {expectNativeEl, makeCreateTestComponent} from 'ng-flex-layout/_private-utils/testing';
+import { expectNativeEl, makeCreateTestComponent } from 'ng-flex-layout/_private-utils/testing';
 
-import {GridModule} from '../module';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { GridModule } from '../module';
 
 describe('grid gap directive', () => {
     let fixture: any;
@@ -45,15 +45,13 @@ describe('grid gap directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, GridModule],
             declarations: [TestLayoutGapComponent],
             providers: [
                 MockMatchMediaProvider,
-                {provide: SERVER_TOKEN, useValue: true},
+                { provide: SERVER_TOKEN, useValue: true },
             ],
         });
     });
@@ -78,7 +76,7 @@ describe('grid gap directive', () => {
                     'grid-column-gap': '10px',
                 }, styler);
             } else {
-                expectNativeEl(fixture).toHaveStyle({'display': 'grid'}, styler);
+                expectNativeEl(fixture).toHaveStyle({ 'display': 'grid' }, styler);
                 let gapStyle = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                     'grid-gap');
                 let correctGap = gapStyle === '10px' || gapStyle == '10px 10px';
@@ -181,7 +179,7 @@ describe('grid gap directive', () => {
                     'grid-column-gap': '10px',
                 }, styler);
             } else {
-                expectNativeEl(fixture).toHaveStyle({'display': 'inline-grid'}, styler);
+                expectNativeEl(fixture).toHaveStyle({ 'display': 'inline-grid' }, styler);
                 let gapStyle = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                     'grid-gap');
                 let correctGap = gapStyle === '10px' || gapStyle == '10px 10px';
@@ -210,7 +208,7 @@ describe('grid gap directive', () => {
                     'grid-column-gap': '10px',
                 }, styler);
             } else {
-                expectNativeEl(fixture).toHaveStyle({'display': 'grid'}, styler);
+                expectNativeEl(fixture).toHaveStyle({ 'display': 'grid' }, styler);
                 let gapStyle = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                     'grid-gap');
                 let correctGap = gapStyle === '10px' || gapStyle == '10px 10px';
@@ -225,7 +223,7 @@ describe('grid gap directive', () => {
                     'grid-column-gap': '16px',
                 }, styler);
             } else {
-                expectNativeEl(fixture).toHaveStyle({'display': 'grid'}, styler);
+                expectNativeEl(fixture).toHaveStyle({ 'display': 'grid' }, styler);
                 let gapStyle = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                     'grid-gap');
                 let correctGap = gapStyle === '16px' || gapStyle == '16px 16px';
@@ -240,7 +238,7 @@ describe('grid gap directive', () => {
                     'grid-column-gap': '10px',
                 }, styler);
             } else {
-                expectNativeEl(fixture).toHaveStyle({'display': 'grid'}, styler);
+                expectNativeEl(fixture).toHaveStyle({ 'display': 'grid' }, styler);
                 let gapStyle = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                     'grid-gap');
                 let correctGap = gapStyle === '10px' || gapStyle == '10px 10px';

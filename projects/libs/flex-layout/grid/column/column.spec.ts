@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TestBed, ComponentFixture, inject} from '@angular/core/testing';
-import {Platform} from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -17,14 +17,14 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
 import {
     expectEl,
-    queryFor,
     makeCreateTestComponent,
+    queryFor,
 } from 'ng-flex-layout/_private-utils/testing';
 
-import {GridModule} from '../module';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { GridModule } from '../module';
 
 describe('grid column child directive', () => {
     let fixture: any;
@@ -49,15 +49,13 @@ describe('grid column child directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, GridModule],
             declarations: [TestGridColumnComponent],
             providers: [
                 MockMatchMediaProvider,
-                {provide: SERVER_TOKEN, useValue: true},
+                { provide: SERVER_TOKEN, useValue: true },
             ],
         });
     });
@@ -88,7 +86,7 @@ describe('grid column child directive', () => {
                     'grid-column-end': '6',
                 }, styler);
             } else {
-                expectEl(nodes[1]).toHaveStyle({'grid-column': 'span 2 / 6'}, styler);
+                expectEl(nodes[1]).toHaveStyle({ 'grid-column': 'span 2 / 6' }, styler);
             }
         });
 
@@ -107,7 +105,7 @@ describe('grid column child directive', () => {
             let colStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-column');
             let correctCol = colStyles === 'apples' || colStyles === 'apples / apples' ||
-        colStyles === 'apples apples';
+                colStyles === 'apples apples';
 
             expect(correctCol).toBe(true);
 
@@ -116,7 +114,7 @@ describe('grid column child directive', () => {
 
             colStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement, 'grid-column');
             correctCol = colStyles === 'oranges' || colStyles === 'oranges / oranges' ||
-        colStyles === 'oranges oranges';
+                colStyles === 'oranges oranges';
             expect(correctCol).toBe(true);
         });
     });
@@ -136,21 +134,21 @@ describe('grid column child directive', () => {
             let colStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-column');
             let correctCol = colStyles === 'sidebar' || colStyles === 'sidebar / sidebar' ||
-        colStyles === 'sidebar sidebar';
+                colStyles === 'sidebar sidebar';
             expect(correctCol).toBe(true);
 
             mediaController.activate('xs');
             colStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-column');
             correctCol = colStyles === 'footer' || colStyles === 'footer / footer' ||
-        colStyles === 'footer footer';
+                colStyles === 'footer footer';
             expect(correctCol).toBe(true);
 
             mediaController.activate('md');
             colStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-column');
             correctCol = colStyles === 'sidebar' || colStyles === 'sidebar / sidebar' ||
-        colStyles === 'sidebar sidebar';
+                colStyles === 'sidebar sidebar';
             expect(correctCol).toBe(true);
         });
     });

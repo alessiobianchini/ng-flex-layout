@@ -4,8 +4,7 @@
   "compilerOptions": {
     "outDir": "../../../out-tsc/spec",
     "types": [
-      "jasmine",
-      "zone.js"
+      "vitest"
     ]
   },
   "files": [

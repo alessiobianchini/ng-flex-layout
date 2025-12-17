@@ -5,10 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TestBed, ComponentFixture, inject} from '@angular/core/testing';
-import {Platform} from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { expectNativeEl, makeCreateTestComponent } from 'ng-flex-layout/_private-utils/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -16,8 +17,8 @@ import {
     SERVER_TOKEN,
     StyleUtils,
 } from 'ng-flex-layout/core';
-import {GridModule} from 'ng-flex-layout/grid';
-import {customMatchers, expectNativeEl, makeCreateTestComponent} from 'ng-flex-layout/_private-utils/testing';
+import { GridModule } from 'ng-flex-layout/grid';
+import { beforeEach, describe, it } from 'vitest';
 
 
 describe('grid auto parent directive', () => {
@@ -36,15 +37,13 @@ describe('grid auto parent directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, GridModule],
             declarations: [TestGridAutoComponent],
             providers: [
                 MockMatchMediaProvider,
-                {provide: SERVER_TOKEN, useValue: true},
+                { provide: SERVER_TOKEN, useValue: true },
             ],
         });
     });

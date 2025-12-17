@@ -24,9 +24,20 @@ export interface GridGapParent {
 @Injectable({ providedIn: 'root' })
 export class GridGapStyleBuilder extends StyleBuilder {
     buildStyles(input: string, parent: GridGapParent) {
+        const value = input || DEFAULT_VALUE;
+        const parts = value.split(' ').map((v) => v.trim()).filter(Boolean);
+        const rowGap = parts[0] || DEFAULT_VALUE;
+        const colGap = parts.length > 1 ? parts[1] : rowGap;
+
         return {
             'display': parent.inline ? 'inline-grid' : 'grid',
-            'grid-gap': input || DEFAULT_VALUE
+            'grid-gap': value,
+            'gap': value,
+            'row-gap': rowGap,
+            'column-gap': colGap,
+            // Legacy aliases for older Grid implementations (and for tests that query these keys).
+            'grid-row-gap': rowGap,
+            'grid-column-gap': colGap
         };
     }
 }

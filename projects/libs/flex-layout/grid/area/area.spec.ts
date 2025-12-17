@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TestBed, ComponentFixture, inject} from '@angular/core/testing';
-import {Platform} from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -17,15 +17,15 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
 import {
     expectEl,
     expectNativeEl,
-    queryFor,
     makeCreateTestComponent,
+    queryFor,
 } from 'ng-flex-layout/_private-utils/testing';
 
-import {GridModule} from '../module';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { GridModule } from '../module';
 
 describe('grid area child directive', () => {
     let fixture: any;
@@ -50,8 +50,6 @@ describe('grid area child directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, GridModule],

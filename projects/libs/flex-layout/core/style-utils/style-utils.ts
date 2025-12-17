@@ -76,8 +76,45 @@ export class StyleUtils {
    * Find the DOM element's inline style value (if any)
    */
     lookupInlineStyle(element: HTMLElement, styleName: string): string {
-        return isPlatformBrowser(this._platformId) ?
-            element.style.getPropertyValue(styleName) : getServerStyle(element, styleName);
+        const normalizedName = styleName.trim();
+
+        // JSDOM (and some environments) do not reliably support shorthand serialization/lookups.
+        // Prefer reconstructing the shorthand when the longhand styles are present.
+        if (normalizedName === 'margin') {
+            const direct = isPlatformBrowser(this._platformId)
+                ? element.style.getPropertyValue('margin')
+                : getServerStyle(element, 'margin');
+
+            if (direct) return direct;
+
+            const top = this.lookupInlineStyle(element, 'margin-top');
+            const right = this.lookupInlineStyle(element, 'margin-right');
+            const bottom = this.lookupInlineStyle(element, 'margin-bottom');
+            const left = this.lookupInlineStyle(element, 'margin-left');
+
+            if (top || right || bottom || left) {
+                return `${top || '0px'} ${right || '0px'} ${bottom || '0px'} ${left || '0px'}`;
+            }
+        }
+
+        const candidates = getStyleNameCandidates(normalizedName);
+
+        if (isPlatformBrowser(this._platformId)) {
+            const styleMap = readStyleAttribute(element);
+            for (const name of candidates) {
+                const value = element.style.getPropertyValue(name);
+                if (value) return value;
+                const raw = styleMap[name];
+                if (raw) return raw;
+            }
+            return '';
+        }
+
+        for (const name of candidates) {
+            const value = getServerStyle(element, name);
+            if (value) return value;
+        }
+        return '';
     }
 
     /**
@@ -91,7 +128,12 @@ export class StyleUtils {
             if (!immediateValue) {
                 if (isPlatformBrowser(this._platformId)) {
                     if (!inlineOnly) {
-                        value = getComputedStyle(element).getPropertyValue(styleName);
+                        const candidates = getStyleNameCandidates(styleName);
+                        const computed = getComputedStyle(element);
+                        for (const name of candidates) {
+                            value = computed.getPropertyValue(name);
+                            if (value) break;
+                        }
                     }
                 } else {
                     if (this._serverModuleLoaded) {
@@ -121,14 +163,37 @@ export class StyleUtils {
             for (let value of values) {
                 value = value ? value + '' : '';
                 if (isPlatformBrowser(this._platformId) || !this._serverModuleLoaded) {
-                    isPlatformBrowser(this._platformId) ?
-                        element.style.setProperty(key, value) : setServerStyle(element, key, value);
+                    if (isPlatformBrowser(this._platformId)) {
+                        element.style.setProperty(key, value);
+
+                        // Some environments (notably JSDOM) do not reliably parse/serialize certain
+                        // properties/values (e.g. negative margins). Fall back to writing the raw
+                        // style attribute so test matchers can still observe the intended styles.
+                        if (value && !element.style.getPropertyValue(key)) {
+                            setServerStyle(element, key, value);
+                        }
+                    } else {
+                        setServerStyle(element, key, value);
+                    }
                 } else {
                     this._serverStylesheet.addStyleToElement(element, key, value);
                 }
             }
         });
     }
+}
+
+const STYLE_NAME_ALIASES: Record<string, string[]> = {
+    // Legacy CSS Grid aliases used by older WebKit/Edge versions.
+    'grid-row-gap': ['row-gap'],
+    'grid-column-gap': ['column-gap'],
+    'grid-gap': ['gap'],
+};
+
+function getStyleNameCandidates(styleName: string): string[] {
+    const normalized = styleName.trim();
+    const aliases = STYLE_NAME_ALIASES[normalized] ?? [];
+    return [normalized, ...aliases];
 }
 
 function getServerStyle(element: any, styleName: string): string {

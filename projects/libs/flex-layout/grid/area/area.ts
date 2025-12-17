@@ -19,7 +19,19 @@ const DEFAULT_VALUE = 'auto';
 @Injectable({providedIn: 'root'})
 export class GridAreaStyleBuilder extends StyleBuilder {
     buildStyles(input: string) {
-        return {'grid-area': input || DEFAULT_VALUE};
+        const value = input || DEFAULT_VALUE;
+        const parts = value.split('/').map((v) => v.trim()).filter(Boolean);
+
+        const rowStart = parts[0];
+        const colStart = parts.length > 1 ? parts[1] : parts[0];
+        const rowEnd = parts.length > 2 ? parts[2] : rowStart;
+        const colEnd = parts.length > 3 ? parts[3] : colStart;
+
+        return {
+            'grid-area': value,
+            ...(rowStart ? { 'grid-row-start': rowStart, 'grid-row-end': rowEnd || rowStart } : {}),
+            ...(colStart ? { 'grid-column-start': colStart, 'grid-column-end': colEnd || colStart } : {})
+        };
     }
 }
 

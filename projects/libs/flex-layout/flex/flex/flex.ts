@@ -271,14 +271,15 @@ export class FlexDirective extends BaseDirective2 implements OnInit {
         const direction = this.direction;
         const isHorizontal = direction.startsWith('row');
         const hasWrap = this.wrap;
+        const useColumnBasisZero = this.layoutConfig.useColumnBasisZero !== false;
         if (isHorizontal && hasWrap) {
             this.styleCache = flexRowWrapCache;
         } else if (isHorizontal && !hasWrap) {
             this.styleCache = flexRowCache;
         } else if (!isHorizontal && hasWrap) {
-            this.styleCache = flexColumnWrapCache;
+            this.styleCache = useColumnBasisZero ? flexColumnWrapCache : flexColumnWrapNoBasisZeroCache;
         } else if (!isHorizontal && !hasWrap) {
-            this.styleCache = flexColumnCache;
+            this.styleCache = useColumnBasisZero ? flexColumnCache : flexColumnNoBasisZeroCache;
         }
         const basis = String(value).replace(';', '');
         const parts = validateBasis(basis, this.flexGrow, this.flexShrink);
@@ -302,5 +303,7 @@ export class DefaultFlexDirective extends FlexDirective {
 
 const flexRowCache: Map<string, StyleDefinition> = new Map();
 const flexColumnCache: Map<string, StyleDefinition> = new Map();
+const flexColumnNoBasisZeroCache: Map<string, StyleDefinition> = new Map();
 const flexRowWrapCache: Map<string, StyleDefinition> = new Map();
 const flexColumnWrapCache: Map<string, StyleDefinition> = new Map();
+const flexColumnWrapNoBasisZeroCache: Map<string, StyleDefinition> = new Map();

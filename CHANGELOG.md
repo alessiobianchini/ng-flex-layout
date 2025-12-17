@@ -1,3 +1,11 @@
+# [20.0.1](https://github.com/alessiobianchini/flex-layout/compare/20.0.0...20.0.1) (2025-12-17)
+
+* Fixed Vitest + Angular TestBed integration and restored passing unit tests
+* Fixed `fxFlex` caching when `useColumnBasisZero` is disabled
+* Improved `fxLayoutGap` grid mode behavior and JSDOM compatibility (negative margin handling)
+* Normalized Grid directive style outputs (`gdRow`, `gdColumn`, `gdArea`, `gdGap`, `gdAuto`) for cross-browser compatibility
+* Enhanced `StyleUtils` style lookups with CSS Grid gap aliases and shorthand reconstruction
+
 # [20.0.0](https://github.com/alessiobianchini/flex-layout/compare/19.2.6...20.0.0) (2025-06-17)
 
 * Migrated to Angular 20 (`@angular/core`, `@angular/cli`, `@angular/material`, ...)

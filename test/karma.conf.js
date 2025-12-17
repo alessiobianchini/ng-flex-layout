@@ -6,7 +6,7 @@ const {customLaunchers, platformMap} = require('./browser-providers');
 module.exports = function (config) {
   config.set({
     basePath: "",
-    frameworks: ["jasmine", "@angular-devkit/build-angular"],
+    frameworks: ["jasmine"],
     plugins: [
       require("karma-jasmine"),
       require("karma-browserstack-launcher"),

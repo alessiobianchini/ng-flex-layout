@@ -1,9 +1,11 @@
 import path from 'path';
 import { defineConfig } from 'vitest/config';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { angularJitForVitestPlugin } from './vitest.angular-jit';
 
 export default defineConfig({
     plugins: [
+        angularJitForVitestPlugin(),
         tsconfigPaths({
             projects: [
                 path.resolve(__dirname, 'tsconfig.vitest.json'),
@@ -14,18 +16,15 @@ export default defineConfig({
         globals: true,
         watch: false,
         environment: 'jsdom',
-        setupFiles: './projects/libs/flex-layout/test.ts',
+        setupFiles: './vitest.setup.ts',
         include: [
-            'projects/libs/flex-layout/core/**/*.spec.ts',
-            'projects/libs/flex-layout/_private-utils/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/breakpoints/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/match-media/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/media-observer/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/media-trigger/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/style-utils/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/media-marshaller/**/*.spec.ts',
-            // 'projects/libs/flex-layout/core/basis-validator/basis-validator.spec.ts',
-            // 'projects/libs/flex-layout/core/media-marshaller/**/*.spec.ts',
+            // 'projects/libs/flex-layout/core/**/*.spec.ts',
+            // 'projects/libs/flex-layout/_private-utils/**/*.spec.ts',
+            'projects/**/*.spec.ts',
+        ],
+        exclude: [
+            'dist/**',
+            'out-tsc/**',
         ],
         coverage: {
             reporter: ['text', 'html'],

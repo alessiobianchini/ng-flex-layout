@@ -40,8 +40,6 @@ describe('layout-align directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, FlexLayoutModule],
@@ -477,9 +475,7 @@ describe('layout-align directive', () => {
 
     describe('with custom builder', () => {
         beforeEach(() => {
-            jasmine.addMatchers(customMatchers);
-
-            // Configure testbed to prepare services
+                // Configure testbed to prepare services
             TestBed.configureTestingModule({
                 imports: [
                     CommonModule,

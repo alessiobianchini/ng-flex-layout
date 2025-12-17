@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TestBed, ComponentFixture, inject} from '@angular/core/testing';
-import {Platform} from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import {
     ɵMatchMedia as MatchMedia,
     ɵMockMatchMedia as MockMatchMedia,
@@ -17,14 +17,14 @@ import {
     StyleUtils,
 } from 'ng-flex-layout/core';
 
-import {customMatchers} from 'ng-flex-layout/_private-utils/testing';
 import {
     expectEl,
-    queryFor,
     makeCreateTestComponent,
+    queryFor,
 } from 'ng-flex-layout/_private-utils/testing';
 
-import {GridModule} from '../module';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { GridModule } from '../module';
 
 describe('grid row child directive', () => {
     let fixture: any;
@@ -49,15 +49,13 @@ describe('grid row child directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
-
         // Configure testbed to prepare services
         TestBed.configureTestingModule({
             imports: [CommonModule, GridModule],
             declarations: [TestGridRowComponent],
             providers: [
                 MockMatchMediaProvider,
-                {provide: SERVER_TOKEN, useValue: true},
+                { provide: SERVER_TOKEN, useValue: true },
             ],
         });
     });
@@ -87,7 +85,7 @@ describe('grid row child directive', () => {
                     'grid-row-end': '6',
                 }, styler);
             } else {
-                expectEl(nodes[1]).toHaveStyle({'grid-row': 'span 2 / 6'}, styler);
+                expectEl(nodes[1]).toHaveStyle({ 'grid-row': 'span 2 / 6' }, styler);
             }
         });
 
@@ -106,7 +104,7 @@ describe('grid row child directive', () => {
             let rowStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-row');
             let correctRow = rowStyles === 'apples' || rowStyles === 'apples / apples' ||
-        rowStyles === 'apples apples';
+                rowStyles === 'apples apples';
 
             expect(correctRow).toBe(true);
 
@@ -115,7 +113,7 @@ describe('grid row child directive', () => {
 
             rowStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement, 'grid-row');
             correctRow = rowStyles === 'oranges' || rowStyles === 'oranges / oranges' ||
-        rowStyles === 'oranges oranges';
+                rowStyles === 'oranges oranges';
             expect(correctRow).toBe(true);
         });
     });
@@ -135,21 +133,21 @@ describe('grid row child directive', () => {
             let rowStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-row');
             let correctRow = rowStyles === 'sidebar' || rowStyles === 'sidebar / sidebar' ||
-        rowStyles === 'sidebar sidebar';
+                rowStyles === 'sidebar sidebar';
             expect(correctRow).toBe(true);
 
             mediaController.activate('xs');
             rowStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-row');
             correctRow = rowStyles === 'footer' || rowStyles === 'footer / footer' ||
-        rowStyles === 'footer footer';
+                rowStyles === 'footer footer';
             expect(correctRow).toBe(true);
 
             mediaController.activate('md');
             rowStyles = styler.lookupStyle(fixture.debugElement.children[0].nativeElement,
                 'grid-row');
             correctRow = rowStyles === 'sidebar' || rowStyles === 'sidebar / sidebar' ||
-        rowStyles === 'sidebar sidebar';
+                rowStyles === 'sidebar sidebar';
             expect(correctRow).toBe(true);
         });
     });

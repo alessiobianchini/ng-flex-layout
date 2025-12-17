@@ -7,7 +7,7 @@
  */
 import {Component, Injectable, PLATFORM_ID} from '@angular/core';
 import {CommonModule, isPlatformServer} from '@angular/common';
-import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 import {DIR_DOCUMENT} from '@angular/cdk/bidi';
 import {
     ɵMockMatchMediaProvider as MockMatchMediaProvider,
@@ -17,7 +17,6 @@ import {
 } from 'ng-flex-layout/core';
 import {FlexLayoutModule} from 'ng-flex-layout';
 import {
-    customMatchers,
     makeCreateTestComponent,
     queryFor,
     expectEl,
@@ -42,7 +41,6 @@ describe('flex-offset directive', () => {
     };
 
     beforeEach(() => {
-        jasmine.addMatchers(customMatchers);
         fakeDocument = {body: {}, documentElement: {}};
 
         // Configure testbed to prepare services
@@ -199,9 +197,7 @@ describe('flex-offset directive', () => {
 
     describe('with custom builder', () => {
         beforeEach(() => {
-            jasmine.addMatchers(customMatchers);
-
-            // Configure testbed to prepare services
+                // Configure testbed to prepare services
             TestBed.configureTestingModule({
                 imports: [
                     CommonModule,
@@ -256,5 +252,4 @@ export class MockFlexOffsetStyleBuilder extends StyleBuilder {
 class TestFlexComponent {
     direction = 'column';
 }
-
 
