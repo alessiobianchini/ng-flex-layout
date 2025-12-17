@@ -36,17 +36,18 @@ export class FlexStyleBuilder extends StyleBuilder {
         let basis = basisParts.join(' ');
 
         // The flex-direction of this element's flex container. Defaults to 'row'.
-        const direction = (parent.direction.indexOf('column') > -1) ? 'column' : 'row';
+        const direction = parent.direction.includes('column') ? 'column' : 'row';
 
         const max = isFlowHorizontal(direction) ? 'max-width' : 'max-height';
         const min = isFlowHorizontal(direction) ? 'min-width' : 'min-height';
 
-        const hasCalc = String(basis).indexOf('calc') > -1;
+        const basisString = String(basis);
+        const hasCalc = basisString.includes('calc');
         const usingCalc = hasCalc || (basis === 'auto');
-        const isPercent = String(basis).indexOf('%') > -1 && !hasCalc;
-        const hasUnits = String(basis).indexOf('px') > -1 || String(basis).indexOf('rem') > -1 ||
-      String(basis).indexOf('em') > -1 || String(basis).indexOf('vw') > -1 ||
-      String(basis).indexOf('vh') > -1;
+        const isPercent = basisString.includes('%') && !hasCalc;
+        const hasUnits = basisString.includes('px') || basisString.includes('rem') ||
+      basisString.includes('em') || basisString.includes('vw') ||
+      basisString.includes('vh');
 
         let isValue = (hasCalc || hasUnits);
 
@@ -60,6 +61,14 @@ export class FlexStyleBuilder extends StyleBuilder {
 
         let css: {[key: string]: string | number | null} = {};
 
+        // Use `null` to clear existing styles.
+        const clearStyles: StyleDefinition = {
+            'max-width': null,
+            'max-height': null,
+            'min-width': null,
+            'min-height': null
+        };
+
         // flex-basis allows you to specify the initial/starting main-axis size of the element,
         // before anything else is computed. It can either be a percentage or an absolute value.
         // It is, however, not the breaking point for flex-grow/shrink properties
@@ -71,13 +80,6 @@ export class FlexStyleBuilder extends StyleBuilder {
         //   ≥2 (integer n): Stretch. Will be n times the size of other elements
         //      with 'flex-grow: 1' on the same row.
 
-        // Use `null` to clear existing styles.
-        const clearStyles = {
-            'max-width': null,
-            'max-height': null,
-            'min-width': null,
-            'min-height': null
-        };
         switch (basis || '') {
             case '':
                 const useColumnBasisZero = this.layoutConfig.useColumnBasisZero !== false;

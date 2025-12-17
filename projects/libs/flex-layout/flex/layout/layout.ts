@@ -70,8 +70,13 @@ export class LayoutDirective extends BaseDirective2 implements OnChanges {
     protected override updateWithValue(input: string) {
         const detectLayoutDisplay = this._config.detectLayoutDisplay;
         const display = detectLayoutDisplay ? this.styler.lookupStyle(this.nativeElement, 'display') : '';
-        this.styleCache = cacheMap.get(display) ?? new Map();
-        cacheMap.set(display, this.styleCache);
+
+        let cache = cacheMap.get(display);
+        if (!cache) {
+            cache = new Map();
+            cacheMap.set(display, cache);
+        }
+        this.styleCache = cache;
 
         if (this.currentValue !== input) {
             this.addStyles(input, {display});

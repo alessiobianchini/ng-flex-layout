@@ -173,7 +173,7 @@ export class LayoutAlignDirective extends BaseDirective2 {
         const layoutKeys: string[] = matcher.value.split(' ');
         this.layout = layoutKeys[0];
         this.inline = matcher.value.includes('inline');
-        if (!LAYOUT_VALUES.find(x => x === this.layout)) {
+        if (!LAYOUT_VALUES.includes(this.layout)) {
             this.layout = 'row';
         }
         this.triggerUpdate();

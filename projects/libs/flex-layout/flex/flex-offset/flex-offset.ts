@@ -35,10 +35,10 @@ export class FlexOffsetStyleBuilder extends StyleBuilder {
     buildStyles(offset: string, parent: FlexOffsetParent) {
         offset ||= '0';
         offset = multiply(offset, this._config.multiplier);
-        const isPercent = String(offset).indexOf('%') > -1;
-        const isPx = String(offset).indexOf('px') > -1;
-        if (!isPx && !isPercent && !isNaN(+offset)) {
-            offset = `${offset}%`;
+        const offsetString = String(offset);
+        const hasUnit = offsetString.includes('%') || offsetString.includes('px');
+        if (!hasUnit && !isNaN(+offsetString)) {
+            offset = `${offsetString}%`;
         }
         const horizontalLayoutKey = parent.isRtl ? 'margin-right' : 'margin-left';
         const styles: StyleDefinition = isFlowHorizontal(parent.layout) ?

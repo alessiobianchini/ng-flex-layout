@@ -67,7 +67,7 @@ export class ShowHideDirective extends BaseDirective2 implements AfterViewInit, 
     ngAfterViewInit() {
         this.trackExtraTriggers();
 
-        const children = Array.from(this.nativeElement.children);
+        const children = this.nativeElement.children;
         for (let i = 0; i < children.length; i++) {
             if (this.marshal.hasValue(children[i] as HTMLElement, 'flex')) {
                 this.hasFlexChild = true;
@@ -98,7 +98,7 @@ export class ShowHideDirective extends BaseDirective2 implements AfterViewInit, 
    * Then conditionally override with the mq-activated Input's current value
    */
     override ngOnChanges(changes: SimpleChanges) {
-        Object.keys(changes).forEach(key => {
+        for (const key in changes) {
             if (this.inputs.indexOf(key) !== -1) {
                 const inputKey = key.split('.');
                 const bp = inputKey.slice(1).join('.');
@@ -111,7 +111,7 @@ export class ShowHideDirective extends BaseDirective2 implements AfterViewInit, 
                 }
                 this.setValue(shouldShow, bp);
             }
-        });
+        }
     }
 
     // *********************************************

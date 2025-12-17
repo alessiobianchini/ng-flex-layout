@@ -153,6 +153,7 @@ export class LayoutGapDirective extends BaseDirective2 implements AfterContentIn
 
     override ngOnDestroy() {
         super.ngOnDestroy();
+        this.observerSubject.complete();
         if (this.observer) {
             this.observer.disconnect();
         }
@@ -170,7 +171,7 @@ export class LayoutGapDirective extends BaseDirective2 implements AfterContentIn
         // Make sure to filter out 'wrap' option
         const direction = layout.split(' ');
         this.layout = direction[0];
-        if (!LAYOUT_VALUES.find(x => x === this.layout)) {
+        if (!LAYOUT_VALUES.includes(this.layout)) {
             this.layout = 'row';
         }
         this.triggerUpdate();
@@ -236,8 +237,7 @@ export class LayoutGapDirective extends BaseDirective2 implements AfterContentIn
             if (typeof MutationObserver !== 'undefined') {
                 this.observer = new MutationObserver((mutations: MutationRecord[]) => {
                     const validatedChanges = (it: MutationRecord): boolean => {
-                        return (it.addedNodes && it.addedNodes.length > 0) ||
-              (it.removedNodes && it.removedNodes.length > 0);
+                        return it.addedNodes.length > 0 || it.removedNodes.length > 0;
                     };
 
                     // update gap styles only for child 'added' or 'removed' events

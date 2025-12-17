@@ -25,7 +25,7 @@ export function validateValue(value: string): [string, string, boolean] {
     let [direction, wrap, inline] = value.split(' ');
 
     // First value must be the `flex-direction`
-    if (!LAYOUT_VALUES.find(x => x === direction)) {
+    if (!LAYOUT_VALUES.includes(direction)) {
         direction = LAYOUT_VALUES[0];
     }
 
@@ -43,7 +43,7 @@ export function validateValue(value: string): [string, string, boolean] {
  */
 export function isFlowHorizontal(value: string): boolean {
     let [flow, ] = validateValue(value);
-    return flow.indexOf('row') > -1;
+    return flow.includes('row');
 }
 
 /**
@@ -76,7 +76,7 @@ export function validateWrapValue(value: string) {
 /**
  * Build the CSS that should be assigned to the element instance
  * BUG:
- *   1) min-height on a column flex container won’t apply to its flex item children in IE 10-11.
+ *   1) min-height on a column flex container won't apply to its flex item children in IE 10-11.
  *      Use height instead if possible; height : <xxx>vh;
  *
  *  This way any padding or border specified on the child elements are
