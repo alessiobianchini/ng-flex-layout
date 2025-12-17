@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DocsGridComponent } from './docs-grid.component';
 
@@ -7,13 +7,13 @@ describe('DocsGridComponent', () => {
   let component: DocsGridComponent;
   let fixture: ComponentFixture<DocsGridComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ DocsGridComponent ],
       schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocsGridComponent);

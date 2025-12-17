@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutFillComponent } from './layout-fill.component';
 
@@ -7,13 +7,13 @@ describe('LayoutFillComponent', () => {
   let component: LayoutFillComponent;
   let fixture: ComponentFixture<LayoutFillComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ LayoutFillComponent ],
       schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LayoutFillComponent);
