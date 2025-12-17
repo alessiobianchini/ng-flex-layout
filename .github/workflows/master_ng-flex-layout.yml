@@ -1,49 +1,82 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - ng-flex-layout
+﻿name: demo-app - build and deploy to Azure web service
 
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref (branch/tag/SHA) to deploy (optional)'
+        required: false
+        default: ''
+  release:
+    types: [created]
 
 jobs:
   build:
-    runs-on: windows-latest
-    permissions:
-      contents: read #This is required for actions/checkout
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref) || github.ref }}
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Set github repository
+        run: pnpm config set //https://npm.pkg.github.com//:_authToken ${{secrets.GITHUB_TOKEN}}
+        
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build lib
+        run: pnpm run build
+
+      - name: Build demo-app
+        run: pnpm run build-demo-app
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: demo-app
+          path: dist/apps/demo-app/browser
 
   deploy:
+    if: github.event_name == 'release' || github.actor == 'alessiobianchini'
     runs-on: windows-latest
     needs: build
-    
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: demo-app
+      
       
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
