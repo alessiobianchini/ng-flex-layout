@@ -77,7 +77,7 @@ export class FlexStyleBuilder extends StyleBuilder {
         //   0: Do not stretch. Either size to element's content width, or obey 'flex-basis'.
         //   1: (Default value). Stretch; will be the same size to all other flex items on
         //       the same row since they have a default value of 1.
-        //   ≥2 (integer n): Stretch. Will be n times the size of other elements
+        //   >=2 (integer n): Stretch. Will be n times the size of other elements
         //      with 'flex-grow: 1' on the same row.
 
         switch (basis || '') {

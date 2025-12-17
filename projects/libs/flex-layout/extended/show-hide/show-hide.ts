@@ -99,7 +99,7 @@ export class ShowHideDirective extends BaseDirective2 implements AfterViewInit, 
    */
     override ngOnChanges(changes: SimpleChanges) {
         for (const key in changes) {
-            if (this.inputs.indexOf(key) !== -1) {
+            if (this.inputs.includes(key)) {
                 const inputKey = key.split('.');
                 const bp = inputKey.slice(1).join('.');
                 const inputValue = changes[key].currentValue;

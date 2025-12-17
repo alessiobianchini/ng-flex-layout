@@ -54,7 +54,7 @@ export abstract class BaseDirective2 implements OnChanges, OnDestroy {
     /** For @Input changes */
     ngOnChanges(changes: SimpleChanges) {
         for (const key in changes) {
-            if (this.inputs.indexOf(key) !== -1) {
+            if (this.inputs.includes(key)) {
                 const bp = key.split('.').slice(1).join('.');
                 const val = changes[key].currentValue;
                 this.setValue(val, bp);
@@ -100,9 +100,9 @@ export abstract class BaseDirective2 implements OnChanges, OnDestroy {
 
     /** Remove generated styles from an element using predefined style builder */
     protected clearStyles() {
-        Object.keys(this.mru).forEach(k => {
-            this.mru[k] = '';
-        });
+        for (const key in this.mru) {
+            this.mru[key] = '';
+        }
         this.applyStyleToElement(this.mru);
         this.mru = {};
         this.currentValue = undefined;

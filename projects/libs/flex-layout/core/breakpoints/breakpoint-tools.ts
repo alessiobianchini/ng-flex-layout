@@ -60,5 +60,5 @@ export function mergeByAlias(defaults: BreakPoint[], custom: BreakPoint[] = []):
         }
     });
 
-    return validateSuffixes(Object.keys(dict).map(k => dict[k]));
+    return validateSuffixes(Object.values(dict));
 }
