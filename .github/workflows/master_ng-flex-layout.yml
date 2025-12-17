@@ -1,9 +1,15 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+﻿# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: demo-app - build and deploy to Azure web service
 
 on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref (branch/tag/SHA) to deploy (optional)'
+        required: false
+        default: ''
   release:
     types: [created]
 
@@ -13,6 +19,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -56,13 +64,15 @@ jobs:
           path: dist/apps/demo-app/browser
 
   deploy:
+    if: github.actor == 'alessiobianchini'
     runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
+      contents: read
 
     steps:
       - name: Download artifact from build job
