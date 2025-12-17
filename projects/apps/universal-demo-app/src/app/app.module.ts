@@ -11,7 +11,7 @@ import {SplitModule} from './split/split.module';
     AppComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     FlexLayoutModule,
     SplitModule,
   ],

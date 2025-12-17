@@ -1,3 +1,10 @@
+# [21.0.0](https://github.com/alessiobianchini/flex-layout/compare/20.0.1...21.0.0) (2025-12-17)
+
+* Migrated to Angular 21 (`@angular/core`, `@angular/cli`, `@angular/material`, ...)
+* Updated TypeScript to 5.9 and zone.js to 0.16
+* Updated ng-packagr to 21 and Vitest to 4
+* Fixed universal demo app SSR bootstrap for Angular 21
+
 # [20.0.1](https://github.com/alessiobianchini/flex-layout/compare/20.0.0...20.0.1) (2025-12-17)
 
 * Fixed Vitest + Angular TestBed integration and restored passing unit tests
