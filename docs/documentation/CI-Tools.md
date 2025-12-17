@@ -1,12 +1,10 @@
 ### Continuous Integration (CI) Tools
 
+This repository uses GitHub Actions for CI and releases.
 
-Due to overuse of the Angular core license and loads on the Angular BrowserStack license, Flex-Layout has switched to an independent license of BrowserStack. This was will facilitate more stable CI testing [with PRs and builds] and avoid the excessive *timeouts* occurring with the Angular core license.
+##### Workflows
 
-> This is a temporary solution only; started on March 9, 2018.
-
-##### Building with Bazel
-
-As part of efforts to migrate to building with Bazel, Flex-Layout is also migrating to CircleCI as part of the library's continuous integration toolset. This will work in tandem with Travis CI to handle all of our builds during the migration period.
-
-More updates on our build process will be posted here as they're available.
+- `ng-flex-layout - test lib` (`test-lib.yml`): runs install/build/tests on pushes and PRs against `master` (this is also used for the README badge).
+- `ci` (`ci.yml`): reusable workflow invoked by `test-lib.yml` (and runnable via `workflow_dispatch`).
+- `demo-app - build and deploy to Azure web service`: builds the demo app and deploys it to Azure on release creation (or manually via `workflow_dispatch`).
+- `ng-flex-layout - publish package to npmjs`: publishes the package to npm on release creation.

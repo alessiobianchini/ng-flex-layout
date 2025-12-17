@@ -1,16 +1,15 @@
-# This workflow will run tests and publish a package to npmjs when a release is created
-
-name: ng-flex-layout - publish package to npmjs
+name: ci
 
 on:
-  release:
-    types: [created]
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
-  publish-npm:
+  build-test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+
     steps:
       - uses: actions/checkout@v4
 
@@ -18,7 +17,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org/
           cache: pnpm
 
       - name: Setup pnpm
@@ -29,14 +27,8 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build lib
         run: pnpm run build
 
       - name: Test
         run: pnpm run test
-
-      - name: Publish
-        run: pnpm run publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
