@@ -1,0 +1,10 @@
+<div fxLayout="column" fxLayoutGap="12px">
+  <div fxLayout="row" fxLayoutGap="8px">
+    <button mat-raised-button color="primary" [routerLink]="['/signals']">Overview</button>
+    <button mat-raised-button color="primary" [routerLink]="['/signals/cookbook']">Cookbook</button>
+    <button mat-raised-button color="primary" [routerLink]="['/signals/patterns']">Patterns</button>
+    <button mat-raised-button color="primary" [routerLink]="['/signals/ssr']">SSR</button>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

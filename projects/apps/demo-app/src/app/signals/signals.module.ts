@@ -6,6 +6,10 @@ import {FlexLayoutModule} from 'ng-flex-layout';
 
 import {DocsSignalsComponent} from './signals.component';
 import {RoutingModule} from './routing.module';
+import {SignalsCookbookComponent} from './signals-cookbook.component';
+import {SignalsPatternsComponent} from './signals-patterns.component';
+import {SignalsShellComponent} from './signals-shell.component';
+import {SignalsSsrComponent} from './signals-ssr.component';
 
 @NgModule({
     imports: [
@@ -15,7 +19,12 @@ import {RoutingModule} from './routing.module';
         FlexLayoutModule,
         RoutingModule,
     ],
-    declarations: [DocsSignalsComponent],
+    declarations: [
+        DocsSignalsComponent,
+        SignalsShellComponent,
+        SignalsCookbookComponent,
+        SignalsPatternsComponent,
+        SignalsSsrComponent,
+    ],
 })
 export class DocsSignalsModule {}
-

@@ -1,4 +1,4 @@
-import {Component, Signal, signal} from '@angular/core';
+import {Component, Signal, inject, signal} from '@angular/core';
 import {MediaChange, MediaObserver} from 'ng-flex-layout';
 
 @Component({
@@ -15,13 +15,12 @@ export class ResponsiveRowColumnComponent {
     firstColGtLg: 'column',
     secondCol: 'column'
   });
-  isVisible = true;
+  readonly isVisible = signal(true);
 
-  private readonly activeMQC: Signal<MediaChange[]>;
+  private readonly mediaService = inject(MediaObserver);
+  private readonly activeMQC: Signal<MediaChange[]> = this.mediaService.asSignal();
 
-  constructor(mediaService: MediaObserver) {
-    this.activeMQC = mediaService.asSignal();
-  }
+  constructor() {}
 
   toggleLayoutFor(col: number) {
     const changes = this.activeMQC();

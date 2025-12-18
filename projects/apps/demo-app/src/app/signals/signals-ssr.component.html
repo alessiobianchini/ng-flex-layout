@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-title>SSR + Signals wrappers</mat-card-title>
+  <mat-card-content fxLayout="column" fxLayoutGap="8px">
+    <div>
+      Best practice: pass an <code>Injector</code> to Signal wrappers when you want explicit teardown control.
+    </div>
+    <div>
+      For SSR you can either rely on server-safe implementations (preferred in this library) or explicitly guard with
+      <code>isPlatformBrowser</code> for browser-only behavior.
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>Example</mat-card-title>
+  <mat-card-content>
+    <div>Query: <code>{{ query }}</code></div>
+    <div>matches: {{ change().matches }}</div>
+    <div>mediaQuery: <code>{{ change().mediaQuery }}</code></div>
+  </mat-card-content>
+</mat-card>
+

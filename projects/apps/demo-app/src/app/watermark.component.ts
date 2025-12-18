@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
+import {Component, Input, PLATFORM_ID, inject} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
@@ -14,10 +15,14 @@ export class WatermarkComponent {
   @Input() title = '@angular/layout';
   @Input() message = 'Layout with FlexBox + CSS Grid';
 
-  constructor(private _sanitizer: DomSanitizer) {
-  }
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   get backgroundImage() {
+    if (!this.isBrowser || typeof window === 'undefined' || typeof window.btoa !== 'function') {
+      return '';
+    }
+
     const rawSVG = `
        <svg id="diagonalWatermark"
          width="100%" height="100%"
@@ -51,6 +56,6 @@ export class WatermarkComponent {
     `;
     const bkgrndImageUrl = `data:image/svg+xml;base64,${window.btoa(rawSVG)}`;
 
-    return this._sanitizer.bypassSecurityTrustStyle(`url('${bkgrndImageUrl}') repeat-y`);
+    return this.sanitizer.bypassSecurityTrustStyle(`url('${bkgrndImageUrl}') repeat-y`);
   }
 }

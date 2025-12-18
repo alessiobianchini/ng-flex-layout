@@ -9,7 +9,7 @@ import {
   QueryList,
 } from '@angular/core';
 import {FlexDirective} from 'ng-flex-layout';
-import {Subscription} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 
 import {SplitHandleDirective} from './split-handle.directive';
 import {SplitAreaDirective} from './split-area.directive';
@@ -27,16 +27,19 @@ export class SplitDirective implements AfterContentInit, OnDestroy {
   @ContentChild(SplitHandleDirective, {static: true}) handle !: SplitHandleDirective;
   @ContentChildren(SplitAreaDirective) areas !: QueryList<SplitAreaDirective>;
 
-  private watcher !: Subscription;
+  private readonly destroyed$ = new Subject<void>();
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef?: ElementRef) {}
 
   ngAfterContentInit(): void {
-    this.watcher = this.handle.drag.subscribe(this.onDrag.bind(this));
+    this.handle.drag
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(this.onDrag.bind(this));
   }
 
-  ngOnDestroy() {
-    this.watcher.unsubscribe();
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   /**
@@ -62,7 +65,7 @@ export class SplitDirective implements AfterContentInit, OnDestroy {
    * Note: flex value may be '', %, px, or '<grow> <shrink> <basis>'
    */
   calculateSize(value: string, delta: number): number {
-    const containerSizePx = this.elementRef.nativeElement.clientWidth;
+    const containerSizePx = this.elementRef?.nativeElement?.clientWidth ?? 0;
     const elementSizePx = Math.round(valueToPixel(value, containerSizePx));
 
     const elementSize = ((elementSizePx + delta) / containerSizePx) * 100;

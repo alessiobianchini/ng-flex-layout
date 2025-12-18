@@ -1,0 +1,36 @@
+<mat-card class="card-demo">
+  <mat-card-title>Signals + Breakpoints cookbook</mat-card-title>
+  <mat-card-subtitle>
+    Ricette pratiche: alias attivi, boolean derivati (handset/tablet/desktop) e query custom via MatchMedia.
+  </mat-card-subtitle>
+
+  <mat-card-content>
+    <div fxLayout="column" fxLayoutGap="12px">
+      <div>
+        <div><strong>Active aliases (by priority)</strong>: {{ activeAliases().join(', ') || '(none)' }}</div>
+        <div><strong>Active query</strong>: {{ activeQuery() }}</div>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center">
+        <div><strong>isHandset</strong>: {{ isHandset() }}</div>
+        <div><strong>isTablet</strong>: {{ isTablet() }}</div>
+        <div><strong>isDesktop</strong>: {{ isDesktop() }}</div>
+      </div>
+
+      <div>
+        <div><strong>Custom query</strong>: {{ customQuery }}</div>
+        <div><strong>matches</strong>: {{ customQueryChange().matches }}</div>
+      </div>
+
+      <div>
+        <div><strong>Registered breakpoints</strong>:</div>
+        <ul>
+          @for (bp of breakpoints; track bp.alias) {
+            <li>{{ bp.alias }} → {{ bp.mediaQuery }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+

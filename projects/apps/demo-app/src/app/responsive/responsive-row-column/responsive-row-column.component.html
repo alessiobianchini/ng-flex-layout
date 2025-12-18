@@ -6,7 +6,7 @@
   <mat-card-content>
     <div class="containerX">
 
-      <div class="colorNested box" fxLayout="row" *ngIf="isVisible">
+      <div class="colorNested box" fxLayout="row" *ngIf="isVisible()">
         <div [fxLayout]="cols()['firstCol']"
              [fxLayout.xs]="cols()['firstColXs']"
              [fxLayout.md]="cols()['firstColMd']"

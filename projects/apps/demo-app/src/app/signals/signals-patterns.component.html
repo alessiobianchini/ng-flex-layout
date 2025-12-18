@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-title>Signals patterns</mat-card-title>
+  <mat-card-content>
+    Examples of derived state built on top of `MediaObserver.asSignal()`.
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>Derived state</mat-card-title>
+  <mat-card-content fxLayout="column" fxLayoutGap="8px">
+    <div>activeAlias: <code>{{ activeAlias() }}</code></div>
+    <div>isHandset (xs|sm): {{ isHandset() }}</div>
+    <div>isTablet (md): {{ isTablet() }}</div>
+    <div>isDesktop (lg|xl): {{ isDesktop() }}</div>
+    <div>lastSeenAlias (effect): <code>{{ lastSeenAlias() }}</code></div>
+  </mat-card-content>
+</mat-card>
+

@@ -1,4 +1,4 @@
-import {Component, Signal} from '@angular/core';
+import {Component, Signal, inject} from '@angular/core';
 import {MediaChange, MediaObserver} from 'ng-flex-layout';
 
 @Component({
@@ -8,9 +8,5 @@ import {MediaChange, MediaObserver} from 'ng-flex-layout';
     standalone: false
 })
 export class MediaQueryStatusComponent {
-  readonly mediaChanges: Signal<MediaChange[]>;
-
-  constructor(media: MediaObserver) {
-    this.mediaChanges = media.asSignal();
-  }
+  readonly mediaChanges: Signal<MediaChange[]> = inject(MediaObserver).asSignal();
 }
