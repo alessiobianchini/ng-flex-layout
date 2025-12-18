@@ -1,3 +1,9 @@
+# [21.0.4](https://github.com/alessiobianchini/flex-layout/compare/21.0.3...21.0.4) (2025-12-17)
+
+* Demo-app modernization: new “Signals + Breakpoints cookbook” page and nav updates under `/signals`
+* Refactored verbose demos to `inject()`/signals (media query status, responsive row/column) and made watermark SSR-safe
+* All specs and library build remain green with the new demos
+
 # [21.0.3](https://github.com/alessiobianchini/flex-layout/compare/21.0.0...21.0.3) (2025-12-17)
 
 * Added optional (non-breaking) Signals wrappers on top of RxJS: `MediaObserver.asSignal()`, `MatchMedia.observeAsSignal()`, `MediaMarshaller.trackValueAsSignal()`
