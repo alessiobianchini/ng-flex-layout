@@ -12,6 +12,7 @@
   "engines": {
     "node": "^20.9.0 || ^22.16.0"
   },
+  "packageManager": "pnpm@10.10.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -28,7 +28,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm install -g npm@^11.5.1
       - run: corepack enable
-      - run: corepack prepare pnpm@8 --activate
+      - run: corepack prepare pnpm@10.10.0 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - name: Set package version from release tag

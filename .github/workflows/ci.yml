@@ -22,7 +22,7 @@ jobs:
         run: corepack enable
 
       - name: Install pnpm
-        run: corepack prepare pnpm@8 --activate
+        run: corepack prepare pnpm@10.10.0 --activate
 
       - name: Set github repository
         run: pnpm config set //https://npm.pkg.github.com//:_authToken ${{secrets.GITHUB_TOKEN}}
