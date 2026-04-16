@@ -39,15 +39,15 @@ export interface ElementMatcher {
 
 export interface MediaMarshallerSignalOptions {
     /** Injector used for teardown when called outside an injection context. */
-    injector?: Injector;
+    injector?: Injector
     /**
      * Initial value used until the first observable emission.
      *
      * Defaults to `{ element, key, value: getValue(element, key) }`.
      */
-    initialValue?: ElementMatcher;
+    initialValue?: ElementMatcher
     /** Require the observable to emit synchronously. */
-    requireSync?: boolean;
+    requireSync?: boolean
 }
 
 /**

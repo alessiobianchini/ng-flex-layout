@@ -10,55 +10,55 @@ let styler: StyleUtils;
 let platformId: string;
 
 const createStylerSuite = () => {
-  const documentRef = globalThis.document;
-  platformId = 'browser';
+    const documentRef = globalThis.document;
+    platformId = 'browser';
 
-  const stylesheetMap = {
-    stylesheet: new Map(),
-    addStyleToElement: vi.fn(),
-    clearStyles: vi.fn(),
-    getStyleForElement: vi.fn()
-  } as unknown as StylesheetMap;
+    const stylesheetMap = {
+        stylesheet: new Map(),
+        addStyleToElement: vi.fn(),
+        clearStyles: vi.fn(),
+        getStyleForElement: vi.fn()
+    } as unknown as StylesheetMap;
 
-  styler = new StyleUtils(stylesheetMap, false, platformId, DEFAULT_CONFIG);
+    styler = new StyleUtils(stylesheetMap, false, platformId, DEFAULT_CONFIG);
 };
 
 describe('StyleUtils (Vitest)', () => {
-  beforeEach(() => {
-    createStylerSuite();
-  });
-
-  describe('display styles', () => {
-    it('should not have a default for <div></div>', async () => {
-      const fixture = await createTestComponent('<div></div>');
-      expectNativeEl(fixture).not.toHaveStyle({ display: 'block' }, styler);
+    beforeEach(() => {
+        createStylerSuite();
     });
 
-    it('should find "display" for inline style', async () => {
-      const fixture = await createTestComponent('<div style="display: flex;"></div>');
-      expectNativeEl(fixture).toHaveCSS({ display: 'flex' }, styler);
-    });
+    describe('display styles', () => {
+        it('should not have a default for <div></div>', async () => {
+            const fixture = await createTestComponent('<div></div>');
+            expectNativeEl(fixture).not.toHaveStyle({ display: 'block' }, styler);
+        });
 
-    it('should find display from <style> in template', async () => {
-      const fixture = await createTestComponent(`
+        it('should find "display" for inline style', async () => {
+            const fixture = await createTestComponent('<div style="display: flex;"></div>');
+            expectNativeEl(fixture).toHaveCSS({ display: 'flex' }, styler);
+        });
+
+        it('should find display from <style> in template', async () => {
+            const fixture = await createTestComponent(`
         <style>
           div.special { display: inline-block; }
         </style>
         <div class="special"></div>
       `);
-      if (!isPlatformServer(platformId)) {
-        expectNativeEl(fixture).toHaveCSS({ display: 'inline-block' }, styler);
-      }
-    });
+            if (!isPlatformServer(platformId)) {
+                expectNativeEl(fixture).toHaveCSS({ display: 'inline-block' }, styler);
+            }
+        });
 
-    it('should find display from component styles', async () => {
-      const fixture = await createTestComponent(
-        '<div class="extra"></div>',
-        ['div.extra { display: table; }']
-      );
-      if (!isPlatformServer(platformId)) {
-        expectNativeEl(fixture).toHaveCSS({ display: 'table' }, styler);
-      }
+        it('should find display from component styles', async () => {
+            const fixture = await createTestComponent(
+                '<div class="extra"></div>',
+                ['div.extra { display: table; }']
+            );
+            if (!isPlatformServer(platformId)) {
+                expectNativeEl(fixture).toHaveCSS({ display: 'table' }, styler);
+            }
+        });
     });
-  });
 });

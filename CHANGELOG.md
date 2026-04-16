@@ -1,3 +1,10 @@
+# [21.2.9](https://github.com/alessiobianchini/ng-flex-layout/compare/21.0.4...21.2.9) (2026-04-16)
+
+* Updated Angular framework packages to `21.2.9` and aligned CLI/build/SSR tooling to the latest `21.2.x`
+* Updated Angular Material/CDK to `21.2.6`, `ng-packagr` to `21.2.2`, `zone.js` to `0.16.1`, and refreshed the TypeScript ESLint toolchain
+* Restored a stable ESLint 9 workflow with the existing `.eslintrc` setup and fixed related test/lint compatibility issues
+* Verified the package with green `lint`, `build`, and `vitest --run`
+
 # [21.0.4](https://github.com/alessiobianchini/flex-layout/compare/21.0.3...21.0.4) (2025-12-17)
 
 * Demo-app modernization: new “Signals + Breakpoints cookbook” page and nav updates under `/signals`

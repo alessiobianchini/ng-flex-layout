@@ -9,14 +9,14 @@ ng-flex-layout
 
 *** 
 
-  - Updated to Angular 21
+  - Updated to Angular 21.2.9
   - Migrated from tslint to eslint
   - Migrated tests to **Vitest**
   - Added non-breaking **Signals** wrappers (RxJS remains the base API)
 ***
 
 
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&ts=1683906897&type=6e&v=21.0.4&x2=0)](https://www.npmjs.com/package/ng-flex-layout) 
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&ts=1683906897&type=6e&v=21.2.9&x2=0)](https://www.npmjs.com/package/ng-flex-layout) 
 [![Test lib CI](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/test-lib.yml/badge.svg)](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/test-lib.yml)
 [![CodeQL](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/github-code-scanning/codeql)
 

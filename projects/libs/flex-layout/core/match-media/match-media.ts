@@ -186,11 +186,11 @@ export class MatchMedia implements OnDestroy {
 
 export interface MatchMediaSignalOptions {
     /** Injector used for teardown when called outside an injection context. */
-    injector?: Injector;
+    injector?: Injector
     /** Initial value used until the first observable emission. Defaults to `new MediaChange()`. */
-    initialValue?: MediaChange;
+    initialValue?: MediaChange
     /** Require the observable to emit synchronously. */
-    requireSync?: boolean;
+    requireSync?: boolean
 }
 
 /**

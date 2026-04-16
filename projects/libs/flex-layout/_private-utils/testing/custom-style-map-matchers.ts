@@ -37,21 +37,21 @@ expect.extend({
 
 declare module 'vitest' {
     export interface Assertion<T = any> {
-        toHaveMap(expected: Record<string, string>): void;
+        toHaveMap(expected: Record<string, string>): void
     }
     export interface AsymmetricMatchersContaining {
-        toHaveMap(expected: Record<string, string>): void;
+        toHaveMap(expected: Record<string, string>): void
     }
     export interface Assertion<T = any> {
-        toHaveCssClass(expected: string): void;
+        toHaveCssClass(expected: string): void
     }
     export interface AsymmetricMatchersContaining {
-        toHaveCssClass(expected: string): void;
+        toHaveCssClass(expected: string): void
     }
     export interface Assertion<T = any> {
-        toHaveAttributes(expected: Record<string, string>): void;
+        toHaveAttributes(expected: Record<string, string>): void
     }
     export interface AsymmetricMatchersContaining {
-        toHaveAttributes(expected: Record<string, string>): void;
+        toHaveAttributes(expected: Record<string, string>): void
     }
 }

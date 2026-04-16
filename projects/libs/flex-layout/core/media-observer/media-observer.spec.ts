@@ -62,7 +62,9 @@ describe('MediaObserver (vitest)', () => {
     it('can supports RxJS operators', async () => {
         let count = 0;
         const sub = mediaObserver.asObservable().subscribe(changes => {
-            if (changes.some(c => c.mqAlias === 'md')) count++;
+            if (changes.some(c => c.mqAlias === 'md')) {
+                count++;
+            }
         });
 
         await activateQuery('sm');

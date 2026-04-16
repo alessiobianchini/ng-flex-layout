@@ -475,7 +475,7 @@ describe('layout-align directive', () => {
 
     describe('with custom builder', () => {
         beforeEach(() => {
-                // Configure testbed to prepare services
+            // Configure testbed to prepare services
             TestBed.configureTestingModule({
                 imports: [
                     CommonModule,

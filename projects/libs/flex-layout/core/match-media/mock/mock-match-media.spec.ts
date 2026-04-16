@@ -91,7 +91,11 @@ describe('MockMatchMedia (vitest)', () => {
         const bpGtSM = breakPoints.findByAlias('gt-sm')!;
         const bpLg = breakPoints.findByAlias('lg')!;
         const sub = mediaController.observe().subscribe(change => {
-            change.matches ? activates++ : deactivates++;
+            if (change.matches) {
+                activates++;
+            } else {
+                deactivates++;
+            }
         });
         expect(activates).toBe(1);
         mediaController.activate(bpGtSM.mediaQuery);
@@ -110,7 +114,11 @@ describe('MockMatchMedia (vitest)', () => {
         const bpGtSM = breakPoints.findByAlias('gt-sm')!;
         const bpLg = breakPoints.findByAlias('lg')!;
         const sub = mediaController.observe([bpGtSM.mediaQuery], true).subscribe(change => {
-            change.matches ? activates++ : deactivates++;
+            if (change.matches) {
+                activates++;
+            } else {
+                deactivates++;
+            }
         });
         expect(activates).toBe(0);
         mediaController.activate(bpGtSM.mediaQuery);
@@ -127,7 +135,9 @@ describe('MockMatchMedia (vitest)', () => {
         const bpGtSM = breakPoints.findByAlias('gt-sm')!;
         const bpLg = breakPoints.findByAlias('lg')!;
         const sub = mediaController.observe().subscribe(change => {
-            if (change.matches) activates++;
+            if (change.matches) {
+                activates++;
+            }
         });
         expect(activates).toBe(1);
         mediaController.activate(bpGtSM.mediaQuery);

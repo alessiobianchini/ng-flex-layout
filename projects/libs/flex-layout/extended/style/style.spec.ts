@@ -31,7 +31,7 @@ const TEST_URL = 'https://example.com/test.png';
 @Component({
     selector: 'test-style-component',
     standalone: true,
-    template: `<div [ngStyle.xs]="{ 'font-size': '15px' }"></div>`,
+    template: '<div [ngStyle.xs]="{ \'font-size\': \'15px\' }"></div>',
     imports: [CommonModule, DefaultStyleDirective],
 })
 class TestStyleComponent {
@@ -75,7 +75,7 @@ describe('style directive (Vitest)', () => {
 
     it('should merge with default inline styles', async () => {
         const fixture = await createTestComponent(
-            `<div style="color: blue" [ngStyle.xs]="{'font-size.px': '15'}"></div>`,
+            '<div style="color: blue" [ngStyle.xs]="{\'font-size.px\': \'15\'}"></div>',
             [],
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );
@@ -87,7 +87,7 @@ describe('style directive (Vitest)', () => {
 
     it('should support raw-string notations', async () => {
         const fixture = await createTestComponent(
-            `<div style="color: blue" ngStyle.xs="font-size: 15px; background-color: #fc2929;"></div>`,
+            '<div style="color: blue" ngStyle.xs="font-size: 15px; background-color: #fc2929;"></div>',
             [],
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );
@@ -119,7 +119,7 @@ describe('style directive (Vitest)', () => {
 
     it('should work with special ngStyle px notation', async () => {
         const fixture = await createTestComponent(
-            `<div [ngStyle.xs]="{'font-size.px': 15}"></div>`,
+            '<div [ngStyle.xs]="{\'font-size.px\': 15}"></div>',
             [],
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );
@@ -130,7 +130,7 @@ describe('style directive (Vitest)', () => {
 
     it('should work with bound values', async () => {
         const fixture = await createTestComponent(
-            `<div [ngStyle.xs]="{'font-size.px': fontSize}"></div>`,
+            '<div [ngStyle.xs]="{\'font-size.px\': fontSize}"></div>',
             [],
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );
@@ -143,7 +143,7 @@ describe('style directive (Vitest)', () => {
 
     it('should work with URLs', async () => {
         const fixture = await createTestComponent(
-            `<div [ngStyle]="{'background-image': 'url(' + testUrl + ')', 'height': '300px'}"></div>`,
+            '<div [ngStyle]="{\'background-image\': \'url(\' + testUrl + \')\', \'height\': \'300px\'}"></div>',
             [],
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );
@@ -155,7 +155,7 @@ describe('style directive (Vitest)', () => {
 
     it('should work with just ngStyle and preexisting styles', async () => {
         const fixture = await createTestComponent(
-            `<div style="background-color: red; height: 100px; width: 100px;" [ngStyle]="divStyle"></div>`,
+            '<div style="background-color: red; height: 100px; width: 100px;" [ngStyle]="divStyle"></div>',
             [],
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );

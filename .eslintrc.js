@@ -27,7 +27,8 @@ module.exports = {
         "extraFileExtensions": ['.scss']
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "@stylistic/ts"
     ],
     "ignorePatterns": ["**/*.css", "**/*.scss"],
     "root": true,
@@ -38,8 +39,11 @@ module.exports = {
                 "accessibility": "no-public"
             }
         ],
-        "@typescript-eslint/indent": "error",
-        "@typescript-eslint/member-delimiter-style": [
+        "@stylistic/ts/indent": [
+            "error",
+            4
+        ],
+        "@stylistic/ts/member-delimiter-style": [
             "error",
             {
                 "multiline": {
@@ -58,6 +62,7 @@ module.exports = {
                 "selector": "variable",
                 "format": [
                     "camelCase",
+                    "PascalCase",
                     "UPPER_CASE"
                 ],
                 "leadingUnderscore": "allow",
@@ -74,17 +79,17 @@ module.exports = {
         ],
         "@typescript-eslint/no-unused-expressions": "error",
         "@typescript-eslint/prefer-namespace-keyword": "error",
-        "@typescript-eslint/quotes": [
+        "@stylistic/ts/quotes": [
             "error",
             "single",
             {
                 "avoidEscape": true
             }
         ],
-        "@typescript-eslint/semi": [
+        "@stylistic/ts/semi": [
             "error"
         ],
-        "@typescript-eslint/type-annotation-spacing": "error",
+        "@stylistic/ts/type-annotation-spacing": "error",
         "brace-style": [
             "error",
             "1tbs"

@@ -54,7 +54,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('activates when match-media activates', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
 
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
@@ -80,7 +82,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should init', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
             triggered = false;
@@ -92,7 +96,9 @@ describe('MediaMarshaller (vitest)', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             subject.next();
             expect(triggered).toBeTruthy();
@@ -100,7 +106,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should updateStyles', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             triggered = false;
@@ -110,7 +118,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should updateElement', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.updateElement(fakeElement, fakeKey, 0);
             expect(triggered).toBeTruthy();
@@ -118,7 +128,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should triggerUpdate', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             mediaMarshaller.triggerUpdate(fakeElement, fakeKey);
@@ -161,7 +173,9 @@ describe('MediaMarshaller (vitest)', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             mediaMarshaller.releaseElement(fakeElement);
             subject.next();
@@ -189,7 +203,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('call onMediaChange when breakpoint activates', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
 
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
@@ -215,7 +231,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should init', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, 'xs');
             triggered = false;
@@ -227,7 +245,9 @@ describe('MediaMarshaller (vitest)', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             subject.next();
             expect(triggered).toBeTruthy();
@@ -235,7 +255,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should updateStyles', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             triggered = false;
@@ -245,7 +267,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should updateElement', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.updateElement(fakeElement, fakeKey, 0);
             expect(triggered).toBeTruthy();
@@ -253,7 +277,9 @@ describe('MediaMarshaller (vitest)', () => {
 
         it('should triggerUpdate', () => {
             let triggered = false;
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder);
             mediaMarshaller.setValue(fakeElement, fakeKey, 0, '');
             mediaMarshaller.triggerUpdate(fakeElement, fakeKey);
@@ -283,7 +309,9 @@ describe('MediaMarshaller (vitest)', () => {
             let triggered = false;
             const subject: Subject<void> = new Subject();
             const obs = subject.asObservable();
-            const builder = () => { triggered = true; };
+            const builder = () => {
+                triggered = true;
+            };
             mediaMarshaller.init(fakeElement, fakeKey, builder, () => { }, [obs]);
             mediaMarshaller.releaseElement(fakeElement);
             subject.next();

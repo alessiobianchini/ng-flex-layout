@@ -16,14 +16,14 @@ import { expect } from 'vitest';
 type ComponentFactory = () => any;
 
 type FixtureLike = {
-    componentInstance?: any;
-    debugElement?: DebugElement;
-    nativeElement?: any;
-    location?: { nativeElement: any };
-    injector?: any;
-    changeDetectorRef?: { detectChanges: () => void };
-    detectChanges?: () => void;
-    [key: string]: any;
+    componentInstance?: any
+    debugElement?: DebugElement
+    nativeElement?: any
+    location?: { nativeElement: any }
+    injector?: any
+    changeDetectorRef?: { detectChanges: () => void }
+    detectChanges?: () => void
+    [key: string]: any
 };
 
 function getHostElement(fixture: any): any {
@@ -67,19 +67,23 @@ function asFixtureLike<T>(ref: ComponentRef<T>): ComponentRef<T> & FixtureLike {
 }
 
 type TrackedRef = {
-    componentRef: ComponentRef<any>;
-    envInjector?: EnvironmentInjector;
+    componentRef: ComponentRef<any>
+    envInjector?: EnvironmentInjector
 };
 
 const TRACKED_REFS: TrackedRef[] = [];
 let cleanupRegistered = false;
 
 function registerCleanup() {
-    if (cleanupRegistered) return;
+    if (cleanupRegistered) {
+        return;
+    }
     cleanupRegistered = true;
 
     const afterEachHook = (globalThis as any).afterEach as undefined | ((fn: () => void) => void);
-    if (typeof afterEachHook !== 'function') return;
+    if (typeof afterEachHook !== 'function') {
+        return;
+    }
 
     afterEachHook(() => {
         while (TRACKED_REFS.length) {

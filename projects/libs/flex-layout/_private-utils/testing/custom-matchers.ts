@@ -26,7 +26,7 @@ expect.extend({
                 `Expected element ${received.outerHTML} ${pass ? 'not ' : ''}to have class "${className}"`,
         };
     },
-    
+
 
     toHaveMap(received: { [key: string]: string }, expected: { [key: string]: string }) {
         const allPassed = Object.entries(expected).every(([k, v]) => received[k] === v);
@@ -99,7 +99,7 @@ function buildCompareStyleFunction(inlineOnly = true) {
                     : JSON.stringify(found);
 
                 return `Expected ${foundValueStr}${!allPassed ? '' : ' not'} to contain the CSS ${typeof styles === 'string' ? 'property' : 'styles'
-                    } '${expectedValueStr}'`;
+                } '${expectedValueStr}'`;
             }
         };
     };

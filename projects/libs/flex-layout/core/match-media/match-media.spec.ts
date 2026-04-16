@@ -139,7 +139,11 @@ describe('match-media', () => {
             let deactivations = 0;
 
             const sub = watchMedia('', c => {
-                c.matches ? activations++ : deactivations++;
+                if (c.matches) {
+                    activations++;
+                } else {
+                    deactivations++;
+                }
             });
 
             matchMedia.activate(lookup('md'));

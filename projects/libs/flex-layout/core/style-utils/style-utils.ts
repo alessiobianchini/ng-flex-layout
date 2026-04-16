@@ -27,7 +27,9 @@ export class StyleUtils {
     applyStyleToElement(element: HTMLElement,
         style: StyleDefinition | string,
         value: string | number | null = null) {
-        if (!element) return;
+        if (!element) {
+            return;
+        }
         let styles: StyleDefinition = {};
         if (typeof style === 'string') {
             styles[style] = value;
@@ -41,7 +43,9 @@ export class StyleUtils {
    * Applies styles given via string pair or object map to the directive's element
    */
     applyStyleToElements(style: StyleDefinition, elements: HTMLElement[] = []) {
-        if (!elements.length) return;
+        if (!elements.length) {
+            return;
+        }
         const styles = this.layoutConfig.disableVendorPrefixes ? style : applyCssPrefixes(style);
         elements.forEach(el => {
             this._applyMultiValueStyleToElement(styles, el);
@@ -88,7 +92,9 @@ export class StyleUtils {
                 ? element.style.getPropertyValue('margin')
                 : getServerStyle(element, 'margin');
 
-            if (direct) return direct;
+            if (direct) {
+                return direct;
+            }
 
             const top = this.lookupInlineStyle(element, 'margin-top');
             const right = this.lookupInlineStyle(element, 'margin-right');
@@ -106,16 +112,22 @@ export class StyleUtils {
             const styleMap = readStyleAttribute(element);
             for (const name of candidates) {
                 const value = element.style.getPropertyValue(name);
-                if (value) return value;
+                if (value) {
+                    return value;
+                }
                 const raw = styleMap[name];
-                if (raw) return raw;
+                if (raw) {
+                    return raw;
+                }
             }
             return '';
         }
 
         for (const name of candidates) {
             const value = getServerStyle(element, name);
-            if (value) return value;
+            if (value) {
+                return value;
+            }
         }
         return '';
     }
@@ -136,7 +148,9 @@ export class StyleUtils {
                         const computed = getComputedStyle(element);
                         for (const name of candidates) {
                             value = computed.getPropertyValue(name);
-                            if (value) break;
+                            if (value) {
+                                break;
+                            }
                         }
                     }
                 } else {
@@ -161,7 +175,9 @@ export class StyleUtils {
     private _applyMultiValueStyleToElement(styles: StyleDefinition,
         element: HTMLElement) {
         const keys = Object.keys(styles);
-        if (!keys.length) return;
+        if (!keys.length) {
+            return;
+        }
 
         const isBrowser = isPlatformBrowser(this._platformId);
         const canWriteToDom = isBrowser || !this._serverModuleLoaded;
@@ -170,7 +186,9 @@ export class StyleUtils {
         for (const key of keys) {
             const el = styles[key];
             const values: (string | number | null)[] = Array.isArray(el) ? el : [el];
-            if (values.length > 1) values.sort();
+            if (values.length > 1) {
+                values.sort();
+            }
 
             for (let value of values) {
                 value = value ? value + '' : '';
