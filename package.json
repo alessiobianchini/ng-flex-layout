@@ -6,7 +6,7 @@
   "bugs": "https://github.com/alessiobianchini/ng-flex-layout/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alessiobianchini/ng-flex-layout"
+    "url": "git+https://github.com/alessiobianchini/ng-flex-layout.git"
   },
   "license": "MIT",
   "engines": {

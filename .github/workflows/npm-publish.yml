@@ -1,27 +1,40 @@
 name: ng-flex-layout - publish package to npmjs
 
 on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref (tag/SHA) to publish'
+        required: false
+        default: ''
   release:
     types: [created]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
 
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.release.tag_name }}
-      - uses: actions/setup-node@v4
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref) || github.event.release.tag_name }}
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22.16.0
           registry-url: https://registry.npmjs.org/
-      - run: npm i
-      - run: npm run build
+      - run: npm install -g npm@^11.5.1
+      - run: corepack enable
+      - run: corepack prepare pnpm@8 --activate
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
       - name: Set package version from release tag
         shell: bash
         run: |
-          TAG="${{ github.event.release.tag_name }}"
+          TAG="${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref) || github.event.release.tag_name }}"
           VERSION="${TAG#v}"
 
           if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$ ]]; then
@@ -32,5 +45,3 @@ jobs:
           cd dist/releases/flex-layout
           npm version "$VERSION" --no-git-tag-version --allow-same-version
       - run: npm run publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN }}
