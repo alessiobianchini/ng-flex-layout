@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": "^20.9.0 || ^22.16.0"
+    "node": ">=22.22.3 || >=24.15.0"
   },
   "packageManager": "pnpm@10.10.0",
   "scripts": {

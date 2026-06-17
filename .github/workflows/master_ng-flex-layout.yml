@@ -1,4 +1,4 @@
-﻿name: demo-app - build and deploy to Azure web service
+name: demo-app - build and deploy to Azure web service
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 22.16.0
+          node-version: 24.15.0
           registry-url: https://npm.pkg.github.com/
 
       - name: Enable Corepack

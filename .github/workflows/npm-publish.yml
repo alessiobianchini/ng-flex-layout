@@ -24,7 +24,7 @@ jobs:
           ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref) || github.event.release.tag_name }}
       - uses: actions/setup-node@v6
         with:
-          node-version: 22.16.0
+          node-version: 24.15.0
           registry-url: https://registry.npmjs.org/
       - run: npm install -g npm@^11.5.1
       - run: corepack enable
