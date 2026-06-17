@@ -13,6 +13,7 @@
       ]
     },
     "baseUrl": "./",
+    "ignoreDeprecations": "6.0",
     "outDir": "./dist/out-tsc",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
