@@ -146,7 +146,7 @@ describe('img-src directive', () => {
 
         it('should only work with "<img>" elements.', () => {
             componentWithTemplate(`
-        <iframe src.xs="none.png" >
+        <iframe src.xs="none.png" ></iframe>
       `);
 
             const img = queryFor(fixture, 'iframe')[0].nativeElement;

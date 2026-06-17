@@ -35,6 +35,14 @@ function getInstance(fixture: any): any {
 }
 
 function detectChanges(fixture: any): void {
+    const hostEl = fixture?.location?.nativeElement ?? fixture?.nativeElement ?? fixture?.componentRef?.location?.nativeElement;
+    if (hostEl) {
+        const wrapper = hostEl.querySelector('#testing-wrapper-node');
+        if (wrapper) {
+            wrapper.dispatchEvent(new CustomEvent('change'));
+        }
+    }
+
     if (typeof fixture?.detectChanges === 'function') {
         fixture.detectChanges();
         return;
@@ -56,10 +64,28 @@ function asFixtureLike<T>(ref: ComponentRef<T>): ComponentRef<T> & FixtureLike {
     fixture.injector ??= ref.injector as any;
     fixture.changeDetectorRef ??= ref.changeDetectorRef as any;
     fixture.nativeElement ??= ref.location.nativeElement;
-    fixture.detectChanges ??= () => ref.changeDetectorRef.detectChanges();
+    fixture.detectChanges ??= () => {
+        const hostEl = fixture.nativeElement ?? fixture.location?.nativeElement;
+        if (hostEl) {
+            const wrapper = hostEl.querySelector('#testing-wrapper-node');
+            if (wrapper) {
+                wrapper.dispatchEvent(new CustomEvent('change'));
+            }
+        }
+        ref.changeDetectorRef.detectChanges();
+    };
 
     const debugNode = getDebugNode(ref.location.nativeElement);
-    if (debugNode) {
+    if (debugNode && (debugNode as any).children) {
+        const wrapper = (debugNode as any).children.find((c: any) => c.nativeElement?.id === 'testing-wrapper-node');
+        if (wrapper) {
+            Object.defineProperty(debugNode, 'children', {
+                get: () => wrapper.children
+            });
+            Object.defineProperty(debugNode, 'childNodes', {
+                get: () => wrapper.childNodes
+            });
+        }
         fixture.debugElement ??= debugNode as DebugElement;
     }
 
@@ -126,7 +152,7 @@ export function makeCreateTestComponent(
         const DynamicTestComponent = Component({
             selector: 'test-wrapper',
             standalone: true,
-            template: templateStr,
+            template: `<div (change)="0" id="testing-wrapper-node" style="display:contents">${templateStr}</div>`,
             styles,
             imports: [CommonModule, FlexLayoutModule, ...additionalImports]
         })(class extends BaseComponent { });
@@ -153,7 +179,10 @@ export function makeCreateTestComponent(
 export function expectNativeEl(fixture: any, instanceOptions?: any): any {
     Object.assign(getInstance(fixture) ?? {}, instanceOptions || {});
     detectChanges(fixture);
-    return expect(getHostElement(fixture).children[0]);
+    const host = getHostElement(fixture);
+    const wrapper = host.querySelector('#testing-wrapper-node');
+    const target = wrapper ? wrapper.children[0] : host.children[0];
+    return expect(target);
 }
 
 export function expectEl(el: HTMLElement): any {
@@ -163,6 +192,8 @@ export function expectEl(el: HTMLElement): any {
 
 export function queryFor(fixture: any, selector: string): HTMLElement[] {
     const host = getHostElement(fixture);
-    const nodes = Array.from(host.querySelectorAll(selector));
-    return nodes.map((node) => (getDebugNode(node) as any) ?? node) as any;
+    const wrapper = host.querySelector('#testing-wrapper-node');
+    const target = wrapper ? wrapper : host;
+    const nodes = Array.from(target.querySelectorAll(selector));
+    return nodes.map((node) => (getDebugNode(node as any) as any) ?? node) as any;
 }

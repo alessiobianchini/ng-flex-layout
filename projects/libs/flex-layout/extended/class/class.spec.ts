@@ -144,7 +144,7 @@ describe('class directive', () => {
     `);
 
         fixture.instance.formButtonXs = true;
-        fixture.changeDetectorRef.detectChanges();
+        fixture.detectChanges();
         const button = queryFor(fixture, 'button')[0];
 
         if (!isPlatformServer(PLATFORM_ID)) {
@@ -154,7 +154,7 @@ describe('class directive', () => {
         expect(button).toHaveCssClass(MATERIAL_PRIMARY_CLASS);
 
         fixture.instance.formButtonXs = false;
-        fixture.changeDetectorRef.detectChanges();
+        fixture.detectChanges();
         expect(button).not.toHaveCssClass('btn-xs');
         expect(button).toHaveCssClass(MATERIAL_PRIMARY_CLASS);
     });

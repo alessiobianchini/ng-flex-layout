@@ -25,7 +25,7 @@
     "serve:universal-demo-app": "pnpm -s build:universal-demo-app && pnpm -s serve:ssr:universal-demo-app",
     "test": "vitest",
     "test-ui": "vitest --ui",
-    "lint": "node scripts/run-eslint.cjs \"projects/libs/**/*.{js,jsx,ts,tsx,html}\" --fix",
+    "lint": "eslint \"projects/libs/**/*.{js,jsx,ts,tsx,html}\" --fix",
     "release": "pnpm run build && pnpm run stamp",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "serve:ssr:universal-demo-app": "node dist/universal-demo-app/server/server.mjs"

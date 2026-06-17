@@ -111,7 +111,7 @@ export class FlexOffsetDirective extends BaseDirective2 implements OnChanges {
     }
 }
 
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: true})
 export class DefaultFlexOffsetDirective extends FlexOffsetDirective {
     protected override inputs = inputs;
 }

@@ -361,10 +361,18 @@ describe('flex directive', () => {
                     'box-sizing': 'border-box',
                 }, styler);
             } else if (platform.FIREFOX || platform.WEBKIT || platform.IOS) {
-                expectEl(element).toHaveStyle({
-                    'flex': '1 1 1e-9px',
-                    'box-sizing': 'border-box',
-                }, styler);
+                const styleAttr = element.nativeElement.getAttribute('style') || '';
+                if (styleAttr.indexOf('0.000000001px') !== -1) {
+                    expectEl(element).toHaveStyle({
+                        'flex': '1 1 0.000000001px',
+                        'box-sizing': 'border-box',
+                    }, styler);
+                } else {
+                    expectEl(element).toHaveStyle({
+                        'flex': '1 1 1e-9px',
+                        'box-sizing': 'border-box',
+                    }, styler);
+                }
             } else if (platform.EDGE) {
                 expectEl(element).toHaveStyle({
                     'flex': '1 1 0px',

@@ -37,7 +37,7 @@ export class FlexFillStyleBuilder extends StyleBuilder {
  */
 @Directive({
     selector: '[fxFill], [fxFlexFill]',
-    standalone: false
+    standalone: true
 })
 export class FlexFillDirective extends BaseDirective2 {
     constructor(elRef: ElementRef,

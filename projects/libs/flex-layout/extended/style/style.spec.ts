@@ -95,7 +95,7 @@ describe('style directive (Vitest)', () => {
         expectNativeEl(fixture).toHaveStyle({ color: 'blue' }, styler);
         mediaController.activate('xs');
         expectNativeEl(fixture).toHaveStyle({ 'font-size': '15px' }, styler);
-        const bg = styler.lookupStyle(fixture.location.nativeElement.children[0], 'background-color');
+        const bg = styler.lookupStyle(fixture.debugElement.children[0].nativeElement, 'background-color');
         expect(bg === '#fc2929' || bg === 'rgb(252, 41, 41)').toBeTruthy();
     });
 
@@ -136,7 +136,7 @@ describe('style directive (Vitest)', () => {
         );
         const { mediaController, styler } = resolveDeps(fixture);
         fixture.instance.fontSize = 19;
-        fixture.changeDetectorRef.detectChanges();
+        fixture.detectChanges();
         mediaController.activate('xs');
         expectNativeEl(fixture).toHaveStyle({ 'font-size': '19px' }, styler);
     });
@@ -148,8 +148,8 @@ describe('style directive (Vitest)', () => {
             [{ provide: PLATFORM_ID, useValue: 'browser' }]
         );
         const { styler } = resolveDeps(fixture);
-        fixture.changeDetectorRef.detectChanges();
-        const url = styler.lookupStyle(fixture.location.nativeElement.children[0], 'background-image');
+        fixture.detectChanges();
+        const url = styler.lookupStyle(fixture.debugElement.children[0].nativeElement, 'background-image');
         expect(url === `url("${TEST_URL}")` || url === `url(${TEST_URL})`).toBeTruthy();
     });
 

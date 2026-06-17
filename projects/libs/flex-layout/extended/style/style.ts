@@ -134,7 +134,7 @@ const selector = `
  * Directive to add responsive support for ngStyle.
  *
  */
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: true})
 export class DefaultStyleDirective extends StyleDirective implements DoCheck {
     protected override inputs = inputs;
 }

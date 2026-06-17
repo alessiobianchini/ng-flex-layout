@@ -253,7 +253,7 @@ export class LayoutGapDirective extends BaseDirective2 implements AfterContentIn
     protected observer?: MutationObserver;
 }
 
-@Directive({selector, inputs})
+@Directive({selector, inputs, standalone: true})
 export class DefaultLayoutGapDirective extends LayoutGapDirective {
     protected override inputs = inputs;
 }
