@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=22.22.3 || >=24.15.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "packageManager": "pnpm@10.10.0",
   "scripts": {
@@ -31,7 +31,7 @@
     "serve:ssr:universal-demo-app": "node dist/universal-demo-app/server/server.mjs"
   },
   "private": true,
-  "requiredAngularVersion": ">=22.0.0",
+  "requiredAngularVersion": ">=22.3.0",
   "dependencies": {
     "@angular/animations": "~22.3.0",
     "@angular/common": "~22.3.0",
