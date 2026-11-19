@@ -1,3 +1,9 @@
+# Unreleased
+
+* Updated the development workspace to Angular 22.3, Angular ESLint 22.8, and zone.js 0.16.
+* Refreshed compatible dependencies and the pnpm lockfile.
+* Set the library's Angular peer minimum to 22.3 to match the compiler used to build it.
+
 # [21.2.9](https://github.com/alessiobianchini/ng-flex-layout/compare/21.0.4...21.2.9) (2026-04-16)
 
 * Updated Angular framework packages to `21.2.9` and aligned CLI/build/SSR tooling to the latest `21.2.x`

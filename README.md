@@ -9,14 +9,14 @@ ng-flex-layout
 
 *** 
 
-  - Updated to Angular 21.2.9
+  - Updated to Angular 22
   - Migrated from tslint to eslint
   - Migrated tests to **Vitest**
   - Added non-breaking **Signals** wrappers (RxJS remains the base API)
 
 ***
 
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&ts=1683906897&type=6e&v=21.2.9&x2=0)](https://www.npmjs.com/package/ng-flex-layout) 
+[![npm version](https://img.shields.io/npm/v/ng-flex-layout)](https://www.npmjs.com/package/ng-flex-layout)
 [![Test lib CI](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/test-lib.yml/badge.svg)](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/test-lib.yml)
 [![CodeQL](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/alessiobianchini/ng-flex-layout/actions/workflows/github-code-scanning/codeql)
 
@@ -33,8 +33,11 @@ The **real** power of Flex Layout, however, is its **responsive** engine. The [R
 Start by installing the Angular Layout library and CDK from `npm`:
 
 ```bash
-npm install -s ng-flex-layout @angular/cdk
+npm install -s ng-flex-layout @angular/cdk@^22.3
 ```
+
+The 22.x package built from this branch requires Angular and Angular CDK 22.3 or
+later. Use a CDK version matching your application's Angular version.
 
 Next, import the Layout module in your app's module.
 
@@ -84,7 +87,7 @@ RxJS remains the canonical API; Signals wrappers are provided as conveniences fo
 **Error:** `Cannot find module '@angular/cdk'`
 * **Solution:** `ng-flex-layout` relies on the Angular CDK. Ensure you have installed `@angular/cdk` matching your Angular version.
 ```bash
-npm install @angular/cdk@^21
+npm install @angular/cdk@^22.3
 ```
 
 **Error:** `Vitest: Failed to resolve import "..."`
@@ -104,6 +107,24 @@ npm install @angular/cdk@^21
 * [Flex-Layout Template on StackBlitz](https://stackblitz.com/edit/ng-flex-layout-seed)
 
 ### Developers
+
+The Angular toolchain requires Node.js 22.22.3+ in the 22.x series, 24.15.0+
+in the 24.x series, or 26.0.0+. Node.js 22 and 24 include Corepack; Node.js 26
+and later do not, so install it first with `npm install --global corepack`.
+Then enable Corepack and activate the repository's pnpm 10.10.0:
+
+```bash
+npm install --global corepack # Node.js 26+ only
+corepack enable
+corepack prepare pnpm@10.10.0 --activate
+pnpm install --frozen-lockfile
+pnpm run build
+pnpm test --run
+```
+
+The dependency upgrade to Angular 22.3 is unreleased; npm's published package
+version is independent of the dependencies used to build this branch. Packages
+built from this branch require Angular 22.3 or later.
 
 * [API Documentation](https://github.com/alessiobianchini/ng-flex-layout/wiki/API-Documentation)
 * [Developer Setup](https://github.com/alessiobianchini/ng-flex-layout/wiki/Developer-Setup)
