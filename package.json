@@ -1,7 +1,7 @@
 {
   "name": "ng-flex-layout",
   "description": "Angular Flex Layout (DOIT fork)",
-  "version": "22.0.1",
+  "version": "22.3.0",
   "homepage": "https://github.com/alessiobianchini/ng-flex-layout",
   "bugs": "https://github.com/alessiobianchini/ng-flex-layout/issues",
   "repository": {
